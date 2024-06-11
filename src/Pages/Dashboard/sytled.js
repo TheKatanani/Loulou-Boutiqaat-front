@@ -93,6 +93,15 @@ export const StyledDashboard = styled.div `
             :hover{
       background-color:transparent;
     }
+    ${({theme:{media}})=>media.xs}{
+      display:none
+    }
+    ${({theme:{media}})=>media.s}{
+      display:none
+    }
+    ${({theme:{media}})=>media.m}{
+      display:initial
+    } 
         }
   }
   main{
@@ -136,7 +145,7 @@ export const StyledForm = styled.form `
   } 
 `
 export const StyledAdd = styled.div `
-  #discription{
+  #description{
     resize: vertical;
     height: 100px;
   }
@@ -157,11 +166,11 @@ export const StyledTable = styled.table `
   }
   ${({theme:{media}})=>media.xs}{
   .id
-,.discription
+,.description
 ,.previous
 ,.count
 ,.barthDay
-,.gendar
+,.gender
 ,.password
 ,.role
 ,.stars{
@@ -171,18 +180,18 @@ ${({theme:{media}})=>media.s}{
   .id 
   ,.role
   ,.barthDay
-  ,.gendar
-  ,.discription 
+  ,.gender
+  ,.description 
 ,.stars{
 display:none
 }}
   ${({theme:{media}})=>media.l}{
   .id
-,.discription
+,.description
 ,.previous
 ,.count
 ,.barthDay
-,.gendar
+,.gender
 ,.password
 ,.role
 ,.stars{

@@ -1,7 +1,7 @@
 import { StyledAdd } from "../sytled"
 import Form from './Form'
 import Table from './Table'
-const AddCatigory = () => {
+const Addcategory = () => {
   return (
     <StyledAdd>
       <Form />
@@ -10,4 +10,4 @@ const AddCatigory = () => {
   )
 }
 
-export default AddCatigory
+export default Addcategory

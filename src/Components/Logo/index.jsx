@@ -8,6 +8,7 @@ const LogoStyled = styled.div`
   }   */
   img{
     transform: translateY(10px);
+    filter: drop-shadow(-1px 2px 0px ${props=>props.theme.palette.ColorApp.gray_300});
     ${({ theme }) => theme.media.xs}{ 
       width: 70px;
     }

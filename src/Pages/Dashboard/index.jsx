@@ -7,10 +7,10 @@ import { selectUser } from '../../redux/reducers/auth.js'
 import { ROLES } from '../../Actions/index.js'
 import { useState } from 'react'
 import Copy from '../../Components/UI/Copy/index.jsx'
-import Toggle from '../../Components/Toggle/index.jsx'
+import Toggle from '../../Components/Toggle/index.jsx' 
 const Dashboard = () => {
-  const { role } = useSelector(selectUser)
-  const [open, setOpen] = useState(false)
+  const user = useSelector(selectUser)
+  const [open, setOpen] = useState(false)  
   return (
     <StyledDashboard>
       <div className="content">
@@ -24,19 +24,19 @@ const Dashboard = () => {
               <Link to='/dashboard'>Add Products</Link>
             </li>
             <li>
-              <Link to='addCatigory'>Add Catitory</Link>
+              <Link to='addcategory'>Add Catetory</Link>
             </li>
             {
-              role === ROLES.MANAGER &&
+              user?.role === ROLES.ADMIN &&
               <li>
                 <Link to='adduser'>Add User</Link>
               </li>
             }
             <li>
               <Link to='AddSocial'>Add Social</Link>
-            </li> 
+            </li>
             <li>
-              <Toggle/>
+              <Toggle />
             </li>
           </ul>
           <MainButton onClick={() => {

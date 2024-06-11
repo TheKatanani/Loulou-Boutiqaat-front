@@ -7,7 +7,7 @@ ${({card,theme})=>(
   card==='one'?`
 `:`
 background - color: $ {
-  theme.palette.main
+  ${theme.palette.main}
 };
 `
 )}
@@ -127,13 +127,13 @@ min-height: 200px;
 `:`
 width:100px;
 height:300px;
-:hover, &.active {
+  &.active {
   width: 300px;
-}: hover, &.active {
+}  &.active {
   .arrow {
     transform: translatex(0rem);
   }
-}: hover, &.active {
+} &.active {
   ::before {
     opacity: 0.35;
   }
@@ -151,7 +151,7 @@ div {
 
   }
 
-  :hover,&.active {
+   &.active {
 
     header,
 

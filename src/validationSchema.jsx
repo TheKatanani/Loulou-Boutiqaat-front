@@ -1,11 +1,11 @@
 import { boolean, object, ref, string } from 'yup';
-import { phoneNumberRegex } from './Regex'; 
-export const validationSchema  = object().shape({
+import { phoneNumberRegex } from './Regex';
+export const validationSchema = object().shape({
   name:
     string()
       .min(6, "Name should be more than 6 characters long")
       .max(20)
-      .required("Name is required"),  
+      .required("Name is required"),
   password:
     string()
       .min(8, "Password must be at least 8 characters long")
@@ -23,7 +23,22 @@ export const validationSchema  = object().shape({
       .oneOf([true], "You must agree to the terms and conditions")
       .required("You must agree to the terms and conditions"),
 });
-export const validationSchemaLogIn  = object().shape({ 
+export const validationSchemaUpdateAdmain = object().shape({
+  name:
+    string()
+      .min(6, "Name should be more than 6 characters long")
+      .max(20)
+      .required("Name is required"), 
+  phone:
+    string()
+      .matches(phoneNumberRegex, "Invalid phone number the valid phone'00-000-00-00'")
+      .required("Phone number is required"),
+  agree:
+    boolean()
+      .oneOf([true], "You must agree to the terms and conditions")
+      .required("You must agree to the terms and conditions"),
+});
+export const validationSchemaLogIn = object().shape({
   password:
     string()
       .min(8, "Password must be at least 8 characters long")
@@ -31,10 +46,6 @@ export const validationSchemaLogIn  = object().shape({
   phone:
     string()
       .matches(phoneNumberRegex, "Invalid phone number the valid phone'00-000-00-00' or '123456789'")
-      .required("Phone number is required"),
-      agree:
-    boolean()
-      .oneOf([true], "You must agree to the terms and conditions")
-      .required("You must agree to the terms and conditions"),
+      .required("Phone number is required") 
 });
 

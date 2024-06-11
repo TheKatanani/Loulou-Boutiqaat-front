@@ -8,70 +8,70 @@ import { selectSocial, setSocial } from '../../redux/reducers/social'
 import { Link } from 'react-router-dom'
 import { useEffect } from 'react'
 import Copy from '../UI/Copy'
-import { selectCatigories } from '../../redux/reducers/catigories'
-import { selectProducts } from '../../redux/reducers/products'
+import { selectCategories } from '../../redux/reducers/categories'
+// import { selectPublishedProducts } from '../../redux/reducers/products'
 const Footer = () => {
     const dispatch = useDispatch()
     const social = useSelector(selectSocial)
-    const catigories = useSelector(selectCatigories)
-    const products = useSelector(selectProducts)
-    const validCatigories =  catigories?.map((catigory) => {
-        return products.find(product => {
-            if (product.catigoryId == catigory.id)
-                if (product.count > 0 && parseInt(product.isVisibile) === 1) {
-                    return product
-                }
-            return undefined
-        }) && catigory
-    }) 
+    const categories = useSelector(selectCategories)
+    // const products = useSelector(selectPublishedProducts)
+    // const validcategories = categories?.map((category) => {
+    //     return products.find(product => {
+    //         if (product.categoryId == category.id)
+    //             if (product.count > 0) {
+    //                 return product
+    //             }
+    //         return undefined
+    //     }) && category
+    // })
     const footerData = [
         {
             title: 'categories',
             data:
-                validCatigories.map(catigory => {
-                    return ( 
+            categories.map(category => {
+                    return (
                         {
-                            'text': catigory.name,
-                            'link': `/home/catigories/${catigory.id}`
+                            'text': category?.name,
+                            'link': `/home/categories/${category?.id}`
                         }
                     )
                 })
         },
         {
-            title:'sections',
-            data:[
+            title: 'sections',
+            data: [
                 {
-                    text:'home',
-                    link:'/home'
+                    text: 'home',
+                    link: '/home'
                 },
                 {
-                    text:'cart',
-                    link:'/home/cart'
+                    text: 'cart',
+                    link: '/home/cart'
                 },
                 {
-                    text:'saved',
-                    link:'/home/saved'
+                    text: 'saved',
+                    link: '/home/saved'
                 },
                 {
-                    text:'profile',
-                    link:'/home/profile'
-                } 
+                    text: 'profile',
+                    link: '/home/profile'
+                }
             ]
         },
         {
-            title:'more links',
-            data:[ 
+            title: 'more links',
+            data: [
                 {
-                    text:'catigories',
-                    link:'/home/catigories'
+                    text: 'categories',
+                    link: '/home/categories'
                 },
                 {
-                    text:'search',
-                    link:'/home/search'
+                    text: 'search',
+                    link: '/home/search'
                 },
                 {
-                    text:'update information',
-                    link:'/home/updateInfo'
+                    text: 'update information',
+                    link: '/home/updateInfo'
                 },
             ]
         }

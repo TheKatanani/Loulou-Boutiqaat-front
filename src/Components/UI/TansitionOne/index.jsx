@@ -8,21 +8,21 @@ import Card from './Card'
 import { StyledTransactionOne } from './styled'
 import TitleSections from '../../common/TitleSections'
 import { Container } from '../../../Global/components'
-import { API } from '../../../API'
+import { API2 } from '../../../API'
 import useFetch from '../../../Hook/useFetch'
 import LogoLoading from '../../common/LogoLoading'
 import { Link } from 'react-router-dom'
-const images = Array.from([Banner, image104, image108, image92, image98])
+const images = Array.from([Banner, image104, image108, image92, image98]) // if there is no images in the api use it 
 const TransitionOne = ({ card, title }) => {
   const [active, setActive] = useState()
-  const { data, isLoading } = useFetch(`${API}/catigories`)
+  const { data, isLoading } = useFetch(`${API2}/category/published`)
   useEffect(() => {
-    !isLoading && setActive(data[2].id)
+
+    !isLoading && data.length && setActive(data[2]?.id)
   }, [data, isLoading])
   if (isLoading) {
     return <LogoLoading />
-  }
-
+  } 
   return (
     <StyledTransactionOne {...{ card }}>
       <Container>
@@ -31,9 +31,8 @@ const TransitionOne = ({ card, title }) => {
         </Link>
         <div className={`${card}`}>
           {
-            data.map((catigory, i) => (
-              catigory.isVisibile &&
-              <Card key={catigory.id} {...{ card }}   {...{ ...catigory, img: images[i], setActive }} isActive={catigory.id === active} />
+            data?.map((category, i) => ( 
+              <Card key={category.id} {...{ card }}   {...{ ...category, img: images[i], setActive }} isActive={category.id === active} />
             ))
           }
         </div>

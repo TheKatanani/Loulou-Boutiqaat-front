@@ -2,11 +2,14 @@ import {
   createGlobalStyle
 } from 'styled-components';
 
-export const GlobalStyle = createGlobalStyle `
+export const GlobalStyle = createGlobalStyle`
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+td {
+    overflow: auto;
 }
 body {
   background: linear-gradient(80deg,${(props) =>  props.theme.palette.main},#843abc);

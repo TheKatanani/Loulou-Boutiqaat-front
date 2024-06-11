@@ -6,26 +6,27 @@ import Select from '../../Select'
 import { useDispatch, useSelector } from 'react-redux'
 import { MainButton } from '../../../Global/components'
 import Checkbox from '../../Checkbox'
-import { API } from '../../../API'
+import { API2 } from '../../../API'
 import LogoLoading from '../../common/LogoLoading'
 import { StyledRigisterForm } from './styled'
-import { handleInputChangeReducer, reSetUser, selectMood, setGendar } from '../../../redux/reducers/users'
+import { handleInputChangeReducer, reSetUser, selectMood } from '../../../redux/reducers/users'
 import { MOOD, ROLES } from '../../../Actions'
 import PasswordInput from '../../common/PasswordInput'
 import { selectUser } from '../../../redux/reducers/auth'
 import { Link } from 'react-router-dom'
 import ButtonAnimation from '../../common/ButtonAnimation'
+import { selectSuccess } from '../../../redux/reducers/signup'
 
-const Register = ({ isFromUserProfile, errors, status, showPasswordFunc, showPassword, formData, handleSubmit, handleInputChangeFunc, handleCheckBoxChangeFunc }) => {
-  const { data: allowedPhones, isLoading, error } = useFetch(`${API}/allowedPhones`)
+const Register = ({ setGender, isFromUserProfile, errors, status, showPasswordFunc, showPassword, formData, handleSubmit, handleInputChangeFunc, handleCheckBoxChangeFunc }) => {
+  const { data: allowedPhones, isLoading, error } = useFetch(`${API2}/countryCode`)
   const user = useSelector(selectUser)
+  const success = useSelector(selectSuccess);
   const mood = useSelector(selectMood)
   const dispatch = useDispatch()
   useEffect(() => {
     if (mood === MOOD.UPDATE) {
-      // to dont fill the new password input in the old value
+      // to dont fill the new password input in hash password
       dispatch(handleInputChangeReducer({ id: "password", value: '' }))
-      // dispatch(handleInputChangeReducer({ id: "confirmPassword", value: formData.password }))
     }
   }, [formData.id])
   if (isLoading) {
@@ -69,17 +70,17 @@ const Register = ({ isFromUserProfile, errors, status, showPasswordFunc, showPas
       {errors?.gender && <ErrorForm>{errors?.gender}</ErrorForm>}
       <div className="gender">
         <label htmlFor="male">
-          <input type="radio" name="gendar" id="male"
-            onChange={(e) => {
-              dispatch(setGendar('male'))
+          <input type="radio" name="gender" id="male"
+            onChange={() => {
+              dispatch(setGender('male'))
             }}
-            checked={formData.gendar === 'male'}
+            checked={formData.gender === 'male'}
           />
           male</label>
         <label htmlFor="male">
-          <input type="radio" name="gendar" id="female"
-            onChange={() => dispatch(setGendar('female'))}
-            checked={formData.gendar === 'female'}
+          <input type="radio" name="gender" id="female"
+            onChange={() => dispatch(setGender('female'))}
+            checked={formData.gender === 'female'}
           />
           female</label>
       </div>
@@ -92,42 +93,43 @@ const Register = ({ isFromUserProfile, errors, status, showPasswordFunc, showPas
           </>
         )
       }
+      {
+        !(mood === MOOD.UPDATE && user?.role === ROLES.ADMIN) &&
+        <>
+          {errors?.password && <ErrorForm>{errors?.password}</ErrorForm>}
+          <Input
+            onChange={handleInputChangeFunc}
+            id="password"
+            type="Password"
+            placeholder="Type here"
+            label="Password"
+            value={formData.password}
+          />
 
-      {errors?.password && <ErrorForm>{errors?.password}</ErrorForm>}
-      <Input
-        onChange={handleInputChangeFunc}
-        id="password"
-        type="Password"
-        placeholder="Type here"
-        label="Password"
-        value={formData.password}
-      />
-
-      {errors?.confirmPassword && <ErrorForm>{errors?.confirmPassword}</ErrorForm>}
-      <Input
-        onChange={handleInputChangeFunc}
-        id="confirmPassword"
-        type="Password"
-        placeholder="Type here"
-        label="Repeat password"
-        value={formData.confirmPassword}
-      />
+          {errors?.confirmPassword && <ErrorForm>{errors?.confirmPassword}</ErrorForm>}
+          <Input
+            onChange={handleInputChangeFunc}
+            id="confirmPassword"
+            type="Password"
+            placeholder="Type here"
+            label="Repeat password"
+            value={formData.confirmPassword}
+          />
+        </>
+      }
       <div className="d-flex">
         {
-          user.role === ROLES.MANAGER && (
+          user?.role === ROLES.ADMIN && (
             <>
               {errors?.role && <ErrorForm>{errors?.role}</ErrorForm>}
               <Select
-                defualt={"user"}
+                defualt={formData.roles || Object.keys(ROLES)[0] || 'USER'}
+                label={"User Role"}
                 id="role"
-                value={formData.role}
+                value={formData.roles}
                 onChange={handleInputChangeFunc}
                 options={
-                  [
-                    { value: 'user', label: 'user' },
-                    { value: 'admin', label: 'admin' },
-                    { value: 'manager', label: 'manager' }
-                  ]
+                  Object.keys(ROLES).map(key => ({ value: key, label: key.toLowerCase() }))//return the role in dynamic way
                 }
               />
             </>
@@ -139,28 +141,35 @@ const Register = ({ isFromUserProfile, errors, status, showPasswordFunc, showPas
           type="date"
           name="barthDay"
           id="barthDay"
+          label="Barth Day"
           value={formData.barthDay}
           onChange={handleInputChangeFunc}
         />{/* *********************** */}
       </div>
+      {/* submit button */}
       <ButtonAnimation status={status}>
         {
           mood === MOOD.UPDATE ? "Update Now" : "Register Now"
         }
       </ButtonAnimation>
       {
-        mood === MOOD.UPDATE && isFromUserProfile ?
+        mood === MOOD.UPDATE && (isFromUserProfile
+          ?
           <Link to={'/home/profile'}>
             <MainButton type='button'>cansel</MainButton>
           </Link>
           :
           <MainButton type='button' onClick={() => {
             dispatch(reSetUser())
-          }}>cansel</MainButton>
+          }}>cansel</MainButton>)
       }
       {errors?.agree && <ErrorForm>{errors?.agree}</ErrorForm>}
+      {/* remove this if is not there terms and conditions */}
       <Checkbox checked={formData.agree} id="agree" label="I agree with " primary="Terms and Conditions" onChange={handleCheckBoxChangeFunc} />
       {errors?.isAxiosError && <ErrorForm>{errors?.isAxiosError}</ErrorForm>}
+      {/* correct these */}
+      {/* {errors?.message && <ErrorForm>{errors?.message}</ErrorForm>} */}
+      {success && <h3 style={{ color: 'green', fontWeight: 'bold' }}>{success}</h3>}
     </StyledRigisterForm>
   )
 }

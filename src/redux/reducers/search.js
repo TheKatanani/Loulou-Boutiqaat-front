@@ -16,7 +16,7 @@ export const productsSlice = createSlice({
     searchResults: [],
     status: 'idle',
     searchTerm: '',
-    catigoryId: '',
+    categoryId: '',
     error: null,
   },
   reducers: {
@@ -29,8 +29,8 @@ export const productsSlice = createSlice({
     setSearchTerm: (state, action) => {
       state.searchTerm = action.payload;
     },
-    setCatigory: (state, action) => {
-      state.catigoryId = action.payload;
+    setCategory: (state, action) => {
+      state.categoryId = action.payload;
     },
     setStatusLoading: (state) => {
       state.status = 'loading';
@@ -64,13 +64,13 @@ export const productsSlice = createSlice({
 export const fetchSearchResults = createAsyncThunk(
   "products/fetchSearchResults",
   async (payload) => {
-    const response = await axios.get(`${API}/products?name_like=${encodeURIComponent(payload.searchTerm)}${payload.catigoryId&&`&catigoryId=`+payload.catigoryId}`);
+    const response = await axios.get(`${API}/products?name_like=${encodeURIComponent(payload.searchTerm)}${payload.categoryId&&`&categoryId=`+payload.categoryId}`);
     return response
   }
 )
 export const {
   setSearchTerm,
-  setCatigory,
+  setCategory,
   setSearchResults,
   setStatusIdle,
   setStatusLoading,
@@ -82,7 +82,7 @@ export const {
 export const selectSearchResults = state => state.search.searchResults;
 export const selectStatus = state => state.search.status;
 export const selectSearchTerm = state => state.search.searchTerm;
-export const selectCatigory = state => state.search.catigoryId;
+export const selectCategory = state => state.search.categoryId;
 export const selectError = state => state.search.error;
 
 export default productsSlice.reducer;

@@ -9,13 +9,13 @@ export const validationSchema = object().shape({
     .min(6, "Name should be more than 6 characters long")
     .max(20)
     .required("Name is required"),
-  discription: string()
-    .min(8, "discription must be at least 8 characters long")
-    .required("discription is required"),
+  description: string()
+    .min(8, "description must be at least 8 characters long")
+    .required("description is required"),
   price: number()
     .positive('the price must be positive value')
     .required('you must add price'),
-  previousPrice: number()
+  prevPrice: number()
     .positive('the price must be positive value')
     .required('you must add price'),
   count: number()

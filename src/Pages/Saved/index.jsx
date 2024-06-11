@@ -19,7 +19,7 @@ const Saved = () => {
     :
     <>
       <p className="noItems">No Saved Items :)</p>
-      <Link to={'/home/catigories'}>See more Products 👀</Link>
+      <Link to={'/home/categories'}>See more Products 👀</Link>
     </>
 
   return (

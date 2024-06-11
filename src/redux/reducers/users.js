@@ -2,12 +2,9 @@ import {
   createAsyncThunk,
   createSlice
 } from '@reduxjs/toolkit';
-import axios from 'axios';
-import {
-  API,
-} from '../../API';
 import {
   MOOD,
+  ROLES,
   STATUS
 } from '../../Actions';
 
@@ -17,9 +14,9 @@ const initialAddUserstate = {
   selectPhone: "+972",
   password: "",
   confirmPassword: "",
-  gendar: '',
+  gender: 'female',
   barthDay: '2000-01-01',
-  role: 'user',
+  role: Object.keys(ROLES)[0],//user
   agree: false
 }
 export const usersSlice = createSlice({
@@ -70,8 +67,8 @@ export const usersSlice = createSlice({
     setUsersReducer: (state, action) => {
       state.users = action.payload;
     },
-    setGendar: (state, action) => {
-      state.addUserState.gendar = action.payload
+    setGender: (state, action) => {
+      state.addUserState.gender = action.payload
     },
     setStatusIdle: (state) => {
       state.status = 'idle';
@@ -100,20 +97,29 @@ export const usersSlice = createSlice({
     builder
       .addCase(setUsers.pending, (state) => {
         state.status = STATUS.LOADING;
+        state.error = null
       })
       .addCase(setUsers.fulfilled, (state, action) => {
-        state.status = STATUS.IDLE;
+        state.status = STATUS.SUCCEEDED;
         state.users = action.payload;
       })
       .addCase(setUsers.rejected, (state, action) => {
         state.status = STATUS.FAILED;
-        state.error = action.payload;
+        if (action.error?.name === "AxiosError") {
+          state.error = {
+            isAxiosError: action?.error?.message
+          }
+        } else {
+          state.error = action?.error;
+        }
       })
       .addCase(addNewUser.pending, (state) => {
         state.status = STATUS.LOADING;
+        state.error = null 
       })
       .addCase(addNewUser.fulfilled, (state, action) => {
         state.status = STATUS.SUCCEEDED;
+        state.addUserState = initialAddUserstate
         state.users = [...state?.users, action?.payload];
       })
       .addCase(addNewUser.rejected, (state, action) => {
@@ -136,6 +142,8 @@ export const usersSlice = createSlice({
       })
       .addCase(updateUser.fulfilled, (state, action) => {
         state.status = STATUS.SUCCEEDED;
+        state.mood = MOOD.ADD
+        state.addUserState = initialAddUserstate
         state.users = state.users.map(user => user.id === action.payload.id ? action.payload : user)
       })
       .addCase(updateUser.rejected, (state, action) => {
@@ -146,17 +154,20 @@ export const usersSlice = createSlice({
 });
 export const setUsers = createAsyncThunk(
   "users/setUsers",
-  async () => {
-    const response = await axios.get(`${API}/users`);
+  async ({
+    axiosPrivate
+  }) => {
+    const response = await axiosPrivate.get(`/users`);
     return response.data
   }
 )
 export const addNewUser = createAsyncThunk(
   "users/addNewUser",
   async ({
-    user
+    user,
+    axiosPrivate
   }) => {
-    const response = await axios.post(`${API}/users`, {
+    const response = await axiosPrivate.post(`/users`, {
       ...user
     });
     return response.data
@@ -165,9 +176,10 @@ export const addNewUser = createAsyncThunk(
 export const updateUser = createAsyncThunk(
   "users/updateUser",
   async ({
-    user
+    user,
+    axiosPrivate
   }) => {
-    const response = await axios.put(`${API}/users/${user.id}`, {
+    const response = await axiosPrivate.put(`/users/${user.id}`, {
       ...user
     });
     return response.data
@@ -176,9 +188,10 @@ export const updateUser = createAsyncThunk(
 export const deleteUser = createAsyncThunk(
   "users/deleteUser",
   async ({
-    id
+    id,
+    axiosPrivate
   }) => {
-    await axios.delete(`${API}/users/${id}`);
+    await axiosPrivate.delete(`/users/${id}`);
     return id
   }
 )
@@ -193,7 +206,7 @@ export const {
   setStatusSucceeded,
   setStatusFailed,
   setError,
-  setGendar,
+  setGender,
   showPassword,
   clearError,
 } = usersSlice.actions;

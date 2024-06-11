@@ -1,40 +1,40 @@
 import { NavLink } from 'react-router-dom'
-import { CatigoryStyled } from './styles'
+import { CategoryStyled } from './styles'
 import LogoLoading from '../common/LogoLoading'
 import { STATUS } from '../../Actions'
 import { useSelector } from 'react-redux'
-import { selectCatigories } from '../../redux/reducers/catigories'
-import { selectStatus } from '../../redux/reducers/catigories'
+import { selectCategories } from '../../redux/reducers/categories'
+import { selectStatus } from '../../redux/reducers/categories'
 import { selectProducts } from '../../redux/reducers/products'
 
 const Category = () => {
-    const catigories = useSelector(selectCatigories)
-    const products = useSelector(selectProducts) 
+    const categories = useSelector(selectCategories)
+    const products = useSelector(selectProducts)
     const status = useSelector(selectStatus)
     if (status === STATUS.LOADING) {
         return <LogoLoading />
     }
 
     return (
-        <CatigoryStyled >
+        <CategoryStyled >
             <ul>
                 {
-                    catigories?.map((catigory) => {
+                    categories?.map((category) => {
                         return products.find(product => {
-                            if (product.catigoryId == catigory.id)
+                            if (product.categoryId == category.id)
                                 if (product.count > 0 && parseInt(product.isVisibile) === 1) {
                                     return product
                                 }
                             return undefined
-                        }) && <li key={catigory.id}>
-                                <NavLink to={`/home/catigories/${catigory.id}`}>{catigory.name}</NavLink>
+                        }) && <li key={category.id}>
+                                <NavLink to={`/home/categories/${category.id}`}>{category.name}</NavLink>
                             </li>
                     }
                     )
                 }
             </ul>
 
-        </CatigoryStyled >
+        </CategoryStyled >
     );
 };
 

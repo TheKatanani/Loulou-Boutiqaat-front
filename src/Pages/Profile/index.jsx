@@ -5,9 +5,10 @@ import { StyledProfile } from './styled'
 import { Container } from '../../Global/components'
 import { StyledTable } from '../Dashboard/sytled'
 import { Link } from 'react-router-dom'
+import { ROLES } from '../../Actions'
 const Profile = () => {
   const user = useSelector(selectUser)
-  return (
+   return (
     <StyledProfile>
       <Container className='container'>
         <StyledTable>
@@ -16,7 +17,7 @@ const Profile = () => {
               <td>id</td>
               <td>name</td>
               <td>role</td>
-              <td>gendar</td>
+              <td>gender</td>
               <td>barthDay</td>
               <td>password</td>
             </tr>
@@ -25,8 +26,10 @@ const Profile = () => {
             <tr>
               <td>{user.id}</td>
               <td>{user.name}</td>
-              <td>{user.role}</td>
-              <td>{user.gendar}</td>
+              <td>{
+                Object.keys(ROLES)[Object.values(ROLES).indexOf(user.role)]
+              }</td>
+              <td>{user.gender}</td>
               <td>{user.barthDay}</td>
               <td>{user.password}</td>
             </tr>

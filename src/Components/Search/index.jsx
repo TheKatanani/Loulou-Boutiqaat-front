@@ -4,17 +4,17 @@ import LogoLoading from "../common/LogoLoading";
 import { Link, useNavigate } from "react-router-dom";
 import { STATUS } from "../../Actions";
 import { useDispatch, useSelector } from "react-redux";
-import { selectCatigories, selectStatus } from "../../redux/reducers/catigories";
-import { fetchSearchResults, selectCatigory, selectSearchResults, selectSearchTerm, setCatigory, setSearchTerm } from "../../redux/reducers/search";
+import { selectCategories, selectStatus } from "../../redux/reducers/categories";
+import { fetchSearchResults, selectCategory, selectSearchResults, selectSearchTerm, setCategory, setSearchTerm } from "../../redux/reducers/search";
 
 function SearchComponent({ isOnChangeRequest = false }) {
   const [blur, setBlur] = useState(true);
   const dispatch = useDispatch()
   const { data: myResults } = useSelector(selectSearchResults)
-  const catigories = useSelector(selectCatigories)
+  const categories = useSelector(selectCategories)
   const status = useSelector(selectStatus)
   const searchTerm = useSelector(selectSearchTerm)
-  const catigoryId = useSelector(selectCatigory)
+  const categoryId = useSelector(selectCategory)
   const navigate = useNavigate()
 
   const handleEnterKeyDown = (event) => {
@@ -30,20 +30,20 @@ function SearchComponent({ isOnChangeRequest = false }) {
       let debounceTimer;
       clearTimeout(debounceTimer);
       debounceTimer = setTimeout(() => {
-        dispatch(fetchSearchResults({ searchTerm, catigoryId }))
+        dispatch(fetchSearchResults({ searchTerm, categoryId }))
       }, 500);
     }
   };
   const handleSelectChange = (value) => {
-    dispatch(setCatigory(value))
+    dispatch(setCategory(value))
     handleSearch(searchTerm)
   }
   const handelSubmit = (e) => {
-    e.preventDefault()  
+    e.preventDefault()
     let debounceTimer;
     clearTimeout(debounceTimer);
     debounceTimer = setTimeout(() => {
-      dispatch(fetchSearchResults({ searchTerm, catigoryId }))
+      dispatch(fetchSearchResults({ searchTerm, categoryId }))
     }, 500);
   }
   if (status === STATUS.LOADING) {
@@ -66,10 +66,10 @@ function SearchComponent({ isOnChangeRequest = false }) {
           setBlur(false)
         }}
       />
-      <select value={catigoryId} onChange={(e) => handleSelectChange(e.target.value)}>
+      <select value={categoryId} onChange={(e) => handleSelectChange(e.target.value)}>
         <option defaultValue="" value="">All category</option>
         {
-          catigories?.map((catig) => (
+          categories?.map((catig) => (
             <option key={catig.id} value={catig?.id}>{catig?.name}</option>
           ))
         }

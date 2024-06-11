@@ -1,11 +1,11 @@
 import { StyeldCard } from "./styled"
 import AddToCartButton from "../../../AddToCartButton"
-import LikeButton from "../../../LikeButton" 
+import LikeButton from "../../../LikeButton"
 import { Link } from "react-router-dom"
 import ImagesSliderCard from "../../../common/ImagesSliderCard"
 import Rating from "../../../Rating"
 
-const Card = ({ data: { id, discription, stars, images, name, price, prevPrice, isVisibile = 0, count = 1 }, display, index }) => {
+const Card = ({ data: { id, description, stars, images, name, price, prevPrice, isVisibile = 0, count = 1 }, display, index }) => {
     return (
         <>
             {
@@ -16,7 +16,7 @@ const Card = ({ data: { id, discription, stars, images, name, price, prevPrice, 
                         <p className="price">{price}₪ <span className="prevCost">{prevPrice}₪</span>   </p>
                         <h3>{name}</h3>
                         <Rating num={stars} />
-                        <p className="description">{discription.slice(0, 50)}...
+                        <p className="description">{description.slice(0, 50)}...
                             <Link to={`/home/products/${id}`}>
                                 <span>more</span>
                             </Link>

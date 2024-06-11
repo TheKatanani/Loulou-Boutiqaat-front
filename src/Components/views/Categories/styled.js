@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const StyledCatigories = styled.div ` 
+export const StyledCategories = styled.div ` 
   .data{
     min-height:350px;
   }

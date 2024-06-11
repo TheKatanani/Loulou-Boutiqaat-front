@@ -1,16 +1,16 @@
 import { useDispatch, useSelector } from 'react-redux'
 import Register from '../../../Components/views/forms/Register.jsx'
-import { splitPhone } from '../../../utels/func.js'
-import { validationSchema } from '../../../validationSchema.jsx'
-import { addNewUser, handleInputChangeReducer, reSetUser, selectAddUserState, selectError, selectMood, selectStatus, selectUsers, setError, setStatusFailed, setStatusLoading, setStatusSucceeded, updateUser } from '../../../redux/reducers/users.js'
-import { MOOD, STATUS } from '../../../Actions/index.js'
+import { validationSchema, validationSchemaUpdateAdmain } from '../../../validationSchema.jsx'
+import { addNewUser, handleInputChangeReducer, selectAddUserState, selectError, selectMood, selectStatus, setError, setStatusFailed, setStatusLoading, setGender, updateUser } from '../../../redux/reducers/users.js'
+import { MOOD, ROLES } from '../../../Actions/index.js'
 import { handleCheckBoxChange } from '../../../redux/reducers/users.js'
+import useAxiosPrivate from '../../../Hook/useAxiosPrivet.js'
 
-const Form = () => { 
+const Form = () => {
   const formData = useSelector(selectAddUserState);
-  const users = useSelector(selectUsers);
   const status = useSelector(selectStatus);
   const errors = useSelector(selectError);
+  const axiosPrivate = useAxiosPrivate()
   const mood = useSelector(selectMood);
   const dispatch = useDispatch()
   // // // // // // // // /// // // // // // // // // /// // // // // // // // // /// 
@@ -26,55 +26,32 @@ const Form = () => {
     dispatch(setStatusLoading());
     dispatch(setError({ errors: {} }));
     const user = {
-      id:formData.id,
       name: formData.name,
       phone: formData.selectPhone + formData.phone,
-      password: formData.password,
-      gendar: formData.gendar,
+      gender: formData.gender,
       barthDay: formData.barthDay,
-      role: formData.role
+      roles: {
+        [formData?.role]: ROLES[formData?.role]
+      }
     }
     try {
-      const foundedUser = users?.find((_user) =>
-        splitPhone(_user?.phone) === splitPhone(formData?.selectPhone + formData?.phone)&& _user.id !== user.id
-      )
       if (mood === MOOD.ADD) {
-        if (!foundedUser) {
-          await validationSchema.validate(formData, { abortEarly: false });
-          dispatch(addNewUser({ user }))
-          if (status === STATUS.SUCCEEDED) {
-            console.log('the user add succesfolly')
-            dispatch(reSetUser())
-          }
-        } else {
-          dispatch(setError({ errors: { phone: 'this phone number has an account' } }));
-        }
-      } else {
-        if (foundedUser) {
-          // to correct validation wait for complete the backend
         await validationSchema.validate(formData, { abortEarly: false });
-        dispatch(updateUser({ user })) 
-        if (status === STATUS.SUCCEEDED) {
-          console.log('the user updated succesfolly')
-          dispatch(setStatusSucceeded());
-          dispatch(reSetUser())
-        }
-        } 
-        else {
-          dispatch(setError({ errors: { phone: 'this phone number has an account' } }));
-        }
+        dispatch(addNewUser({ user: { ...user, password: formData.password }, axiosPrivate }))
+      } else {
+        await validationSchemaUpdateAdmain.validate(formData, { abortEarly: false });
+        dispatch(updateUser({ user: { ...user, id: formData.id }, axiosPrivate }))
       }
     } catch (e) {
-      dispatch(setStatusFailed());
       const errors = e.inner?.reduce((acc, { path, message }) => {
         acc[path] = message;
         return acc;
       }, {});
-      dispatch(setError({ ...{ errors } }));
+      dispatch(setStatusFailed({ ...{ errors } }));
     }
   };
   return (
-    <Register errors={errors} userRole={true} {...{ status, formData, handleSubmit, handleInputChangeFunc, handleCheckBoxChangeFunc }} />
+    <Register errors={errors} userRole={true} {...{ status, formData, handleSubmit, setGender, handleInputChangeFunc, handleCheckBoxChangeFunc }} />
   )
 }
 

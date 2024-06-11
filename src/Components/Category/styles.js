@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const CatigoryStyled = styled.div `
+export const CategoryStyled = styled.div `
         display: flex;
         width: 100%;
         gap:20px;

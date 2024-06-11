@@ -1,18 +1,23 @@
 import {
+  createAsyncThunk,
   createSlice
 } from '@reduxjs/toolkit';
 import {
+  ROLES,
   STATUS
 } from '../../Actions';
+import {
+  validationSchema
+} from '../../validationSchema';
+import axios from '../../api/axios';
 const initailState = {
   name: '',
   phone: "",
   selectPhone: "+972",
   password: "",
-  gendar: '',
-  error: {},
-  passwordStrength: "",
+  gender: 'female',
   isLoading: false,
+  barthDay: "2000-01-01"
 }
 const signupSlice = createSlice({
   name: 'signup',
@@ -20,6 +25,7 @@ const signupSlice = createSlice({
     formData: initailState,
     status: 'idle',
     error: null,
+    success: null
   },
   reducers: {
     handleInputChange: (state, action) => {
@@ -27,17 +33,17 @@ const signupSlice = createSlice({
         id,
         value
       } = action.payload
-      state[id] = value
+      state.formData[id] = value
     },
     handleCheckBoxChange: (state, action) => {
       const {
         id,
         checked
       } = action.payload
-      state[id] = checked
+      state.formData[id] = checked
     },
-    setGendar: (state, action) => {
-      state.formData.gendar = action.payload
+    setGender: (state, action) => {
+      state.formData.gender = action.payload
     },
     setStatusIdle: (state) => {
       state.status = 'idle';
@@ -56,10 +62,78 @@ const signupSlice = createSlice({
       state.error = null;
     },
   },
+  extraReducers: (builder) => {
+    builder
+      .addCase(handleRegister.pending, (state) => {
+        state.status = STATUS.LOADING;
+        state.error = null;
+      })
+      .addCase(handleRegister.fulfilled, (state, action) => {
+        if (action.payload?.errors) {
+          state.status = STATUS.FAILED;
+          state.error = action.payload?.errors
+        } else if (action.payload?.data) {
+          // state.token = action.payload?.data?.accessToken;
+          state.status = STATUS.SUCCEEDED;
+          state.success = action.payload.data?.success
+          state.formData = initailState
+          // state.isAuthenticated = true;
+          // state.user = action.payload?.data?.user
+        } else {
+          state.status = STATUS.FAILED;
+        }
+      })
+      .addCase(handleRegister.rejected, (state, action) => {
+        state.status = STATUS.FAILED;
+        state.error = action.error
+      })
+  }
 });
+export const handleRegister = createAsyncThunk(
+  "signup/handleRegister",
+  async ({
+    formData
+  }) => {
+    try {
+      await validationSchema.validate(formData, {
+        abortEarly: false // to get all the form errors
+      });
+      const res = await axios.post('/register', {
+        phone: `${formData.selectPhone}${formData.phone}`,
+        name: formData?.name,
+        password: formData?.password,
+        gender: formData?.gender,
+        barthDay: formData?.barthDay,
+        roles: {
+          [formData?.role]: ROLES[formData?.role]
+        }
+      }, {
+        withCredentials: true,
+        // signal: controller.signal
+      })
+      return res
+    } catch (err) {
+      if (err?.response?.status) { // if there status then the error from the sarver and return {message:''} in the data
+        return {
+          errors: err?.response?.data
+        }
+      }
+      const errors = err.inner?.reduce((acc, {
+        path,
+        message
+      }) => {
+        acc[path] = message;
+        return acc;
+      }, {});
+      return {
+        errors
+      }
+    }
+  })
 export const selectFormData = state => state.signup.formData
 export const selectStatus = state => state.signup.status;
 export const selectError = state => state.signup.error;
+export const selectSuccess = state => state.signup.success;
 
 export const {
   handleInputChange,
@@ -68,7 +142,7 @@ export const {
   setStatusSucceeded,
   setStatusFailed,
   clearError,
-  setGendar,
+  setGender,
   handleCheckBoxChange,
 } = signupSlice.actions;
 export default signupSlice.reducer;

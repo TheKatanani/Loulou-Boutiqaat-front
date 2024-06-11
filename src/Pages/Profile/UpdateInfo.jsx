@@ -1,14 +1,15 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { splitPhone } from '../../utels/func.js'
 import { validationSchema } from '../../validationSchema.jsx'
-import { handleInputChangeReducer, reSetUser, selectAddUserState, selectError, selectShowPassword, selectStatus, selectUsers, setError, setStatusFailed, setStatusLoading, setUpdateUser, setUsers, updateUser,showPassword as showPasswordFunc } from '../../redux/reducers/users.js'
+import { handleInputChangeReducer, reSetUser, selectAddUserState, selectError, selectShowPassword, selectStatus, selectUsers, setError, setStatusFailed, setStatusLoading, setUpdateUser, setUsers, updateUser, showPassword as showPasswordFunc } from '../../redux/reducers/users.js'
 import { handleCheckBoxChange } from '../../redux/reducers/users.js'
 import Register from '../../Components/views/forms/Register.jsx'
 import { useEffect } from 'react'
-import { selectUser, setUser } from '../../redux/reducers/auth.js'
+import { selectUser } from '../../redux/reducers/auth.js'
 import { Container } from '../../Global/components.js'
 import Alert from '../../Components/UI/Alert/index.jsx'
 import { STATUS } from '../../Actions/index.js'
+import useAxiosPrivate from '../../Hook/useAxiosPrivet.js'
 
 const UpdateInfo = () => {
   const formData = useSelector(selectAddUserState);
@@ -16,8 +17,9 @@ const UpdateInfo = () => {
   const authUser = useSelector(selectUser)
   const showPassword = useSelector(selectShowPassword)
   const status = useSelector(selectStatus);
-  const errors = useSelector(selectError); 
-  const dispatch = useDispatch() 
+  const errors = useSelector(selectError);
+  const axiosPrivate = useAxiosPrivate()
+  const dispatch = useDispatch()
   // // // // // // // // /// // // // // // // // // /// // // // // // // // // /// 
   const handleInputChangeFunc = (event) => {
     const { id, value } = event.target;
@@ -35,7 +37,7 @@ const UpdateInfo = () => {
       name: formData.name,
       phone: formData.selectPhone + formData.phone,
       password: formData.password,
-      gendar: formData.gendar,
+      gender: formData.gender,
       barthDay: formData.barthDay,
       role: formData.role
     }
@@ -47,9 +49,9 @@ const UpdateInfo = () => {
         )
         if (!foundedUser) {
           await validationSchema.validate(formData, { abortEarly: false });
-          dispatch(updateUser({ user })) 
+          dispatch(updateUser({ user, axiosPrivate }))
           dispatch(reSetUser())
-          dispatch(setUser(user))
+          // dispatch(setUser(user))
         }
         else {
           dispatch(setStatusFailed({ errors: { phone: 'this phone number has an account' } }));
@@ -71,15 +73,15 @@ const UpdateInfo = () => {
     dispatch(setUpdateUser({ user: authUser }))
   }, [dispatch, authUser])
   useEffect(() => {
-    dispatch(setUsers())
-  }, [dispatch])
+    dispatch(setUsers({ axiosPrivate }))
+  }, [dispatch, axiosPrivate])
   return (
     <div style={{ margin: '120px 0 30px' }}>
       <Container>
         <Register isFromUserProfile={true} showPasswordFunc={showPasswordFunc} {...{ status, errors, formData, showPassword, handleSubmit, handleInputChangeFunc, handleCheckBoxChangeFunc }} />
         {
-          status === STATUS.SUCCEEDED && 
-          <Alert text={'updated successfolly'}/>
+          status === STATUS.SUCCEEDED &&
+          <Alert text={'updated successfolly'} />
         }
       </Container>
     </div>

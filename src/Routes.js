@@ -8,13 +8,13 @@ import { SelectIsAuthenticated } from "./redux/reducers/auth";
 
 import PageNotFound from "./Components/PageNotFound"; 
 import LogoLoading from "./Components/common/LogoLoading"; 
-import Layout from "./Components/Layout"; 
+import Layout from "./Components/Layout";  
 
-const Catigories = lazy(()=> import("./Pages/Catigories"));
-const Catigory = lazy(()=> import("./Pages/Catigory"));
+const Categories = lazy(()=> import("./Pages/Categories"));
+const Category = lazy(()=> import("./Pages/Category"));
 const Product = lazy(()=> import("./Pages/Product"));
 const Dashboard = lazy(()=> import("./Pages/Dashboard"));
-const AddCatigory = lazy(()=> import("./Pages/Dashboard/AddCatigory"));
+const AddCategory = lazy(()=> import("./Pages/Dashboard/AddCategory"));
 const AddProduct = lazy(()=> import("./Pages/Dashboard/AddProduct"));
 const AddUser = lazy(()=> import("./Pages/Dashboard/AddUser"));
 const AddSocial = lazy(()=> import("./Pages/Dashboard/AddSocial"));
@@ -41,19 +41,23 @@ const MyRoutes = () => {
           path="/register"
           element={isAuthenticated ? <Navigate to="/home" /> : <Register />}
         /> 
-        
+        {/* <Route
+          path="/home"
+          element={<Users/>}
+        /> 
+         */}
         <Route
           path="/dashboard"
-          element={<PrivateRoute requireRole={[ROLES.ADMIN,ROLES.MANAGER]}><Dashboard/></PrivateRoute>}>
+          element={<PrivateRoute requireRole={[ROLES.ADMIN,ROLES.EDITOR]}><Dashboard/></PrivateRoute>}>
           <Route
           index
           element={<AddProduct/>}/>
           <Route
-          path="addCatigory"
-          element={<AddCatigory/>}/>
+          path="addcategory"
+          element={<AddCategory/>}/>
           <Route
           path="addUser"
-          element={<PrivateRoute requireRole={[ROLES.MANAGER]}>
+          element={<PrivateRoute requireRole={[ROLES.ADMIN]}>
             <AddUser/></PrivateRoute>}/>
           <Route
           path="addSocial"
@@ -64,24 +68,24 @@ const MyRoutes = () => {
         <Route path="home" element={<Layout/>}>
           <Route index element={<Home />} />
           <Route path="catigories">
-            <Route index element={<Catigories />} />
-            <Route path=":catigory" element={<Catigory />} /> 
+            <Route index element={<Categories />} />
+            <Route path=":category" element={<Category />} /> 
           </Route>
           <Route path="products">
-            <Route index element={<Catigories />} />
+            <Route index element={<Categories />} />
             <Route path=":product" element={<Product />} /> 
           </Route>
           <Route path="search" element={<Search />} />
-          <Route path="profile" element={<PrivateRoute requireRole={[ROLES.USER,ROLES.ADMIN,ROLES.MANAGER]}/>}>
+          <Route path="profile" element={<PrivateRoute requireRole={[ROLES.USER,ROLES.ADMIN,ROLES.EDITOR]}/>}>
             <Route index element={<Profile />} />
             <Route path="*" element={<PageNotFound />} />
           </Route> 
-          <Route path="updateInfo" element={<PrivateRoute requireRole={[ROLES.USER,ROLES.ADMIN,ROLES.MANAGER]}/>}>
+          <Route path="updateInfo" element={<PrivateRoute requireRole={[ROLES.USER,ROLES.ADMIN,ROLES.EDITOR]}/>}>
             <Route index element={<UpdateInfo />} />
             <Route path="*" element={<PageNotFound />} />
           </Route> 
           <Route path="saved" element={<Saved />} />
-          <Route path="cart" element={<PrivateRoute requireRole={[ROLES.USER,ROLES.ADMIN,ROLES.MANAGER]}/>}>
+          <Route path="cart" element={<PrivateRoute requireRole={[ROLES.USER,ROLES.ADMIN,ROLES.EDITOR]}/>}>
             <Route index element={<Cart />} />
             <Route path="*" element={<PageNotFound />} />
           </Route>

@@ -2,24 +2,26 @@ import Input from '../../../Components/Input/index.jsx'
 import { Input as InputStyle, Label } from '../../../Components/Input/style.js'
 import Select from '../../../Components/Select/index.jsx'
 import { useDispatch, useSelector } from 'react-redux'
-import { selectCatigories, setCatigories } from '../../../redux/reducers/catigories.js'
+import { selectCategories, setCategories } from '../../../redux/reducers/categories.js'
 import FileHandler from '../../../Components/common/FileHandler/index.jsx'
 import { useEffect } from 'react'
-import { addNewProduct, handleInputChangeReducer, resitProduct, selectAddProductsState, selectError, selectMood, selectStatus, setStatusFailed, setStatusIdle, setStatusLoading, updateProduct } from '../../../redux/reducers/products.js'
+import { addNewProduct, cancelUpdate, handleInputChangeReducer, selectAddProductsState, selectError, selectMood, selectStatus, setStatusFailed, setStatusIdle, setStatusLoading, updateProduct } from '../../../redux/reducers/products.js'
 import { MOOD } from '../../../Actions/index.js'
 import { StyledForm } from '../sytled.js'
 import ButtonAnimation from '../../../Components/common/ButtonAnimation/index.jsx'
 import { validationSchema } from './validation.js'
 import ErrorForm from '../../../Components/ErrorForm/index.jsx'
+import useAxiosPrivate from '../../../Hook/useAxiosPrivet.js'
+import { MainButton } from '../../../Global/components.js'
 
 const Form = () => {
   const dispatch = useDispatch()
-  const catitories = useSelector(selectCatigories)
+  const catitories = useSelector(selectCategories)
   const formData = useSelector(selectAddProductsState)
   const status = useSelector(selectStatus)
   const mood = useSelector(selectMood)
   const errors = useSelector(selectError);
-
+  const axiosPrivate = useAxiosPrivate()
   const handleInputChange = (e) => {
     const {
       id,
@@ -37,11 +39,9 @@ const Form = () => {
       dispatch(setStatusLoading())
       await validationSchema.validate(formData, { abortEarly: false });
       if (mood === MOOD.ADD) {
-        dispatch(addNewProduct({ newProduct: formData }))
-        dispatch(resitProduct())
+        dispatch(addNewProduct({ newProduct: formData, axiosPrivate }))
       } else {
-        dispatch(updateProduct({ product: formData }))
-        dispatch(resitProduct())
+        dispatch(updateProduct({ product: formData, axiosPrivate }))
       }
     } catch (e) {
       const errors = e.inner?.reduce((acc, { path, message }) => {
@@ -52,11 +52,11 @@ const Form = () => {
     }
   }
   useEffect(() => {
-    dispatch(setCatigories())
+    dispatch(setCategories())
     dispatch(setStatusIdle())
   }, [dispatch])
   useEffect(() => {
-    dispatch(handleInputChangeReducer({ id: 'catigoryId', value: catitories?.[0]?.id }))
+    dispatch(handleInputChangeReducer({ id: 'categoryId', value: catitories?.[0]?.id }))
   }, [catitories, dispatch])
   return (
     <StyledForm onSubmit={handleSubmit}>
@@ -70,17 +70,17 @@ const Form = () => {
         required
         value={formData.name}
       />
-      {errors?.discription && <ErrorForm>{errors?.discription}</ErrorForm>}
+      {errors?.description && <ErrorForm>{errors?.description}</ErrorForm>}
       {/* this div to save the shape of the input as Input component */}
       <div className="input">
-        <Label htmlFor='discription'>discription</Label>
+        <Label htmlFor='description'>description</Label>
         <InputStyle
           as='textarea'
           onChange={handleInputChange}
-          id="discription"
+          id="description"
           type="text"
           placeholder="Type here"
-          value={formData.discription}
+          value={formData.description}
         />
       </div>
       <div className="d-flex">
@@ -97,14 +97,14 @@ const Form = () => {
           />
         </div>
         <div>
-          {errors?.previousPrice && <ErrorForm>{errors?.previousPrice}</ErrorForm>}
+          {errors?.prevPrice && <ErrorForm>{errors?.prevPrice}</ErrorForm>}
           <Input
-            id="previousPrice"
+            id="prevPrice"
             type="number"
             placeholder="0.0"
             label='Privious Price'
             onChange={handleInputChange}
-            value={formData.previousPrice}
+            value={formData.prevPrice}
           />
         </div>
         <div>
@@ -120,17 +120,17 @@ const Form = () => {
         </div>
       </div>
       <div className="d-flex">
-        <Select id="isVisibile"
-          value={formData.isVisibile} onChange={handleInputChange}
-          label={'isVisibile'}
+        <Select id="published"
+          value={formData.published} onChange={handleInputChange}
+          label={'publish'}
           options={[
             {
-              value: 1,
-              label: 'visibile'
+              value: true,
+              label: 'publish'
             },
             {
-              value: 0,
-              label: 'hidden'
+              value: false,
+              label: 'unpublish'
             }
           ]}
           defualt
@@ -162,25 +162,32 @@ const Form = () => {
           ]}
           defualt
         />
-        <Select id="catigoryId"
-          value={formData.catigoryId} onChange={handleInputChange}
-          label={'catigory'}
+        <Select id="categoryId"
+          value={formData.categoryId} onChange={handleInputChange}
+          label={'category'}
           options={
-            catitories?.map((catigory) => ({ 'value': catigory.id, 'label': catigory.name }))
+            catitories?.map((category) => ({ 'value': category.id, 'label': category.name }))
           }
           defualt
         />
       </div>
-      {errors?.images && <ErrorForm>{errors?.images}</ErrorForm>} 
-      <FileHandler images={formData.images} setImages={setImages} />
+      {errors?.images && <ErrorForm>{errors?.images}</ErrorForm>}
+      <FileHandler images={formData?.images && typeof (formData.images) === 'string' ? JSON.parse(formData.images) : formData.images} setImages={setImages} />
       <ButtonAnimation status={status}>
         {
           mood === MOOD.ADD ? 'ADD' : 'UPDATE'
         }
       </ButtonAnimation>
+      {
+        mood === MOOD.UPDATE &&
+        <MainButton style={{marginTop:2}} onClick={() => {
+          dispatch(cancelUpdate())
+        }}>
+          cancel
+        </MainButton>
+      }
       {errors?.isAxiosError && <ErrorForm>{errors?.isAxiosError}</ErrorForm>}
     </StyledForm>
   )
 }
-
 export default Form

@@ -19,7 +19,7 @@ const Product = () => {
   const status = useSelector(selectStatus)
   const isFull = true;
   const currentProduct = products?.find((el) => el.id == product)
-  const { id, discription, stars = '4', name, price, prevPrice, images, count = 1, isVisibile = 0 } = currentProduct
+  const { id, description, stars = '4', name, price, prevPrice, images, count = 1, isVisibile = 0 } = currentProduct
 
   useEffect(() => {
     !products.length &&
@@ -44,7 +44,7 @@ const Product = () => {
                   <Info>
                     <div className="rating"><Rating num={stars} /></div>
                   </Info>
-                  {isFull && <p className="description">{discription}</p>}
+                  {isFull && <p className="description">{description}</p>}
                   <div className="icons">
                     <AddToCartButton  {...{ id }} />
                     <LikeButton {...{ id }} />

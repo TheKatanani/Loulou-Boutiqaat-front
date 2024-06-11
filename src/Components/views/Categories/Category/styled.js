@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const StyledCatigory = styled.div `
+export const Styledcategory = styled.div `
   >.container .data{ 
         background: linear-gradient(45deg,#843abc66,#843abc);
         display: grid;

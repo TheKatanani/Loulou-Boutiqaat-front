@@ -2,7 +2,7 @@ import Input from '../../../Components/Input/index.jsx'
 import { Input as InputStyle, Label } from '../../../Components/Input/style.js'
 import Select from '../../../Components/Select/index.jsx'
 import { useDispatch, useSelector } from 'react-redux'
-import { addNewCatigory, clearError, handleInputChangeReducer, resitCatigory, selectCatigories, selectCatigoriesState, selectError, selectMood, selectStatus, setCatigories, setStatusFailed, setStatusLoading, updateCatigory } from '../../../redux/reducers/catigories.js'
+import { addNewCategory, cancelUpdate, handleInputChangeReducer, selectCategories, selectCategoriesFormData, selectError, selectMood, selectStatus, setCategories, setStatusFailed, updateCategory } from '../../../redux/reducers/categories.js'
 import { useEffect } from 'react'
 import { MOOD } from '../../../Actions/index.js'
 import FileHandler from './FileHandler'
@@ -10,13 +10,18 @@ import { StyledForm } from '../sytled.js'
 import ButtonAnimation from '../../../Components/common/ButtonAnimation/index.jsx'
 import ErrorForm from '../../../Components/ErrorForm/index.jsx'
 import { validationSchema } from './validation.js'
+// import usePost from '../../../Hook/usePost.jsx'
+import useAxiosPrivate from '../../../Hook/useAxiosPrivet.js'
+import { MainButton } from '../../../Global/components.js'
 const Form = () => {
   const dispatch = useDispatch()
-  const catitories = useSelector(selectCatigories)
-  const formData = useSelector(selectCatigoriesState)
+  const catitories = useSelector(selectCategories)
+  const formData = useSelector(selectCategoriesFormData)
   const status = useSelector(selectStatus)
   const errors = useSelector(selectError);
   const mood = useSelector(selectMood)
+  // const { error, fetchData, isLoading } = usePost()
+  const axiosPrivate = useAxiosPrivate()
   const handleInputChange = (e) => {
     const {
       id,
@@ -30,15 +35,17 @@ const Form = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      dispatch(setStatusLoading(true));
-      dispatch(clearError());
+      // dispatch(setStatusLoading(true));
+      // dispatch(clearError());
       await validationSchema.validate(formData, { abortEarly: false });
       if (mood === MOOD.ADD) {
-        dispatch(addNewCatigory({ newCatigory: formData }))
-        dispatch(resitCatigory())
+        // const response = await fetchData('/category', formData)  //this is plan B
+
+        dispatch(addNewCategory({ newcategory: formData, axiosPrivate })) //I wanna try to put all logic in the redux toll kit
+
       } else {
-        dispatch(updateCatigory({ catigory: formData }))
-        dispatch(resitCatigory())
+        dispatch(updateCategory({ category: formData ,axiosPrivate }))
+        // dispatch(resitCategory())
       }
     } catch (e) {
       const errors = e.inner?.reduce((acc, { path, message }) => {
@@ -49,10 +56,10 @@ const Form = () => {
     }
   }
   useEffect(() => {
-    dispatch(setCatigories())
+    dispatch(setCategories())
   }, [dispatch])
   useEffect(() => {
-    dispatch(handleInputChangeReducer({ id: 'catigoryId', value: catitories?.[0]?.id }))
+    dispatch(handleInputChangeReducer({ id: 'categoryId', value: catitories?.[0]?.id }))
   }, [catitories, dispatch])
   return (
     <StyledForm onSubmit={handleSubmit}>
@@ -66,32 +73,31 @@ const Form = () => {
         label="User Name"
         value={formData.name}
       />
-      {errors?.discription && <ErrorForm>{errors?.discription}</ErrorForm>}
+      {errors?.description && <ErrorForm>{errors?.description}</ErrorForm>}
       <div className="input">
-
-        <Label htmlFor='discription'>discription</Label>
+        <Label htmlFor='description'>description</Label>
         <InputStyle
           as='textarea'
           onChange={handleInputChange}
-          id="discription"
+          id="description"
           type="text"
           placeholder="Type here"
-          value={formData.discription}
+          value={formData.description}
         />
       </div>
 
       <div className="d-flex">
-        <Select id="isVisibile"
-          value={formData.isVisibile} onChange={handleInputChange}
-          label={'isVisibile'}
+        <Select id="published"
+          value={formData.publish} onChange={handleInputChange}
+          label={'published'}
           options={[
             {
               value: true,
-              label: 'visibile'
+              label: 'publish'
             },
             {
               value: false,
-              label: 'hidden'
+              label: 'unpublish'
             }
           ]}
           defualt
@@ -104,7 +110,17 @@ const Form = () => {
           mood === MOOD.ADD ? 'ADD' : 'UPDATE'
         }
       </ButtonAnimation>
-      {errors?.isAxiosError && <ErrorForm>{errors?.isAxiosError}</ErrorForm>}
+      {
+        mood === MOOD.UPDATE &&
+        <MainButton onClick={()=>{
+            dispatch(cancelUpdate())
+        }}>
+          cancel
+        </MainButton> 
+      }
+      {errors?.isAxiosError && 
+      <ErrorForm>{errors?.isAxiosError}</ErrorForm>
+      }
 
     </StyledForm>
   )
