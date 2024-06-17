@@ -8,14 +8,14 @@ import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import LogoLoading from '../../../common/LogoLoading'
 import { useSelector } from 'react-redux'
-import { selectProducts, selectStatus } from '../../../../redux/reducers/products'
+import { selectPublishedProducts, selectStatus } from '../../../../redux/reducers/products'
 import { STATUS } from '../../../../Actions'
 const Category = ({ name, id }) => {
-  const products = useSelector(selectProducts)
+  const products = useSelector(selectPublishedProducts)
   const status = useSelector(selectStatus)
   // eslint-disable-next-line no-unused-vars
   const [limit, setLimit] = useState(4)
-  const [categoryProducts, setcategoryProducts] = useState([])
+  const [categoryProducts, setCategoryProducts] = useState([])
   const [page, setPage] = useState(0)
   const [disaple, setDisaple] = useState({
     prev: true,
@@ -40,11 +40,9 @@ const Category = ({ name, id }) => {
   }, [sliderHandler])
   useEffect(() => {
     // status === STATUS.SUCCEEDED &&
-    setcategoryProducts(products?.filter((product) => product.categoryId == id))
+    setCategoryProducts(products)
   }, [products, id, status])
-  const element = categoryProducts?.find(product => {
-    return +product.count > 0 && parseInt(product.isVisibile) === 1
-  })
+   
   if (status === STATUS.LOADING) {
     return <LogoLoading />
   }
@@ -53,7 +51,7 @@ const Category = ({ name, id }) => {
       <Styledcategory {...{ page }}>
         <Container className='container'>
           {
-            categoryProducts.length && element ?
+            categoryProducts.length  ?
               <>
                 <Link to={`/home/categories/${id}`}>
                   <TitleSections>{name}</TitleSections>

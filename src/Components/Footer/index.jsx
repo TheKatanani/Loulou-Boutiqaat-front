@@ -8,12 +8,12 @@ import { selectSocial, setSocial } from '../../redux/reducers/social'
 import { Link } from 'react-router-dom'
 import { useEffect } from 'react'
 import Copy from '../UI/Copy'
-import { selectCategories } from '../../redux/reducers/categories'
+import { selectPublishedCategoryies } from '../../redux/reducers/categories'
 // import { selectPublishedProducts } from '../../redux/reducers/products'
 const Footer = () => {
     const dispatch = useDispatch()
     const social = useSelector(selectSocial)
-    const categories = useSelector(selectCategories)
+    const categories = useSelector(selectPublishedCategoryies)
     // const products = useSelector(selectPublishedProducts)
     // const validcategories = categories?.map((category) => {
     //     return products.find(product => {
@@ -28,7 +28,7 @@ const Footer = () => {
         {
             title: 'categories',
             data:
-            categories.map(category => {
+                categories.map(category => {
                     return (
                         {
                             'text': category?.name,

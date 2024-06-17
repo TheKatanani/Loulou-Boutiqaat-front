@@ -27,14 +27,23 @@ const cartSlice = createSlice({
       state.error = [];
       state.status = ''
     },
+    setCartLocal: (state) => {
+      let cart = JSON.parse(localStorage.getItem('cart'))
+      if (cart?.length) {
+        state.cart = cart
+        state.quantity = cart.reduce((_quantity, item) => item.quantity + _quantity, 0)
+      }
+    },
     addToCartLocal: (state, action) => {
       const {
         productId
       } = action.payload
-      state.cart = [...state.cart, {
+      const newCart = [...state.cart, {
         productId,
         quantity: 1
       }]
+      state.cart = newCart
+      localStorage.setItem('cart', JSON.stringify(newCart))
       state.quantity = state.cart.reduce((_quantity, item) => item.quantity + _quantity, 0)
     },
     removeFromCartLocal: (state, action) => {
@@ -53,44 +62,49 @@ const cartSlice = createSlice({
       })
       .addCase(setCart.fulfilled, (state, action) => {
         state.status = STATUS.SUCCEEDED;
-        // to see if the user add any item when he was a gust
-        if (Array.isArray(state.cart)) {
-          let newCart = [];
-          [...state.cart, ...action.payload.data].forEach(el => {
-            const founded = newCart.find(e => e.productId === el.productId) 
-            !founded && newCart.push(el)
-          })
-          state.cart = newCart
-        } else {
-          state.cart = action.payload.data
-        }
+        state.cart = action.payload.data
         state.quantity = state?.cart?.reduce((_quantity, item) => item.quantity + _quantity, 0)
       })
       .addCase(setCart.rejected, (state, action) => {
         state.status = STATUS.FAILED;
-        state.error = action.payload;
+        state.error = action.error;
       })
       //  addToCart
       .addCase(addToCart.pending, (state) => {
         state.status = STATUS.LOADING;
+        state.error = null
       })
       .addCase(addToCart.fulfilled, (state, action) => {
         state.status = STATUS.SUCCEEDED;
-        state.cart = action.payload.data;
-        state.quantity = action?.payload?.data?.reduce((_quantity, item) => item.quantity + _quantity, 0)
+        state.cart = [...state.cart, action.payload];
+        state.quantity = state.cart?.reduce((_quantity, item) => item.quantity + _quantity, 0)
       })
       .addCase(addToCart.rejected, (state, action) => {
         state.status = STATUS.FAILED;
-        state.error = action.payload;
+        state.error = action.error;
+      })
+      //  uploadLocalCart
+      .addCase(uploadLocalCart.pending, (state) => {
+        state.status = STATUS.LOADING;
+        state.error = null
+      })
+      .addCase(uploadLocalCart.fulfilled, (state) => {
+        state.status = STATUS.SUCCEEDED;  
+        localStorage.getItem('cart') && localStorage.removeItem('cart')
+      })
+      .addCase(uploadLocalCart.rejected, (state, action) => {
+        state.status = STATUS.FAILED;
+        state.error = action.error;
       })
       // removeFromCart
       .addCase(removeFromCart.pending, (state) => {
         state.status = STATUS.LOADING;
+        state.error = null
       })
       .addCase(removeFromCart.fulfilled, (state, action) => {
         state.status = STATUS.SUCCEEDED;
-        state.cart = action.payload.data;
-        state.quantity = action?.payload?.data?.reduce((_quantity, item) => item.quantity + _quantity, 0)
+        state.cart = state.cart.filter(item => +item.productId !== +action.payload);
+        state.quantity = state.cart?.reduce((_quantity, item) => item.quantity + _quantity, 0)
       })
       .addCase(removeFromCart.rejected, (state, action) => {
         state.status = STATUS.FAILED;
@@ -122,14 +136,28 @@ const cartSlice = createSlice({
         state.status = STATUS.FAILED;
         state.error = action.payload;
       })
+      // quantityCartItem
+      .addCase(quantityCartItem.pending, (state) => {
+        state.status = STATUS.LOADING;
+        state.error = null
+      })
+      .addCase(quantityCartItem.fulfilled, (state, action) => {
+        state.status = STATUS.SUCCEEDED;
+        state.cart = action.payload;
+        state.quantity = state.cart?.reduce((_quantity, item) => item.quantity + _quantity, 0)
+      })
+      .addCase(quantityCartItem.rejected, (state, action) => {
+        state.status = STATUS.FAILED;
+        state.error = action.payload;
+      })
       // clearCart
       .addCase(clearCart.pending, (state) => {
         state.status = STATUS.LOADING;
       })
       .addCase(clearCart.fulfilled, (state, action) => {
         state.status = STATUS.SUCCEEDED;
-        state.cart = action.payload.data;
-        state.quantity = action?.payload?.data?.reduce((_quantity, item) => item.quantity + _quantity, 0)
+        state.cart = [];
+        state.quantity = state.cart?.reduce((_quantity, item) => item.quantity + _quantity, 0)
       })
       .addCase(clearCart.rejected, (state, action) => {
         state.status = STATUS.FAILED;
@@ -140,9 +168,9 @@ const cartSlice = createSlice({
 export const setCart = createAsyncThunk(
   "cart/setCart",
   async ({
-    userId
+    axiosPrivate
   }) => {
-    const response = await axios.get(`${API}/cart/${userId}`);
+    const response = await axiosPrivate.get(`/cart`);
     return response.data
   }
 )
@@ -150,35 +178,31 @@ export const addToCart = createAsyncThunk(
   "cart/addToCart",
   async ({
     productId,
-    userId,
-    cart
+    axiosPrivate
   }) => {
-    const cartItems = await axios.get(`${API}/cart`)
-    const isExist = cartItems.data.find(el => el.id === userId)
-    if (isExist) {
-      const newCart = [...(new Set([...cart, {
-        productId,
-        quantity: 1
-      }]))]
-      const response = await axios.put(`${API}/cart/${userId}`, {
-        data: newCart
-      });
-      return response.data
-    } else {
-      const newCart = [...(new Set([{
-        productId,
-        quantity: 1
-      }]))]
-      const response = await axios.post(`${API}/cart`, {
-        id: userId,
-        data: newCart
+    const response = await axiosPrivate.post(`/cart`, {
+      productId,
+      quantity: 1
+    });
+    return response.data
+  }
+)
+export const uploadLocalCart = createAsyncThunk(
+  "cart/uploadLocalCart",
+  async ({
+    axiosPrivate
+  }) => {
+    const localCart = JSON.parse(localStorage.getItem('cart'))
+    if (localCart?.length) {
+      const response = await axiosPrivate.put(`/cart`, {
+        localCart
       });
       return response.data
     }
   }
 )
 export const increase = createAsyncThunk(
-  "cart/increse",
+  "cart/increase",
   async ({
     productId,
     userId,
@@ -211,12 +235,27 @@ export const decrease = createAsyncThunk(
     return response.data
   }
 )
+export const quantityCartItem = createAsyncThunk(
+  "cart/quantityCartItem",
+  async ({
+    productId,
+    operator,
+    axiosPrivate
+  }) => {
+
+    const response = await axiosPrivate.put(`/cart/${productId}`, {
+      operator
+    });
+    return response.data
+  }
+)
 export const clearCart = createAsyncThunk(
   "cart/clearCart",
   async ({
-    userId
+    userId,
+    axiosPrivate
   }) => {
-    const response = await axios.delete(`${API}/cart/${userId}`);
+    const response = await axiosPrivate.delete(`/cart/clearCart`);
     return response.data
   }
 )
@@ -224,13 +263,9 @@ export const removeFromCart = createAsyncThunk(
   "cart/removeFromCart",
   async ({
     productId,
-    userId,
-    cart
+    axiosPrivate
   }) => {
-    const newCart = cart?.filter(el => el.productId !== productId)
-    const response = await axios.put(`${API}/cart/${userId}`, {
-      data: newCart
-    });
+    const response = await axiosPrivate.delete(`/cart/${productId}`);
     return response.data
   }
 )
@@ -239,7 +274,8 @@ export const {
   getItemsQuantity,
   addToCartLocal,
   removeFromCartLocal,
-  resetState
+  resetState,
+  setCartLocal
 } = cartSlice.actions
 export const selectCart = state => state.cart.cart
 export const selectQuantity = state => state.cart.quantity

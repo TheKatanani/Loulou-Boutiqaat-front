@@ -5,10 +5,6 @@ import {
 import {
   STATUS
 } from '../../Actions';
-import {
-  API
-} from '../../API';
-import axios from 'axios';
 const savedSlice = createSlice({
   name: 'saved',
   initialState: {
@@ -22,11 +18,19 @@ const savedSlice = createSlice({
       state.error = [];
       state.status = ''
     },
+    setSavedLocal: (state) => {
+      let saved = JSON.parse(localStorage.getItem('saved'))
+      if (saved?.length) {
+        state.saved = saved
+      }
+    },
     addTosavedLocal: (state, action) => {
       const {
         productId
       } = action.payload
-      state.saved = [...state.saved, productId]
+      const newSaved = [...state.saved, productId]
+      state.saved = newSaved
+      localStorage.setItem('saved', JSON.stringify(newSaved))
     },
     removeFromsavedLocal: (state, action) => {
       const {
@@ -40,23 +44,28 @@ const savedSlice = createSlice({
       // setSaved
       .addCase(setSaved.pending, (state) => {
         state.status = STATUS.LOADING;
+        state.error = null
       })
       .addCase(setSaved.fulfilled, (state, action) => {
         state.status = STATUS.SUCCEEDED;
-        if (Array.isArray(state.saved)) {
-          let newSaved = [];
-          [...state.saved, ...action.payload.data].forEach(el => {
-            const founded = newSaved.find(e => e === el) 
-            !founded && newSaved.push(el)
-          })
-          state.saved = newSaved
-        } else {
-          state.saved = action.payload.data
-        }
+        state.saved = action.payload.data 
       })
       .addCase(setSaved.rejected, (state, action) => {
         state.status = STATUS.FAILED;
-        state.error = action.payload;
+        state.error = action.error;
+      })
+      // uploadLocalSaved
+      .addCase(uploadLocalSaved.pending, (state) => {
+        state.status = STATUS.LOADING;
+        state.error = null
+      })
+      .addCase(uploadLocalSaved.fulfilled, (state, action) => {
+        state.status = STATUS.SUCCEEDED; 
+        localStorage.getItem('saved') && localStorage.removeItem('saved')
+      })
+      .addCase(uploadLocalSaved.rejected, (state, action) => {
+        state.status = STATUS.FAILED;
+        state.error = action.error;
       })
       // addToSaved
       .addCase(addToSaved.pending, (state) => {
@@ -64,19 +73,20 @@ const savedSlice = createSlice({
       })
       .addCase(addToSaved.fulfilled, (state, action) => {
         state.status = STATUS.SUCCEEDED;
-        state.saved = action.payload.data;
+        state.saved = [...state.saved, action.payload];
       })
       .addCase(addToSaved.rejected, (state, action) => {
         state.status = STATUS.FAILED;
-        state.error = action.payload;
+        state.error = action.error;
       })
       // removeFromSaved
       .addCase(removeFromSaved.pending, (state) => {
         state.status = STATUS.LOADING;
+        state.error = null
       })
       .addCase(removeFromSaved.fulfilled, (state, action) => {
         state.status = STATUS.SUCCEEDED;
-        state.saved = action.payload.data;
+        state.saved = state.saved.filter(item => +item !== +action.payload);
       })
       .addCase(removeFromSaved.rejected, (state, action) => {
         state.status = STATUS.FAILED;
@@ -87,49 +97,45 @@ const savedSlice = createSlice({
 export const setSaved = createAsyncThunk(
   "saved/setSaved",
   async ({
-    userId
+    axiosPrivate
   }) => {
-    const response = await axios.get(`${API}/saved/${userId}`);
+    const response = await axiosPrivate.get(`/saved`);
     return response.data
+  }
+)
+export const uploadLocalSaved = createAsyncThunk(
+  "saved/uploadLocalSaved",
+  async ({
+    axiosPrivate
+  }) => {
+    const localSaved = JSON.parse(localStorage.getItem('saved'))
+    if (localSaved?.length) {
+      const response = await axiosPrivate.put(`/saved`, {
+        localSaved
+      });
+      return response.data
+    }
   }
 )
 export const addToSaved = createAsyncThunk(
   "saved/addTosaved",
   async ({
     productId,
-    userId,
-    saved
+    axiosPrivate
   }) => {
-    const savedItems = await axios.get(`${API}/saved`)
-    const isExist = savedItems.data.find(el => el.id === userId)
-
-    if (isExist) {
-      const newsaved = [...(new Set([...saved, productId]))]
-      const response = await axios.put(`${API}/saved/${userId}`, {
-        data: newsaved
-      });
-      return response.data
-    } else {
-      const newsaved = [productId]
-      const response = await axios.post(`${API}/saved`, {
-        id: userId,
-        data: newsaved
-      });
-      return response.data
-    }
+    const response = await axiosPrivate.post(`/saved`, {
+      productId
+    })
+    return response.data
   }
 )
 export const removeFromSaved = createAsyncThunk(
   "saved/removeFromSaved",
   async ({
     productId,
-    userId,
-    saved
+    axiosPrivate
   }) => {
-    const newSaved = saved?.filter(el => el !== productId)
-    const response = await axios.put(`${API}/saved/${userId}`, {
-      data: newSaved
-    });
+    const response = await axiosPrivate.delete(`/saved/${productId}`);
     return response.data
   }
 )
@@ -137,7 +143,8 @@ export const removeFromSaved = createAsyncThunk(
 export const {
   resetState,
   addTosavedLocal,
-  removeFromsavedLocal
+  removeFromsavedLocal,
+  setSavedLocal
 } = savedSlice.actions
 export const selectsaved = state => state.saved.saved
 export default savedSlice.reducer;

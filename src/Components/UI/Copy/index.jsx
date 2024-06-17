@@ -8,10 +8,9 @@ const StyledCopy = styled.p`
         background-color: ${(props) => props.theme.palette.ColorApp.primary_light};
         color:${(props) => props.theme.palette.ColorApp.dark}; 
         a{
-            color:${(props) => props.theme.palette.ColorApp.primary};
+            color:${(props) => props.theme.palette.ColorApp.dark};
             font-weight:bold;
-            font-size:1.2rem;
-            text-shadow: 1px 1px 1px ${(props) => props.theme.palette.ColorApp.dark};
+            font-size:1.2rem; 
         }
 `
 const Copy = () => {

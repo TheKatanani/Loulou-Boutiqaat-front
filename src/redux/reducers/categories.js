@@ -17,6 +17,7 @@ export const categoriesSlice = createSlice({
   name: 'categories',
   initialState: {
     categories: [],
+    published:[],
     formData: initailState,
     mood: MOOD.ADD,
     status: 'idle',
@@ -71,6 +72,23 @@ export const categoriesSlice = createSlice({
         state.categories = action.payload;
       })
       .addCase(setCategories.rejected, (state, action) => {
+        state.status = STATUS.FAILED;
+        if (action.error?.name === "AxiosError") {
+          state.error = {
+            isAxiosError: action?.error?.message
+          }
+        } else {
+          state.error = action?.error;
+        }
+      })
+      .addCase(setPublishedCategories.pending, (state) => {
+        state.status = STATUS.LOADING;
+      })
+      .addCase(setPublishedCategories.fulfilled, (state, action) => {
+        state.status = STATUS.SUCCEEDED;
+        state.published = action.payload;
+      })
+      .addCase(setPublishedCategories.rejected, (state, action) => {
         state.status = STATUS.FAILED;
         if (action.error?.name === "AxiosError") {
           state.error = {
@@ -147,6 +165,13 @@ export const setCategories = createAsyncThunk(
     return response.data
   }
 )
+export const setPublishedCategories = createAsyncThunk(
+  "categories/setPublishedCategories",
+  async () => {
+    const response = await axios.get(`/category/published`);
+    return response.data
+  }
+)
 export const addNewCategory = createAsyncThunk(
   "categories/addNewCategory",
   async ({
@@ -194,6 +219,7 @@ export const {
 
 export const selectStatus = state => state.categories.status;
 export const selectCategories = state => state.categories.categories;
+export const selectPublishedCategoryies = state => state.categories.published;
 export const selectCategoriesFormData = state => state.categories.formData;
 export const selectError = state => state.categories.error;
 export const selectMood = state => state.categories.mood;

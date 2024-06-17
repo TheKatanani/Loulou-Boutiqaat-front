@@ -4,6 +4,9 @@ export const FooterStyled = styled.div `
     background-color:${(props) => props.theme.palette.main};
     color:${(props) => props.theme.palette.font};
     border-top: 1px solid ${(props) => props.theme.palette.ColorApp.primary_light};
+    a{
+        color:${(props) => props.theme.palette.ColorApp.primary_light};
+    }
     .container{
         padding: 20px auto 0;
         min-height:256px;
@@ -47,7 +50,15 @@ export const FooterStyled = styled.div `
         grid-template-columns: repeat(auto-fill,130px);
         flex-wrap: wrap;
     }
-        ${({theme:{media}})=>`${media.xs} or (${media.s.split("@media")[1]} and (max-width: 992px))`}{ 
+        ${({theme:{media}})=>`
+$ {
+    media.xs
+}
+or($ {
+        media.s.split("@media")[1]
+    }
+    and(max - width: 992 px))
+`}{ 
         height:unset;
         >div{
             display: block;
@@ -63,7 +74,7 @@ export const FooterStyled = styled.div `
             }
         }
         *{
-            margin:10px auto;
+            margin:10px auto 0;
         }
     }
     

@@ -7,8 +7,6 @@ exports["default"] = exports.showPassword = exports.handleCheckBoxChange = expor
 
 var _toolkit = require("@reduxjs/toolkit");
 
-var _Actions = require("../../Actions");
-
 var initailState = {
   phone: "",
   selectPhone: "+972",

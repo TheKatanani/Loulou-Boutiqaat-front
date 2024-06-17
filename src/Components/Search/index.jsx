@@ -4,17 +4,17 @@ import LogoLoading from "../common/LogoLoading";
 import { Link, useNavigate } from "react-router-dom";
 import { STATUS } from "../../Actions";
 import { useDispatch, useSelector } from "react-redux";
-import { selectCategories, selectStatus } from "../../redux/reducers/categories";
-import { fetchSearchResults, selectCategory, selectSearchResults, selectSearchTerm, setCategory, setSearchTerm } from "../../redux/reducers/search";
+import { selectPublishedCategoryies, selectStatus } from "../../redux/reducers/categories";
+import { fetchSearchResults, selectCategoryId, selectSearchResults, selectSearchTerm, setCategory, setSearchTerm } from "../../redux/reducers/search";
 
 function SearchComponent({ isOnChangeRequest = false }) {
   const [blur, setBlur] = useState(true);
   const dispatch = useDispatch()
   const { data: myResults } = useSelector(selectSearchResults)
-  const categories = useSelector(selectCategories)
+  const categories = useSelector(selectPublishedCategoryies)
   const status = useSelector(selectStatus)
   const searchTerm = useSelector(selectSearchTerm)
-  const categoryId = useSelector(selectCategory)
+  const categoryId = useSelector(selectCategoryId)
   const navigate = useNavigate()
 
   const handleEnterKeyDown = (event) => {

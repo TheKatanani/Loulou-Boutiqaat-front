@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 
 import { Container } from '../../Global/components';
 import ErrorForm from '../../Components/ErrorForm';
-import { handleCheckBoxChange, handleInputChange, selectFormData, showPassword, selectStatus, selectError, setStatusIdle } from '../../redux/reducers/auth.js';
+import { handleCheckBoxChange, handleInputChange, selectFormData, showPassword, selectStatus, selectError, setStatusIdle, SelectIsAuthenticated } from '../../redux/reducers/auth.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { API2 } from '../../API.js';
 import { handleLogin } from '../../redux/reducers/auth.js';
@@ -21,8 +21,9 @@ function SignIn() {
     const formData = useSelector(selectFormData);
     const status = useSelector(selectStatus)
     const errors = useSelector(selectError)
+    const isAuthenticated = useSelector(SelectIsAuthenticated)
     const dispatch = useDispatch()
-    const { data: allowedPhones, error,isLoading } = useFetch(`${API2}/countryCode`)
+    const { data: allowedPhones, error, isLoading } = useFetch(`${API2}/countryCode`)
     // // // // // // // // /// // // // // // // // // /// // // // // // // // // /// 
     const handleInputChangeFunc = (event) => {
         const { id, value } = event.target;
@@ -32,15 +33,15 @@ function SignIn() {
     const handleCheckBoxChangeFunc = (e) => dispatch(handleCheckBoxChange({ id: e.target.id, checked: e.target.checked }));
     // // // // // // // // /// // // // // // // // // /// // // // // // // // // /// 
     const handleSubmit = async (e) => {
-        e.preventDefault();  
+        e.preventDefault();
         dispatch(handleLogin({ formData }))
     };
     useEffect(() => {
-        setStatusIdle() 
+        setStatusIdle()
     })
-    if ( isLoading) {
+    if (isLoading) {
         return <LogoLoading />
-    }  
+    }
     if (error) {
         return <p>{error}</p>
     }

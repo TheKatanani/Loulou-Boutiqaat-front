@@ -5,21 +5,21 @@ import { images as localImages } from '../../Mock/sliderImages'
 import { Container, Info } from '../../Global/components'
 import Rating from '../../Components/Rating'
 import AddToCartButton from '../../Components/AddToCartButton'
-import LikeButton from '../../Components/LikeButton'
+import SavedButton from '../../Components/SavedButton'
 import { useDispatch, useSelector } from 'react-redux'
 import LogoLoading from '../../Components/common/LogoLoading'
 import { STATUS } from '../../Actions'
-import { selectStatus, setProducts } from '../../redux/reducers/products'
+import { selectPublishedProducts, selectStatus, setProducts } from '../../redux/reducers/products'
 import { StyledProductPage } from './styled'
 
 const Product = () => {
-  const { product } = useParams()
+  const { productId } = useParams()
   const dispatch = useDispatch()
-  const products = useSelector((state) => state.products.products)
+  const products = useSelector(selectPublishedProducts)
   const status = useSelector(selectStatus)
   const isFull = true;
-  const currentProduct = products?.find((el) => el.id == product)
-  const { id, description, stars = '4', name, price, prevPrice, images, count = 1, isVisibile = 0 } = currentProduct
+  const currentProduct = products?.find((el) => el.id == productId)
+  const { id, description, stars = '4', name, price, prevPrice, images, count = 1 } = currentProduct
 
   useEffect(() => {
     !products.length &&
@@ -31,7 +31,7 @@ const Product = () => {
   return (
     <>
       {
-        !(parseInt(isVisibile) === 0 || count <= 0) ?
+        !(count <= 0) ?
           <Container>
             <StyledProductPage >
               <div className="card">
@@ -47,7 +47,7 @@ const Product = () => {
                   {isFull && <p className="description">{description}</p>}
                   <div className="icons">
                     <AddToCartButton  {...{ id }} />
-                    <LikeButton {...{ id }} />
+                    <SavedButton {...{ id }} />
                   </div>
                 </div>
               </div>

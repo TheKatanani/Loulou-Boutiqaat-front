@@ -5,7 +5,7 @@ import useRefreshToken from "./useRefreshToken";
 import {
   useSelector
 } from "react-redux";
-import {
+import { 
   selectToken
 } from "../redux/reducers/auth";
 import {
@@ -13,7 +13,7 @@ import {
 } from "react";
 const useAxiosPrivate = () => {
   const refresh = useRefreshToken()
-  const token = useSelector(selectToken) 
+  const token = useSelector(selectToken)  
   useEffect(() => {
     const requestIntercept = axiosPrivate.interceptors.request.use(
       (config) => {
@@ -28,9 +28,9 @@ const useAxiosPrivate = () => {
       response => response,
       async (err) => {
         const prevRequest = err?.config;
-        if (err?.response?.status === 403) { 
-        // if (err?.response?.status === 403 && !prevRequest.sent) {
-        //   prevRequest.sent = true
+        // if (err?.response?.status === 403) { 
+        if (err?.response?.status === 403 && !prevRequest.sent) {
+          prevRequest.sent = true
           const newRefreshToken = await refresh()
           prevRequest.headers['Authorization'] = `Bearer ${newRefreshToken}`
           return axiosPrivate(prevRequest);

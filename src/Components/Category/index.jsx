@@ -3,13 +3,13 @@ import { CategoryStyled } from './styles'
 import LogoLoading from '../common/LogoLoading'
 import { STATUS } from '../../Actions'
 import { useSelector } from 'react-redux'
-import { selectCategories } from '../../redux/reducers/categories'
+import { selectPublishedCategoryies } from '../../redux/reducers/categories'
 import { selectStatus } from '../../redux/reducers/categories'
-import { selectProducts } from '../../redux/reducers/products'
+import { selectPublishedProducts } from '../../redux/reducers/products'
 
 const Category = () => {
-    const categories = useSelector(selectCategories)
-    const products = useSelector(selectProducts)
+    const categories = useSelector(selectPublishedCategoryies)
+    const products = useSelector(selectPublishedProducts)
     const status = useSelector(selectStatus)
     if (status === STATUS.LOADING) {
         return <LogoLoading />
@@ -22,7 +22,7 @@ const Category = () => {
                     categories?.map((category) => {
                         return products.find(product => {
                             if (product.categoryId == category.id)
-                                if (product.count > 0 && parseInt(product.isVisibile) === 1) {
+                                if (product.count > 0 ) {
                                     return product
                                 }
                             return undefined

@@ -2,7 +2,7 @@ import Input from '../../../Components/Input/index.jsx'
 import { Input as InputStyle, Label } from '../../../Components/Input/style.js'
 import Select from '../../../Components/Select/index.jsx'
 import { useDispatch, useSelector } from 'react-redux'
-import { addNewCategory, cancelUpdate, handleInputChangeReducer, selectCategories, selectCategoriesFormData, selectError, selectMood, selectStatus, setCategories, setStatusFailed, updateCategory } from '../../../redux/reducers/categories.js'
+import { addNewCategory, cancelUpdate, handleInputChangeReducer, selectPublishedCategoryies, selectCategoriesFormData, selectError, selectMood, selectStatus, setCategories, setStatusFailed, updateCategory } from '../../../redux/reducers/categories.js'
 import { useEffect } from 'react'
 import { MOOD } from '../../../Actions/index.js'
 import FileHandler from './FileHandler'
@@ -15,7 +15,7 @@ import useAxiosPrivate from '../../../Hook/useAxiosPrivet.js'
 import { MainButton } from '../../../Global/components.js'
 const Form = () => {
   const dispatch = useDispatch()
-  const catitories = useSelector(selectCategories)
+  const catitories = useSelector(selectPublishedCategoryies)
   const formData = useSelector(selectCategoriesFormData)
   const status = useSelector(selectStatus)
   const errors = useSelector(selectError);
@@ -44,7 +44,7 @@ const Form = () => {
         dispatch(addNewCategory({ newcategory: formData, axiosPrivate })) //I wanna try to put all logic in the redux toll kit
 
       } else {
-        dispatch(updateCategory({ category: formData ,axiosPrivate }))
+        dispatch(updateCategory({ category: formData, axiosPrivate }))
         // dispatch(resitCategory())
       }
     } catch (e) {
@@ -112,14 +112,14 @@ const Form = () => {
       </ButtonAnimation>
       {
         mood === MOOD.UPDATE &&
-        <MainButton onClick={()=>{
-            dispatch(cancelUpdate())
+        <MainButton onClick={() => {
+          dispatch(cancelUpdate())
         }}>
           cancel
-        </MainButton> 
+        </MainButton>
       }
-      {errors?.isAxiosError && 
-      <ErrorForm>{errors?.isAxiosError}</ErrorForm>
+      {errors?.isAxiosError &&
+        <ErrorForm>{errors?.isAxiosError}</ErrorForm>
       }
 
     </StyledForm>

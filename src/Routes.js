@@ -67,13 +67,13 @@ const MyRoutes = () => {
         <Route index element={<Navigate to='/home'/>}/>
         <Route path="home" element={<Layout/>}>
           <Route index element={<Home />} />
-          <Route path="catigories">
+          <Route path="categories">
             <Route index element={<Categories />} />
-            <Route path=":category" element={<Category />} /> 
+            <Route path=":categoryId" element={<Category />} /> 
           </Route>
           <Route path="products">
             <Route index element={<Categories />} />
-            <Route path=":product" element={<Product />} /> 
+            <Route path=":productId" element={<Product />} /> 
           </Route>
           <Route path="search" element={<Search />} />
           <Route path="profile" element={<PrivateRoute requireRole={[ROLES.USER,ROLES.ADMIN,ROLES.EDITOR]}/>}>

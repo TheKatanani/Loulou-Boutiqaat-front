@@ -1,13 +1,16 @@
 import styled from "styled-components";
 
 export const StyledTransactionOne = styled.div `
+  background-color: ${props=>props.theme.palette.main};
   padding: 60px 0;
   min-height: calc(100vh - 113px);
 ${({card,theme})=>(
   card==='one'?`
 `:`
 background - color: $ {
-  ${theme.palette.main}
+  $ {
+    theme.palette.main
+  }
 };
 `
 )}
@@ -32,7 +35,7 @@ background - color: $ {
 }
 `
 export const StyledCard = styled.a `
-text-decoration: none;
+  text-decoration: none;
   color: #fff; 
   overflow: hidden;
   position:relative;
@@ -95,51 +98,22 @@ footer{
     transition: 0.4s ease-in-out;
     z-index: 2;
   } 
-  ${({card})=>(
-    card==='one'?`
-min-width: 200px;
-min-height: 200px;
-
-:hover {
-  ::before {
-    opacity: 1;
-  }
-}
-
-:hover {
-  img {
-    transform: scale(1);
-  }
-}:hover {
-  .arrow {
-    transform: translatex(0 rem);
-  }
-}
-
-: hover {
-  header,
-  footer {
-    transform: translateY(0);
-    opacity: 1;
-    visibility: visible;
-  }
-}
-`:`
-width:100px;
-height:300px;
-  &.active {
-  width: 300px;
-}  &.active {
+    
+  width:100px;
+  height:300px;
+    &.active {
+    width: 300px;
+  }  &.active {
   .arrow {
     transform: translatex(0rem);
   }
-} &.active {
-  ::before {
-    opacity: 0.35;
-  }
-} >
-div { 
-  }
+  } &.active {
+    ::before {
+      opacity: 0.35;
+    }
+  } >
+  div { 
+    }
 
   header,footer{
 
@@ -151,11 +125,11 @@ div {
 
   }
 
-   &.active {
+  &.active {
 
     header,
 
-   footer{
+  footer{
 
     transform: translateY(0);
 
@@ -165,14 +139,5 @@ div {
 
   }
 
-  }
-
-    `
-
-  )}
-
-
-
-  
-
+  }   
 `

@@ -1,9 +1,7 @@
+//delete this 
 import {
     createSlice
-} from '@reduxjs/toolkit';
-import {
-    STATUS
-} from '../../Actions';
+} from '@reduxjs/toolkit'; 
 const initailState = {
     phone: "",
     selectPhone: "+972",

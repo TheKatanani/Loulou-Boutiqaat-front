@@ -8,13 +8,10 @@ import img7 from '../Images/rasm.png';
 import img8 from '../Images/image98.png';
 import img9 from '../Images/image 28.png';
 import imgCountry from '../Images/US@2x.png';
-import imgCountry2 from '../Images/DE@2x.png';
-import imgProduct from '../Images/image33.png'
-import img2Product from '../Images/image23.png'
-import img3Product from '../Images/image35.png'
-import Rating from '../Components/Rating';
- 
-  
+import imgCountry2 from '../Images/DE@2x.png'; 
+import Rating from '../Components/Rating'; 
+
+
 export const selectData = {
     Help: [{
             value: "",

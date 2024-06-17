@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = exports.selectError = exports.selectCategory = exports.selectSearchTerm = exports.selectStatus = exports.selectSearchResults = exports.clearError = exports.setStatusFailed = exports.setStatusSucceeded = exports.setStatusLoading = exports.setStatusIdle = exports.setSearchResults = exports.setCategory = exports.setSearchTerm = exports.fetchSearchResults = exports.productsSlice = void 0;
+exports["default"] = exports.selectError = exports.selectCategoryId = exports.selectSearchTerm = exports.selectStatus = exports.selectSearchResults = exports.clearError = exports.setStatusFailed = exports.setStatusSucceeded = exports.setStatusLoading = exports.setStatusIdle = exports.setSearchResults = exports.setCategory = exports.setSearchTerm = exports.fetchSearchResults = exports.productsSlice = void 0;
 
 var _toolkit = require("@reduxjs/toolkit");
 
@@ -122,11 +122,11 @@ var selectSearchTerm = function selectSearchTerm(state) {
 
 exports.selectSearchTerm = selectSearchTerm;
 
-var selectCategory = function selectCategory(state) {
+var selectCategoryId = function selectCategoryId(state) {
   return state.search.categoryId;
 };
 
-exports.selectCategory = selectCategory;
+exports.selectCategoryId = selectCategoryId;
 
 var selectError = function selectError(state) {
   return state.search.error;

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const StyledHero = styled.section `
-  background: linear-gradient(45deg,${props=>props.theme.palette.main},#843abc);
+  /* background: linear-gradient(45deg,${props=>props.theme.palette.main},#843abc); */
   .conatainer{ 
   min-height:calc(100dvh - 113px); 
   display: flex;

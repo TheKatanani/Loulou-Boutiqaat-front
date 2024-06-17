@@ -1,4 +1,4 @@
-export const ACTIONS = {  
+export const ACTIONS = {
     REMOVE_ITEM: "REMOVE_ITEM",
     REMOVE_ALL: "REMOVE_ALL",
     TOTAL_CARD: "TOTAL_CARD",
@@ -18,6 +18,10 @@ export const MOOD = {
 }
 export const ROLES = {
     USER: 2001,
-    ADMIN: 5150,  
-    EDITOR:1984 
+    ADMIN: 5150,
+    EDITOR: 1984
+}
+export const OPERATOR = {
+    INCREASE: "increase",
+    DECREASE: "decrease"
 }

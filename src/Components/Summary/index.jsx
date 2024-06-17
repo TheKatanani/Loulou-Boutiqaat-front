@@ -10,7 +10,7 @@ const Summary = () => {
     const cartItems = useSelector(selectCart)
   const products = useSelector(selectProducts)
     const total = cartItems?.reduce((total,cartItem )=> {
-        const foundedItem = products?.find(product => product.id === cartItem.productId)
+        const foundedItem = products?.find(product => product.id == cartItem.productId)
         if(foundedItem){
             return total + foundedItem?.price * cartItem?.quantity 
         }

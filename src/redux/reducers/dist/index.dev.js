@@ -11,8 +11,6 @@ var _signup = _interopRequireDefault(require("./signup"));
 
 var _auth = _interopRequireDefault(require("./auth"));
 
-var _login = _interopRequireDefault(require("./login"));
-
 var _products = _interopRequireDefault(require("./products"));
 
 var _categories = _interopRequireDefault(require("./categories"));
@@ -32,8 +30,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 var rootReducer = (0, _redux.combineReducers)({
   signup: _signup["default"],
   auth: _auth["default"],
-  login: _login["default"],
-  //remove this slice 
   products: _products["default"],
   categories: _categories["default"],
   search: _search["default"],

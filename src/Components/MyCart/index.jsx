@@ -6,22 +6,24 @@ import MyCartItem from '../MyCartItem'
 import { MyCartStyled } from './styled'
 import { useDispatch, useSelector } from 'react-redux'
 import { clearCart, selectCart, selectQuantity } from '../../redux/reducers/cart'
-import { selectProducts } from '../../redux/reducers/products'
+import { selectPublishedProducts } from '../../redux/reducers/products'
 import { selectUser } from '../../redux/reducers/auth'
+import useAxiosPrivate from '../../Hook/useAxiosPrivet'
 
 const MyCart = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const quantity = useSelector(selectQuantity)
-  const cartItems = useSelector(selectCart)
-  const products = useSelector(selectProducts)
-  const { id: userId } = useSelector(selectUser) 
-  const dataCart = cartItems?.map(cartItem => {
-    const foundedItem = products?.find(product => product?.id === cartItem?.productId)
-    if(foundedItem){
-      return <MyCartItem key={foundedItem?.id} data={foundedItem} itemQuantity={cartItem.quantity}/>
+  const cart = useSelector(selectCart)
+  const products = useSelector(selectPublishedProducts)
+  const { id: userId } = useSelector(selectUser)
+  const axiosPrivate = useAxiosPrivate()
+  const dataCart = cart?.map(cartItem => {
+    const foundedItem = products?.find(product => +product?.id === +cartItem?.productId)
+    if (foundedItem) {
+      return <MyCartItem key={foundedItem?.id} data={foundedItem} itemQuantity={cartItem.quantity} />
     }
-    return ''
+    return undefined
   })
   return (
     <MyCartStyled>
@@ -29,14 +31,14 @@ const MyCart = () => {
       <div className="container">
         <div className="items">
           {
-          quantity ?
-            dataCart :
-            <p className='empty'>your cart is empty</p>
+            quantity ?
+              dataCart :
+              <p className='empty'>your cart is empty</p>
           }
         </div>
         <div className="myButtons">
           <PrimaryButton onClick={() => navigate("/home")}><Arrow /> Back to shop</PrimaryButton>
-          <WhitePrimaryButton onClick={() => dispatch(clearCart({userId}))}>Remove all</WhitePrimaryButton>
+          <WhitePrimaryButton onClick={() => dispatch(clearCart({ userId, axiosPrivate }))}>Remove all</WhitePrimaryButton>
         </div>
       </div>
     </MyCartStyled>

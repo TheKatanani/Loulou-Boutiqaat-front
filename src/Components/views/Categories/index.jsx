@@ -3,11 +3,12 @@ import LogoLoading from '../../common/LogoLoading'
 import { StyledCategories } from './styled'
 import { STATUS } from '../../../Actions'
 import { useDispatch, useSelector } from 'react-redux'
-import { selectCategories, selectStatus, setCategories } from '../../../redux/reducers/categories'
+import { selectPublishedCategoryies, selectStatus, setCategories } from '../../../redux/reducers/categories'
 import {  selectPublishedProducts } from '../../../redux/reducers/products'
+import Category from './Category'
 
 const Categories = () => {
-  const categories = useSelector(selectCategories)
+  const categories = useSelector(selectPublishedCategoryies)
   const products = useSelector(selectPublishedProducts)
   const status = useSelector(selectStatus)
   const dispatch = useDispatch()
@@ -27,8 +28,8 @@ const Categories = () => {
                 return product
               }
             return undefined
-          }) && category.isVisibile &&
-            <category key={category.id} {...category} />
+          })  &&
+            <Category key={category.id} {...category} />
         })
       }
     </StyledCategories>

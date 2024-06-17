@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.ROLES = exports.MOOD = exports.STATUS = exports.ACTIONS = void 0;
+exports.OPERATOR = exports.ROLES = exports.MOOD = exports.STATUS = exports.ACTIONS = void 0;
 var ACTIONS = {
   REMOVE_ITEM: "REMOVE_ITEM",
   REMOVE_ALL: "REMOVE_ALL",
@@ -31,3 +31,8 @@ var ROLES = {
   EDITOR: 1984
 };
 exports.ROLES = ROLES;
+var OPERATOR = {
+  INCREASE: "increase",
+  DECREASE: "decrease"
+};
+exports.OPERATOR = OPERATOR;

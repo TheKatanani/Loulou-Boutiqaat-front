@@ -82,7 +82,7 @@ export const {
 export const selectSearchResults = state => state.search.searchResults;
 export const selectStatus = state => state.search.status;
 export const selectSearchTerm = state => state.search.searchTerm;
-export const selectCategory = state => state.search.categoryId;
+export const selectCategoryId = state => state.search.categoryId;
 export const selectError = state => state.search.error;
 
 export default productsSlice.reducer;

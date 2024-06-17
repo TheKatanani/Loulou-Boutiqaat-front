@@ -6,37 +6,47 @@ import { ThemeContext } from './Context';
 import Toggle from './Components/Toggle';
 import MyRoutes from './Routes'
 import { useDispatch, useSelector } from 'react-redux';
-import { setProducts } from './redux/reducers/products';
-import { setCategories } from './redux/reducers/categories';
-import { selectUser } from './redux/reducers/auth';
-import { setCart } from './redux/reducers/cart';
-import { setSaved } from './redux/reducers/saved';
+import { setProducts, setPublishedProducts } from './redux/reducers/products';
+import { setCategories, setPublishedCategories } from './redux/reducers/categories';
+import { SelectIsAuthenticated, selectUser } from './redux/reducers/auth';
+import { setCart, setCartLocal, uploadLocalCart } from './redux/reducers/cart';
+import { setSaved, setSavedLocal, uploadLocalSaved } from './redux/reducers/saved';
 import { setSocial } from './redux/reducers/social';
 import { useEffect } from 'react';
+import useAxiosPrivate from './Hook/useAxiosPrivet';
 function App() {
   const [theme, setTheme] = useState(lightTheme);
   const dispatch = useDispatch()
   const user = useSelector(selectUser)
+  const axiosPrivate = useAxiosPrivate()
+  const isAuthenticated = useSelector(SelectIsAuthenticated)
   useEffect(() => {
-    dispatch(setCart({ userId: user.id }))
-    dispatch(setSaved({ userId: user.id }))
-    let cart = JSON.parse(localStorage.getItem('cart'))
-    if (cart) {
-      const foundedUserData = cart?.find(el => el.id === user.id)
-      foundedUserData &&
-        dispatch(setCart(foundedUserData))
+    if (isAuthenticated) {
+      dispatch(uploadLocalCart({ axiosPrivate }))
+      dispatch(uploadLocalSaved({ axiosPrivate }))
+      setTimeout(() => { 
+        // this for finish the last requiest then stay up to date with the new data
+      }, 2000);
+      dispatch(setCart({ axiosPrivate }))
+      dispatch(setSaved({ axiosPrivate }))
+    } else {
+      // this is for guest user before registeration
+      dispatch(setCartLocal())
+      dispatch(setSavedLocal())
     }
     dispatch(setProducts())
+    dispatch(setPublishedProducts())
     dispatch(setCategories())
+    dispatch(setPublishedCategories())
     dispatch(setSocial())
-    setTheme(localStorage.getItem('theme') === 'light' ? darkTheme : lightTheme);
-  }, [dispatch, user]);
+    setTheme(localStorage.getItem('theme') === 'light' ? darkTheme : lightTheme);//change this fucken line and dont put static values
+  }, [dispatch, user, isAuthenticated, axiosPrivate]);
   return (
     <ThemeProvider theme={theme} page="page4">
       <ThemeContext.Provider value={[theme, setTheme]}>
         <GlobalStyle /> {/* replace it into a css index file */}
         <Toggle />
-        {<MyRoutes />}
+        <MyRoutes />
       </ThemeContext.Provider>
     </ThemeProvider>
   );

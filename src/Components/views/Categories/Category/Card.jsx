@@ -1,15 +1,15 @@
 import { StyeldCard } from "./styled"
 import AddToCartButton from "../../../AddToCartButton"
-import LikeButton from "../../../LikeButton"
+import SavedButton from "../../../SavedButton"
 import { Link } from "react-router-dom"
 import ImagesSliderCard from "../../../common/ImagesSliderCard"
 import Rating from "../../../Rating"
 
-const Card = ({ data: { id, description, stars, images, name, price, prevPrice, isVisibile = 0, count = 1 }, display, index }) => {
+const Card = ({ data: { id, description, stars, images, name, price, prevPrice, count = 1 }, display, index }) => {
     return (
         <>
             {
-                !(parseInt(isVisibile) === 0 || count <= 0) &&
+                !(count <= 0) &&
                 <StyeldCard {...{ display, index }}>
                     <ImagesSliderCard images={images} />
                     <div className="content">
@@ -23,7 +23,7 @@ const Card = ({ data: { id, description, stars, images, name, price, prevPrice, 
                         </p>
                         <div className="icons">
                             <AddToCartButton  {...{ id }} />
-                            <LikeButton {...{ id }} />
+                            <SavedButton {...{ id }} />
                         </div>
                     </div>
                 </StyeldCard>
