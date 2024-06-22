@@ -2,10 +2,6 @@ import {
     createAsyncThunk,
     createSlice
 } from '@reduxjs/toolkit';
-import axios from 'axios';
-import {
-    API
-} from '../../API';
 import {
     STATUS
 } from '../../Actions';
@@ -15,7 +11,11 @@ const socialSlice = createSlice({
     initialState: {
         formData: {},
         error: {},
-        status: 'idle',
+        status: [],
+        // status: [{
+        //     name: 'Instagram',
+        //     status: 'idle'
+        // }],
     },
     reducers: {
         handleInputChange: (state, action) => {
@@ -23,7 +23,12 @@ const socialSlice = createSlice({
                 id,
                 value
             } = action.payload
-            state.formData[id] = value
+            state.formData = state.formData.map(social => (
+                social.name === id ? {
+                    ...social,
+                    value
+                } : social
+            ))
         },
         setStatusIdle: (state) => {
             state.status = 'idle';
@@ -58,37 +63,83 @@ const socialSlice = createSlice({
                 state.status = STATUS.FAILED;
                 state.error = action.payload;
             })
-            .addCase(saveSocial.pending, (state) => {
-                state.status = STATUS.LOADING;
+            .addCase(updateSocial.pending, (state, action) => {
+                // state.status = STATUS.LOADING;
+                state.status = [];
+                const name = action.meta.arg.social.name
+                console.log(action.meta.arg.social.name)
+                const index = state.status.findIndex(el => el.name === name)
+                console.log("index", index)
+                if (index !== -1) {
+                    state.status[index] = {
+                        ...state.status[index],
+                        status: STATUS.LOADING
+                    }
+                } else {
+                    state.status.push({
+                        name,
+                        status: STATUS.LOADING
+                    })
+                }
             })
-            .addCase(saveSocial.fulfilled, (state, action) => {
-                state.status = STATUS.SUCCEEDED;
-                state.formData = action.payload;
+            .addCase(updateSocial.fulfilled, (state, action) => {
+                // state.status = STATUS.SUCCEEDED;
+                const name = action.meta.arg.social.name
+                const index = state.status.findIndex(el => el.name === name)
+                console.log("index", index)
+                if (index !== -1) {
+                    state.status[index] = {
+                        ...state.status[index],
+                        status: STATUS.SUCCEEDED
+                    }
+                }
             })
-            .addCase(saveSocial.rejected, (state, action) => {
-                state.status = STATUS.FAILED;
+            .addCase(updateSocial.rejected, (state, action) => {
+                // state.status = STATUS.FAILED;
+                const name = action.meta.arg.social.name
+                console.log(action.meta.arg.social.name)
+                const index = state.status.findIndex(el => el.name === name)
+                console.log("index", index)
+                if (index !== -1) {
+                    state.status[index] = {
+                        ...state.status[index],
+                        status: STATUS.FAILED
+                    }
+                }
                 state.error = action.payload;
             })
     }
 });
 export const setSocial = createAsyncThunk(
     "social/setSocial",
-    async () => {
-        const response = await axios.get(`${API}/social`);
-        return response.data
-    }
-)
-export const saveSocial = createAsyncThunk(
-    "socials/saveSocial",
     async ({
-        social
+        axiosPrivate
     }) => {
-        const response = await axios.post(`${API}/social`, {
-            ...social
-        });
+        const response = await axiosPrivate.get(`/social`);
         return response.data
     }
 )
+export const updateSocial = createAsyncThunk(
+    "socials/updateSocial",
+    async ({
+        social, // name and value object
+        axiosPrivate
+    }) => {
+        const response = await axiosPrivate.put(`/social`, social);
+        return response.data
+    }
+)
+// export const saveSocial = createAsyncThunk(
+//     "socials/saveSocial",
+//     async ({
+//         social
+//     }) => {
+//         const response = await axios.post(`${API}/social`, {
+//             ...social
+//         });
+//         return response.data
+//     }
+// )
 export const selectFormData = state => state.social.formData
 export const selectSocial = state => state.social.formData
 export const selectStatus = state => state.social.status

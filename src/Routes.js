@@ -41,11 +41,6 @@ const MyRoutes = () => {
           path="/register"
           element={isAuthenticated ? <Navigate to="/home" /> : <Register />}
         /> 
-        {/* <Route
-          path="/home"
-          element={<Users/>}
-        /> 
-         */}
         <Route
           path="/dashboard"
           element={<PrivateRoute requireRole={[ROLES.ADMIN,ROLES.EDITOR]}><Dashboard/></PrivateRoute>}>

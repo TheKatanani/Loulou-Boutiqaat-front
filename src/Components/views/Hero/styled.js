@@ -13,7 +13,8 @@ figure {
   flex: 1;
   text-align: center;
   img{
-    width: min(100%,400px);
+    width: min(100%,300px);
+    filter: drop-shadow(2px 4px 6px white);
     min-width: 250px
   }
 }

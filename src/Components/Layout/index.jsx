@@ -6,10 +6,10 @@ import styled from 'styled-components'
 const StyleLayout = styled.div`
 .outlet{ 
   margin-top:170px;
-  ${({theme:{media}})=>media.s}{
+  ${({ theme: { media } }) => media.s}{
     margin-top: 200px;
   }
-  ${({theme:{media}})=>media.xl}{
+  ${({ theme: { media } }) => media.xl}{
     margin-top: 110px;
   }
 }
@@ -17,11 +17,11 @@ const StyleLayout = styled.div`
 const Layout = () => {
   return (
     <StyleLayout>
-      <Header/>
+      <Header />
       <div className="outlet" >
-      <Outlet/>
+        <Outlet />
       </div>
-      <Footer/>
+      <Footer />
     </StyleLayout>
   )
 }

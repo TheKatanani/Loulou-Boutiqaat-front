@@ -86,12 +86,14 @@ const Footer = () => {
                     <Logo />
                     <p>Best information about the company gies here but now lorem ipsum is </p>
                     <div className="icons">
-                        <Link to={social?.facebook || ''} target='_blank' className="facebook">
+                        <Link to={social.find(el => el.name === 'facebook')?.value || ''} target='_blank' className="facebook">
                             <FaceBook />
                         </Link>
+                        <Link to={social.find(el => el.name === 'x')?.value || ''} target='_blank' className="x">
                         <Twitter />
+                        </Link>
                         <LinkedIn />
-                        <Link to={social?.instagram || ''} target='_blank' className="facebook">
+                        <Link to={social.find(el => el.name === 'instagram')?.value  || ''} target='_blank' className="instagram">
                             <Instagram />
                         </Link>
                         <Youtube />

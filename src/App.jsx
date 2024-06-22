@@ -38,7 +38,7 @@ function App() {
     dispatch(setPublishedProducts())
     dispatch(setCategories())
     dispatch(setPublishedCategories())
-    dispatch(setSocial())
+    dispatch(setSocial({axiosPrivate}))
     setTheme(localStorage.getItem('theme') === 'light' ? darkTheme : lightTheme);//change this fucken line and dont put static values
   }, [dispatch, user, isAuthenticated, axiosPrivate]);
   return (

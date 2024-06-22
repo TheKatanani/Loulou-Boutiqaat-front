@@ -1,66 +1,59 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import Input from '../../../Components/Input'
-import { handleInputChange, saveSocial, selectFormData, selectStatus, setSocial } from '../../../redux/reducers/social'
+import { handleInputChange, selectFormData, selectStatus, updateSocial } from '../../../redux/reducers/social'
 import { useDispatch, useSelector } from 'react-redux'
-import { MainButton } from '../../../Global/components'
 import { StyledForm } from '../sytled'
 import { STATUS } from '../../../Actions'
 import ButtonAnimation from '../../../Components/common/ButtonAnimation'
+import useAxiosPrivate from '../../../Hook/useAxiosPrivet'
 
 const AddSocial = () => {
   const formData = useSelector(selectFormData)
   const status = useSelector(selectStatus)
   const dispatch = useDispatch()
-  const [changed, setChaged] = useState(false)
-
+  const [changed, setChaged] = useState(null)
+  const axiosPrivate = useAxiosPrivate()
   const handleInputChangeFunc = (e) => {
     const { id, value } = e.target
-    setChaged(true)
+    setChaged({ [id]: true })
     dispatch(handleInputChange({ id, value }))
   }
-  const handelSubmit = (e) => {
+  const handelSubmit = (e, name) => {
     e.preventDefault()
     if (changed) {
-      dispatch(saveSocial({ social: formData }))
+      const social = formData.find(el => el.name === name)
+      dispatch(updateSocial({ social, axiosPrivate }))
       if (status === STATUS.SUCCEEDED) {
-        setChaged(false)
+        setChaged(null)
       }
     }
   }
-  useEffect(() => {
-    dispatch(setSocial())
-  }, [dispatch])
+
   return (
-    <StyledForm onSubmit={handelSubmit}>
-      <Input
-        id="instagram"
-        type="text"
-        placeholder="instagram"
-        label='instagram'
-        onChange={handleInputChangeFunc}
-        value={formData.instagram}
-      />
-      <Input
-        id="facebook"
-        type="text"
-        placeholder="facebook"
-        label='facebook'
-        onChange={handleInputChangeFunc}
-        value={formData.facebook}
-      />
-      <Input
-        id="tiktok"
-        type="text"
-        placeholder="tiktok"
-        label='tiktok'
-        onChange={handleInputChangeFunc}
-        value={formData.tiktok}
-      />
-      <ButtonAnimation className={!changed ? `disabled` : undefined} disabled={!changed} status={status}>
-        save
-      </ButtonAnimation>
-    </StyledForm>
+    formData?.map(social => (
+      <StyledForm key={social.name} onSubmit={(e) => handelSubmit(e, social.name)}>
+        <Input
+          id={social.name}
+          type="text"
+          placeholder={social.name}
+          label={social.name}
+          onChange={handleInputChangeFunc}
+          value={formData.find(el => el.name === social.name).value}
+        />
+        <ButtonAnimation className={(!changed || !changed[social.name]) ? `disabled` : undefined} disabled={changed && !changed[social.name]} status={
+          () => {
+            const itemStatus = status?.find(el => el.name === social.name)
+            if (itemStatus) {
+              return itemStatus.status
+            } else {
+              return STATUS.IDLE
+            }
+          }
+        }>
+          save
+        </ButtonAnimation>
+      </StyledForm>
+    ))
   )
 }
-
-export default AddSocial
+export default AddSocial 

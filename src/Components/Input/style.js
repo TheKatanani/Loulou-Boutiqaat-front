@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 export const Label = styled.label `
+    text-transform: capitalize;
     display: block;
     font-weight: 500;
     font-size: 16px;
