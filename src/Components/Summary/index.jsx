@@ -6,19 +6,19 @@ import { useSelector } from 'react-redux'
 import { selectCart } from '../../redux/reducers/cart'
 import { selectProducts } from '../../redux/reducers/products'
 
-const Summary = () => {
+const Summary = ({ setShow }) => {
     const cartItems = useSelector(selectCart)
-  const products = useSelector(selectProducts)
-    const total = cartItems?.reduce((total,cartItem )=> {
+    const products = useSelector(selectProducts)
+    const total = cartItems?.reduce((total, cartItem) => {
         const foundedItem = products?.find(product => product.id == cartItem.productId)
-        if(foundedItem){
-            return total + foundedItem?.price * cartItem?.quantity 
+        if (foundedItem) {
+            return total + foundedItem?.price * cartItem?.quantity
         }
         else return total
-      },0)
-  return (
-    <SummaryStyled>
-        {/* <div className="info">
+    }, 0)
+    return (
+        <SummaryStyled>
+            {/* <div className="info">
             <ul>
                 <li>
                     <p>Subtotal:</p>
@@ -38,10 +38,11 @@ const Summary = () => {
                 <p>Total:</p>
                 <p>{total}₪</p>
             </div>
-            <MainButton>Checkout</MainButton>
-            <Payments/>
-    </SummaryStyled>
-  )
+            <MainButton onClick={() => { setShow(true) }}>Checkout</MainButton>
+            {/* shwo the checkout form */}
+            <Payments />
+        </SummaryStyled>
+    )
 }
 
 export default Summary

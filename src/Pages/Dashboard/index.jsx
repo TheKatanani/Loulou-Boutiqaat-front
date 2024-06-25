@@ -36,6 +36,9 @@ const Dashboard = () => {
               <Link to='AddSocial'>Add Social</Link>
             </li>
             <li>
+              <Link to='orders'>Orders</Link>
+            </li>
+            <li>
               <Toggle />
             </li>
           </ul>

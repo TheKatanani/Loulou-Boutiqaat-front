@@ -4,15 +4,17 @@ import FooterList from '../FooterList'
 import Logo from '../Logo'
 import { FooterStyled } from './styled'
 import { useDispatch, useSelector } from 'react-redux'
-import { selectSocial, setSocial } from '../../redux/reducers/social'
+import { selectSocial, selectStatus, setSocial } from '../../redux/reducers/social'
 import { Link } from 'react-router-dom'
 import { useEffect } from 'react'
 import Copy from '../UI/Copy'
 import { selectPublishedCategoryies } from '../../redux/reducers/categories'
+import { STATUS } from '../../Actions'
 // import { selectPublishedProducts } from '../../redux/reducers/products'
 const Footer = () => {
     const dispatch = useDispatch()
     const social = useSelector(selectSocial)
+    const socialStatus = useSelector(selectStatus)
     const categories = useSelector(selectPublishedCategoryies)
     // const products = useSelector(selectPublishedProducts)
     // const validcategories = categories?.map((category) => {
@@ -76,6 +78,14 @@ const Footer = () => {
             ]
         }
     ]
+    let facebook = '',
+        X = '',
+        instagram = ''
+    if (socialStatus === STATUS.SUCCEEDED) {
+        facebook = social?.find(el => el?.name === 'facebook')?.value || ''
+        X = social?.find(el => el?.name === 'x')?.value || ''
+        instagram = social?.find(el => el?.name === 'instagram')?.value || ''
+    }
     useEffect(() => {
         dispatch(setSocial())
     }, [dispatch])
@@ -86,14 +96,14 @@ const Footer = () => {
                     <Logo />
                     <p>Best information about the company gies here but now lorem ipsum is </p>
                     <div className="icons">
-                        <Link to={social.find(el => el.name === 'facebook')?.value || ''} target='_blank' className="facebook">
+                        <Link to={facebook} target='_blank' className="facebook">
                             <FaceBook />
                         </Link>
-                        <Link to={social.find(el => el.name === 'x')?.value || ''} target='_blank' className="x">
-                        <Twitter />
+                        <Link to={X} target='_blank' className="x">
+                            <Twitter />
                         </Link>
                         <LinkedIn />
-                        <Link to={social.find(el => el.name === 'instagram')?.value  || ''} target='_blank' className="instagram">
+                        <Link to={instagram} target='_blank' className="instagram">
                             <Instagram />
                         </Link>
                         <Youtube />

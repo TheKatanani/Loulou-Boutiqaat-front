@@ -25,6 +25,10 @@ var _users = _interopRequireDefault(require("./users"));
 
 var _social = _interopRequireDefault(require("./social"));
 
+var _checkout = _interopRequireDefault(require("./checkout"));
+
+var _orders = _interopRequireDefault(require("./orders"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var rootReducer = (0, _redux.combineReducers)({
@@ -36,6 +40,8 @@ var rootReducer = (0, _redux.combineReducers)({
   cart: _cart["default"],
   saved: _saved["default"],
   users: _users["default"],
+  checkout: _checkout["default"],
+  order: _orders["default"],
   social: _social["default"]
 });
 var _default = rootReducer;

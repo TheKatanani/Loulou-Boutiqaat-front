@@ -8,8 +8,8 @@ import { SelectIsAuthenticated } from "./redux/reducers/auth";
 
 import PageNotFound from "./Components/PageNotFound"; 
 import LogoLoading from "./Components/common/LogoLoading"; 
-import Layout from "./Components/Layout";  
-
+import Layout from "./Components/Layout";    
+const Orders = lazy(()=> import("./Pages/Dashboard/Orders"));
 const Categories = lazy(()=> import("./Pages/Categories"));
 const Category = lazy(()=> import("./Pages/Category"));
 const Product = lazy(()=> import("./Pages/Product"));
@@ -57,6 +57,9 @@ const MyRoutes = () => {
           <Route
           path="addSocial"
           element={<AddSocial/>}/>
+          <Route
+          path="orders"
+          element={<Orders/>}/>
         </Route>
         
         <Route index element={<Navigate to='/home'/>}/>

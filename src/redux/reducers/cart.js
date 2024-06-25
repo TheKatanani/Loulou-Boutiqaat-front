@@ -4,11 +4,7 @@ import {
 } from '@reduxjs/toolkit';
 import {
   STATUS
-} from '../../Actions';
-import {
-  API
-} from '../../API';
-import axios from 'axios';
+} from '../../Actions'; 
 const cartSlice = createSlice({
   name: 'cart',
   initialState: {
@@ -109,33 +105,7 @@ const cartSlice = createSlice({
       .addCase(removeFromCart.rejected, (state, action) => {
         state.status = STATUS.FAILED;
         state.error = action.payload;
-      })
-      // increase
-      .addCase(increase.pending, (state) => {
-        state.status = STATUS.LOADING;
-      })
-      .addCase(increase.fulfilled, (state, action) => {
-        state.status = STATUS.SUCCEEDED;
-        state.cart = action.payload.data;
-        state.quantity = action?.payload?.data?.reduce((_quantity, item) => item.quantity + _quantity, 0)
-      })
-      .addCase(increase.rejected, (state, action) => {
-        state.status = STATUS.FAILED;
-        state.error = action.payload;
-      })
-      // decrease
-      .addCase(decrease.pending, (state) => {
-        state.status = STATUS.LOADING;
-      })
-      .addCase(decrease.fulfilled, (state, action) => {
-        state.status = STATUS.SUCCEEDED;
-        state.cart = action.payload.data;
-        state.quantity = action?.payload?.data?.reduce((_quantity, item) => item.quantity + _quantity, 0)
-      })
-      .addCase(decrease.rejected, (state, action) => {
-        state.status = STATUS.FAILED;
-        state.error = action.payload;
-      })
+      }) 
       // quantityCartItem
       .addCase(quantityCartItem.pending, (state) => {
         state.status = STATUS.LOADING;
@@ -201,40 +171,7 @@ export const uploadLocalCart = createAsyncThunk(
     }
   }
 )
-export const increase = createAsyncThunk(
-  "cart/increase",
-  async ({
-    productId,
-    userId,
-    cart
-  }) => {
-    const newCart = cart.map(el => el.productId === productId ? {
-      productId,
-      quantity: el.quantity + 1
-    } : el)
-    const response = await axios.put(`${API}/cart/${userId}`, {
-      data: newCart
-    });
-    return response.data
-  }
-)
-export const decrease = createAsyncThunk(
-  "cart/decrease",
-  async ({
-    productId,
-    userId,
-    cart
-  }) => {
-    const newCart = cart.map(el => el.productId === productId ? {
-      productId,
-      quantity: el.quantity - 1
-    } : el)
-    const response = await axios.put(`${API}/cart/${userId}`, {
-      data: newCart
-    });
-    return response.data
-  }
-)
+
 export const quantityCartItem = createAsyncThunk(
   "cart/quantityCartItem",
   async ({
