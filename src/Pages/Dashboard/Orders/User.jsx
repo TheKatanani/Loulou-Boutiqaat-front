@@ -4,7 +4,7 @@ import { StyledBill as StyleUser } from './styled'
 import { selectUsers, setUsers } from '../../../redux/reducers/users'
 import useAxiosPrivate from '../../../Hook/useAxiosPrivet'
 
-const User = ({ userId, paid = 0 }) => {
+const User = ({ userId }) => {
   const users = useSelector(selectUsers)
   const user = users.find(_user => _user.id == userId)
   const dispatch = useDispatch()

@@ -1,12 +1,11 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { deleteProduct, selectAddProductsState, selectMood, selectProducts, setUpdateProduct } from '../../../redux/reducers/products'
+import { deleteProduct, selectAddProductsState, selectMood,  setUpdateProduct } from '../../../redux/reducers/products'
 import { selectCategories } from '../../../redux/reducers/categories'
 import { StyledTable } from '../sytled'
 import { MOOD } from '../../../Actions'
 import useAxiosPrivate from '../../../Hook/useAxiosPrivet'
-const Table = () => {
-  const products = useSelector(selectProducts)
+const Table = ({products}) => {
   const categories = useSelector(selectCategories)
   const dispatch = useDispatch()
   const axiosPrivate = useAxiosPrivate()
