@@ -32,6 +32,17 @@ export const StyledCheckOut = styled.div `
       width: 100%;
     }
   }
+  span.cancel{
+    position:absolute;
+    right:-5px;
+    top:-5px;
+    border-radius:50%;
+    border:1px solid ${({theme})=>theme.palette.main};
+    background-color: red;
+    color:white;
+    padding:3px 8px;
+    cursor: pointer;
+  }
   button{
     background-color:${({theme})=>theme.palette.ColorApp.primary_light}; 
     margin-bottom: 7px; 

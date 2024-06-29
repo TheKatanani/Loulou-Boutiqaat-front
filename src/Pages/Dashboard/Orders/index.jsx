@@ -6,6 +6,7 @@ import useAxiosPrivate from '../../../Hook/useAxiosPrivet'
 import PortalCard from '../../../Components/UI/PortalCard'
 import Bill from './Bill'
 import User from './User'
+import { setUsers } from '../../../redux/reducers/users'
 
 const Orders = () => {
   const dispatch = useDispatch()
@@ -33,10 +34,8 @@ const Orders = () => {
   }
   useEffect(() => {
     dispatch(setOrders({ axiosPrivate }))
-  }, [dispatch, axiosPrivate])
-  useEffect(() => {
-    console.log(bill.show)
-  }, [bill])
+    dispatch(setUsers({ axiosPrivate }))
+  }, [dispatch, axiosPrivate]) 
   return (
     <StyledTable >
       <thead>

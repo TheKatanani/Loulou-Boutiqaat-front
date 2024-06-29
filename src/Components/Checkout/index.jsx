@@ -12,7 +12,7 @@ import { addOrder } from '../../redux/reducers/orders'
 import useAxiosPrivate from '../../Hook/useAxiosPrivet'
 import PortalCard from '../UI/PortalCard'
 
-const Checkout = () => {
+const Checkout = ({cancel}) => {
   const formData = useSelector(selectFormData)
   const errors = useSelector(selectError)
   const dispatch = useDispatch()
@@ -36,7 +36,7 @@ const Checkout = () => {
   }
   const handleSendOrder = () => {
     //get the name and phone from the user data and set it with the location and cart data and dispatsh them 
-     if (formData?.location.trim().length >= 6) {
+    if (formData?.location.trim().length >= 6) {
       const order = {
         userId: user.id,
         orders: cart,
@@ -44,7 +44,7 @@ const Checkout = () => {
         totalCost: total,
         paid: 0
       }
-      dispatch(addOrder({ order ,axiosPrivate }))
+      dispatch(addOrder({ order, axiosPrivate }))
     } else {
       dispatch(setStatusFailed({ location: 'Must Add Location!' }))
     }
@@ -61,8 +61,9 @@ const Checkout = () => {
           label="Add Your Location"
           value={formData?.location}
         />
-        <MainButton>Pay Now</MainButton>
+        {/* <MainButton disabled>Pay Now</MainButton> */}
         <MainButton onClick={handleSendOrder}>Send Order</MainButton>
+        <span className='cancel' onClick={cancel}>x</span>
       </StyledCheckOut>
     </PortalCard>
   )

@@ -4,8 +4,7 @@ import { deleteCategory, selectCategories, selectCategoriesFormData, selectMood,
 import { StyledTable } from '../sytled'
 import { MOOD } from '../../../Actions'
 import useAxiosPrivate from '../../../Hook/useAxiosPrivet'
-import { selectProducts } from '../../../redux/reducers/products'
-import PortalCard from '../../../Components/UI/PortalCard'
+import { selectProducts } from '../../../redux/reducers/products' 
 import Alert from '../../../Components/common/Alert'
 const Table = () => {
   const [message, setMessage] = useState()

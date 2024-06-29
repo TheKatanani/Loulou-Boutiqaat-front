@@ -9,6 +9,7 @@ import { SelectIsAuthenticated } from "./redux/reducers/auth";
 import PageNotFound from "./Components/PageNotFound";
 import LogoLoading from "./Components/common/LogoLoading";
 import Layout from "./Components/Layout";
+import ErrorBoundary from "./Components/common/Errorboundary";
 const CategoryProducts = lazy(() => import("./Pages/Dashboard/AddCategory/CategoryProducts"));
 const Orders = lazy(() => import("./Pages/Dashboard/Orders"));
 const Categories = lazy(() => import("./Pages/Categories"));
@@ -44,14 +45,28 @@ const MyRoutes = () => {
         />
         <Route
           path="/dashboard"
-          element={<PrivateRoute requireRole={[ROLES.ADMIN, ROLES.EDITOR]}><Dashboard /></PrivateRoute>}>
+          element={
+            <PrivateRoute requireRole={[ROLES.ADMIN, ROLES.EDITOR]}>
+              <ErrorBoundary>
+                <Dashboard />
+              </ErrorBoundary>
+            </PrivateRoute>
+          }>
           <Route
             index
-            element={<AddProduct />} />
+            element={
+              <ErrorBoundary>
+                <AddProduct />
+              </ErrorBoundary>
+            } />
           <Route
             path="addcategory"
           >
-            <Route index element={<AddCategory />} />
+            <Route index element={
+              <ErrorBoundary>
+                <AddCategory />
+              </ErrorBoundary>
+            } />
             <Route path=":categoryId"
               element={<CategoryProducts />}
             />
@@ -59,37 +74,89 @@ const MyRoutes = () => {
           <Route
             path="addUser"
             element={<PrivateRoute requireRole={[ROLES.ADMIN]}>
-              <AddUser /></PrivateRoute>} />
+              <ErrorBoundary>
+                <AddUser />
+              </ErrorBoundary>
+            </PrivateRoute>} />
           <Route
             path="addSocial"
-            element={<AddSocial />} />
+            element={
+              <ErrorBoundary>
+                <AddSocial />
+              </ErrorBoundary>
+
+            } />
           <Route
             path="orders"
-            element={<Orders />} />
+            element={
+              <ErrorBoundary>
+                <Orders />
+              </ErrorBoundary>
+            } />
         </Route>
         <Route index element={<Navigate to='/home' />} />
-        <Route path="home" element={<Layout />}>
-          <Route index element={<Home />} />
+        <Route path="home" element={
+          <ErrorBoundary>
+            <Layout />
+          </ErrorBoundary>
+        }>
+          <Route index element={
+            <ErrorBoundary>
+              <Home />
+            </ErrorBoundary>
+          } />
           <Route path="categories">
-            <Route index element={<Categories />} />
-            <Route path=":categoryId" element={<Category />} />
+            <Route index element={
+              <ErrorBoundary>
+                <Categories />
+              </ErrorBoundary>
+            } />
+            <Route path=":categoryId" element={
+              <ErrorBoundary>
+                <Category />
+              </ErrorBoundary>
+            } />
           </Route>
           <Route path="products">
-            <Route index element={<Categories />} />
-            <Route path=":productId" element={<Product />} />
+            <Route index element={
+              <ErrorBoundary>
+                <Categories />
+              </ErrorBoundary>
+            } />
+            <Route path=":productId" element={
+              <ErrorBoundary>
+                <Product />
+              </ErrorBoundary>
+            } />
           </Route>
-          <Route path="search" element={<Search />} />
+          <Route path="search" element={
+            <ErrorBoundary>
+              <Search />
+            </ErrorBoundary>
+          } />
           <Route path="profile" element={<PrivateRoute requireRole={[ROLES.USER, ROLES.ADMIN, ROLES.EDITOR]} />}>
-            <Route index element={<Profile />} />
+            <Route index element={
+              <ErrorBoundary>
+                <Profile />
+              </ErrorBoundary>
+            } />
             <Route path="*" element={<PageNotFound />} />
           </Route>
           <Route path="updateInfo" element={<PrivateRoute requireRole={[ROLES.USER, ROLES.ADMIN, ROLES.EDITOR]} />}>
             <Route index element={<UpdateInfo />} />
             <Route path="*" element={<PageNotFound />} />
           </Route>
-          <Route path="saved" element={<Saved />} />
+          <Route path="saved" element={
+            <ErrorBoundary>
+              <Saved />
+            </ErrorBoundary>
+          } />
           <Route path="cart" element={<PrivateRoute requireRole={[ROLES.USER, ROLES.ADMIN, ROLES.EDITOR]} />}>
-            <Route index element={<Cart />} />
+            <Route index element={
+              <ErrorBoundary>
+                <Cart />
+              </ErrorBoundary>
+            } />
             <Route path="*" element={<PageNotFound />} />
           </Route>
         </Route>

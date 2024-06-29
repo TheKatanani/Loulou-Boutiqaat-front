@@ -9,6 +9,7 @@ import { selectOrdersStatus, setStatusIdle } from '../../redux/reducers/orders'
 import { useDispatch, useSelector } from 'react-redux'
 import { STATUS } from '../../Actions'
 import { useNavigate } from 'react-router-dom'
+import ErrorBoundary from '../../Components/common/Errorboundary'
 
 const Cart = () => {
   const [show, setShow] = useState(false)
@@ -27,13 +28,17 @@ const Cart = () => {
     <PageStyled>
       <Container>
         <div className="flex">
-          <MyCart />
+          <ErrorBoundary>
+            <MyCart />
+          </ErrorBoundary>
           <aside>
             {/* <Coupon/> */}
             <Summary {...{ setShow }} />
           </aside>
           {show &&
-            <Checkout />
+            <ErrorBoundary>
+              <Checkout cancel={() => setShow(false)} />
+            </ErrorBoundary>
           }
         </div>
         {/* <DiscountSlide/> */}

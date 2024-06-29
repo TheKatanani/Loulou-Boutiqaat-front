@@ -14,6 +14,7 @@ import { setSaved, setSavedLocal, uploadLocalSaved } from './redux/reducers/save
 import { setSocial } from './redux/reducers/social';
 import { useEffect } from 'react';
 import useAxiosPrivate from './Hook/useAxiosPrivet';
+import ErrorBoundary from './Components/common/Errorboundary';
 function App() {
   const [theme, setTheme] = useState(lightTheme);
   const dispatch = useDispatch()
@@ -24,7 +25,7 @@ function App() {
     if (isAuthenticated) {
       dispatch(uploadLocalCart({ axiosPrivate }))
       dispatch(uploadLocalSaved({ axiosPrivate }))
-      setTimeout(() => { 
+      setTimeout(() => {
         // this for finish the last requiest then stay up to date with the new data
       }, 2000);
       dispatch(setCart({ axiosPrivate }))
@@ -38,7 +39,7 @@ function App() {
     dispatch(setPublishedProducts())
     dispatch(setCategories())
     dispatch(setPublishedCategories())
-    dispatch(setSocial({axiosPrivate}))
+    dispatch(setSocial({ axiosPrivate }))
     setTheme(localStorage.getItem('theme') === 'light' ? darkTheme : lightTheme);//change this fucken line and dont put static values
   }, [dispatch, user, isAuthenticated, axiosPrivate]);
   return (
@@ -46,7 +47,9 @@ function App() {
       <ThemeContext.Provider value={[theme, setTheme]}>
         <GlobalStyle /> {/* replace it into a css index file */}
         <Toggle />
-        <MyRoutes />
+        <ErrorBoundary>
+          <MyRoutes />
+        </ErrorBoundary>
       </ThemeContext.Provider>
     </ThemeProvider>
   );

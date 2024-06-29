@@ -6,7 +6,7 @@ const Alert = ({message, link,cancel}) => {
   return (
     <PortalCard>
       <StyledAlert>
-        <span onClick={cancel}>x</span>
+        <span className='cancel' onClick={cancel}>x</span>
         <p>{message}</p>
         {
           link &&
