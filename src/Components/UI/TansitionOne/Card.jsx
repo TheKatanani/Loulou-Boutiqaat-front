@@ -1,5 +1,6 @@
 import React from 'react'
 import { StyledCard } from './styled'
+import { Link } from 'react-router-dom'
 
 const Card = ({ img, id, name, background, description, setActive, isActive, card }) => {
   return (
@@ -11,8 +12,12 @@ const Card = ({ img, id, name, background, description, setActive, isActive, car
           <p>{description}</p>
         </header>
         <footer>
-          <p>lorem lorem lorem</p>
-          <button className="arrow">➡️</button>
+          <Link to={`/home/categories/${id}`}>
+            <p>View more</p>
+          </Link>
+          <Link to={`/home/categories/${id}`}>
+            <button className="arrow">➡️</button>
+          </Link>
         </footer>
 
       </div>

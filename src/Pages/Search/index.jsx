@@ -19,7 +19,7 @@ const Search = () => {
         {/* <Path path={path} /> */}
         <div className="content1">
           {/* add this feture later to filter the results */}
-          <Aside />
+          {/* <Aside /> */}
           <Main />
         </div>
       </Container>  

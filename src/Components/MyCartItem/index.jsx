@@ -47,11 +47,9 @@ const MyCartItem = ({ itemQuantity, data: { images, name, price = 0, description
           <button disabled={count <= itemQuantity} className="increase" onClick={() => {
             if (count > itemQuantity)
               dispatch(quantityCartItem({ productId: id, operator: OPERATOR.INCREASE, axiosPrivate }))
-            // dispatch(increase({ productId: id, cart, userId: user.id }))
           }}>+</button>
           <p className="quantity">{itemQuantity}</p>
           <button className="decrease"
-            // disabled={itemQuantity <= 0}
             onClick={() => {
               dispatch(quantityCartItem({ productId: id, operator: OPERATOR.DECREASE, axiosPrivate }))
             }}

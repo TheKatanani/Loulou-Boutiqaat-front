@@ -7,11 +7,9 @@ exports["default"] = exports.selectError = exports.selectCategoryId = exports.se
 
 var _toolkit = require("@reduxjs/toolkit");
 
-var _axios = _interopRequireDefault(require("axios"));
-
-var _API = require("../../API");
-
 var _Actions = require("../../Actions");
+
+var _axios = _interopRequireDefault(require("../../api/axios"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -72,7 +70,7 @@ var fetchSearchResults = (0, _toolkit.createAsyncThunk)("products/fetchSearchRes
       switch (_context.prev = _context.next) {
         case 0:
           _context.next = 2;
-          return regeneratorRuntime.awrap(_axios["default"].get("".concat(_API.API, "/products?name_like=").concat(encodeURIComponent(payload.searchTerm)).concat(payload.categoryId && "&categoryId=" + payload.categoryId)));
+          return regeneratorRuntime.awrap(_axios["default"].get("/product?name_like=".concat(encodeURIComponent(payload.searchTerm)).concat(payload.categoryId && "&categoryId=" + payload.categoryId)));
 
         case 2:
           response = _context.sent;

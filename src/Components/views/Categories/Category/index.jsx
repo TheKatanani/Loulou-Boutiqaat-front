@@ -38,9 +38,9 @@ const Category = ({ name, id }) => {
   useEffect(() => {
     setDisaple(sliderHandler)
   }, [sliderHandler])
-  useEffect(() => {
-    // status === STATUS.SUCCEEDED &&
-    setCategoryProducts(products)
+  useEffect(() => {  
+    const categoryProducts = products.filter((product)=> product.categoryId == id)
+    setCategoryProducts(categoryProducts) 
   }, [products, id, status])
    
   if (status === STATUS.LOADING) {

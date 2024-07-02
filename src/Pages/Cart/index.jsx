@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Container } from '../../Global/components'
-import MyCart from '../../Components/MyCart'
-// import Coupon from '../../Components/Coupon'
+import MyCart from '../../Components/MyCart' 
 import Summary from '../../Components/Summary'
 import { PageStyled } from './styled'
 import Checkout from '../../Components/Checkout'
@@ -31,8 +30,7 @@ const Cart = () => {
           <ErrorBoundary>
             <MyCart />
           </ErrorBoundary>
-          <aside>
-            {/* <Coupon/> */}
+          <aside> 
             <Summary {...{ setShow }} />
           </aside>
           {show &&
@@ -40,8 +38,7 @@ const Cart = () => {
               <Checkout cancel={() => setShow(false)} />
             </ErrorBoundary>
           }
-        </div>
-        {/* <DiscountSlide/> */}
+        </div> 
       </Container>
     </PageStyled>
   )

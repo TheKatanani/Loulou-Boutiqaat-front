@@ -1,14 +1,11 @@
 import {
   createAsyncThunk,
   createSlice
-} from '@reduxjs/toolkit';
-import axios from 'axios';
-import {
-  API,
-} from '../../API';
+} from '@reduxjs/toolkit';  
 import {
   STATUS
 } from '../../Actions';
+import axios from '../../api/axios';
 
 export const productsSlice = createSlice({
   name: 'search', //this is a key
@@ -64,7 +61,7 @@ export const productsSlice = createSlice({
 export const fetchSearchResults = createAsyncThunk(
   "products/fetchSearchResults",
   async (payload) => {
-    const response = await axios.get(`${API}/products?name_like=${encodeURIComponent(payload.searchTerm)}${payload.categoryId&&`&categoryId=`+payload.categoryId}`);
+    const response = await  axios.get(`/product?name_like=${encodeURIComponent(payload.searchTerm)}${payload.categoryId&&`&categoryId=`+payload.categoryId}`);
     return response
   }
 )

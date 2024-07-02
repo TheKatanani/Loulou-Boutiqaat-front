@@ -116,7 +116,9 @@ export const productsSlice = createSlice({
       .addCase(addNewProduct.fulfilled, (state, action) => {
         state.status = STATUS.SUCCEEDED;
         state.products = [...state?.products, action?.payload];
-        state.formData = initialAddProductState
+        if (action.payload?.published === true)
+          state.publishedProducts = action.payload
+        state.addProductState = initialAddProductState
       })
       .addCase(addNewProduct.rejected, (state, action) => {
         state.status = STATUS.FAILED;

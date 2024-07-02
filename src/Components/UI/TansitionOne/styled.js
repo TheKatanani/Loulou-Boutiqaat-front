@@ -54,12 +54,15 @@ export const StyledCard = styled.a `
     }
   } 
 footer{
-    padding: 20px;
-    margin-top: 30px;
-    display: flex;
-    justify-content: space-between;
-    transform: translateY(1rem);
-    width: 100%;
+  padding: 20px;
+  margin-top: 30px;
+  display: flex;
+  justify-content: space-between;
+  transform: translateY(1rem);
+  width: 100%;
+    a{
+      color:${props=>props.theme.palette.ColorApp.primary_light}; 
+    }
     .arrow{
       background-color: #00a6ed; 
       border:1px solid  #00a6ed;
@@ -68,6 +71,18 @@ footer{
       border-radius: 50%;
       width: 20px;
       height: 20px;
+      animation: arrow 1s infinite ease-in-out .4s forwards;
+    }
+    @keyframes arrow {
+      0%{
+      transform:translateX(0rem)
+    }
+      50%{
+      transform:translateX(.8rem)
+    }
+      80%{
+      transform:translateX(1rem)
+    }
     }
   }
   img{
@@ -93,7 +108,7 @@ footer{
     content:'';
     position: absolute;
     inset:0;
-    background:linear-gradient(360deg,#000,#00000033);
+    background: linear-gradient(360deg,#000,#555);
     opacity:0;
     transition: 0.4s ease-in-out;
     z-index: 2;
@@ -109,7 +124,7 @@ footer{
   }
   } &.active {
     ::before {
-      opacity: 0.35;
+      opacity: 0.75;
     }
   } >
   div { 
