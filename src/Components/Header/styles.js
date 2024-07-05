@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const Header = styled.header`
+export const Header = styled.header `
     padding:11px 0;
     position: fixed;
     top: 0;
@@ -53,7 +53,33 @@ export const Header = styled.header`
         >div>div{
         flex-wrap: wrap;
         justify-content: space-evenly;
+    } 
+}
+.categoriesPart{ 
+    display:flex;
+    justify-content:spce-evenly;
+.auth{
+    flex:.31;
+    /* display:inline-block; */
+    /* margin-left: auto; */
+    /* position:absolute;
+    top:0;
+    right:0; */
+    display:flex;   
+    @media (width < 990px) { 
+        flex:.8;
+        margin-top: 10px;
+    }
+    ${({theme})=>theme.media.xs}{
+        display:none;
+    }
+    button{
+        margin:0 5px;
+        padding:10px 12px;
+        width:80px;
+        border:2px solid ${(props)=>props.theme.palette.ColorApp.primary};
+        color:${(props)=>props.theme.palette.ColorApp.gray_800};
     }
 }
+}
 `
-

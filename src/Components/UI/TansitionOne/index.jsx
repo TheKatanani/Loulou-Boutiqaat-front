@@ -17,8 +17,8 @@ const TransitionOne = ({ card, title }) => {
   const [active, setActive] = useState()
   const { data, isLoading } = useFetch(`${API2}/category/published`)
   useEffect(() => {
-
-    !isLoading && data.length && setActive(data[2]?.id)
+    
+    !isLoading && data.length && setActive(data[0]?.id) 
   }, [data, isLoading])
   if (isLoading) {
     return <LogoLoading />

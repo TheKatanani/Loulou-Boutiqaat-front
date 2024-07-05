@@ -103,13 +103,9 @@ export const handleRegister = createAsyncThunk(
         name: formData?.name,
         password: formData?.password,
         gender: formData?.gender,
-        barthDay: formData?.barthDay,
-        roles: {
-          [formData?.role]: ROLES[formData?.role]
-        }
+        barthDay: formData?.barthDay, 
       }, {
-        withCredentials: true,
-        // signal: controller.signal
+        withCredentials: true, 
       })
       return res
     } catch (err) {

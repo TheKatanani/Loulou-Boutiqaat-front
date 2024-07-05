@@ -6,7 +6,7 @@ import {
   MOOD,
   STATUS
 } from '../../Actions';
-import axios from '../../api/axios'; 
+import axios from '../../api/axios';
 const initailState = {
   name: "",
   description: "",
@@ -17,7 +17,7 @@ export const categoriesSlice = createSlice({
   name: 'categories',
   initialState: {
     categories: [],
-    published:[],
+    published: [],
     formData: initailState,
     mood: MOOD.ADD,
     status: 'idle',
@@ -40,7 +40,7 @@ export const categoriesSlice = createSlice({
       state.mood = MOOD.UPDATE
       state.error = null
     },
-    cancelUpdate:(state)=>{
+    cancelUpdate: (state) => {
       state.mood = MOOD.ADD;
       state.error = null;
       state.formData = initailState;
@@ -105,7 +105,9 @@ export const categoriesSlice = createSlice({
       .addCase(addNewCategory.fulfilled, (state, action) => {
         state.status = STATUS.SUCCEEDED;
         state.categories = [...state?.categories, action?.payload];
-        state.formData = initailState 
+        if (action.payload?.published === true)
+          state.published = [...state?.published, action?.payload];
+        state.formData = initailState
       })
       .addCase(addNewCategory.rejected, (state, action) => {
         state.status = STATUS.FAILED;

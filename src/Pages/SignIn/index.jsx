@@ -74,7 +74,7 @@ function SignIn() {
                             <PasswordInput handleInputChange={handleInputChangeFunc} value={formData?.password} id={'password'} label={"password"} showPassword={formData.showPassword} showPasswordFunc={showPassword} />
                             {/* *********************** */}
                             {errors?.agree && <ErrorForm>{errors?.agree}</ErrorForm>}
-                            <Checkbox id="agree" label="Remember me" onChange={handleCheckBoxChangeFunc} />
+                            <Checkbox id="rememberMe" label="Remember me" onChange={handleCheckBoxChangeFunc} />
                             {errors?.isAxiosError && <ErrorForm>{errors?.isAxiosError}</ErrorForm>}
                             {errors?.message && <ErrorForm>{errors?.message}</ErrorForm>}
                             {/* <LogInButton type="submit">{formData.isLoading ? <ButtonAnimation /> : "Login"}</LogInButton> */}

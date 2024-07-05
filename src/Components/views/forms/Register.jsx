@@ -167,6 +167,7 @@ const Register = ({ setGender, isFromUserProfile, errors, status, showPasswordFu
       {/* remove this if is not there terms and conditions */}
       <Checkbox checked={formData.agree} id="agree" label="I agree with " primary="Terms and Conditions" onChange={handleCheckBoxChangeFunc} />
       {errors?.isAxiosError && <ErrorForm>{errors?.isAxiosError}</ErrorForm>}
+      {errors?.message && <ErrorForm>{errors?.message}</ErrorForm>}
       {/* correct these */}
       {/* {errors?.message && <ErrorForm>{errors?.message}</ErrorForm>} */}
       {success && <h3 style={{ color: 'green', fontWeight: 'bold' }}>{success}</h3>}

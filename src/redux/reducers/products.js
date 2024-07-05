@@ -117,7 +117,7 @@ export const productsSlice = createSlice({
         state.status = STATUS.SUCCEEDED;
         state.products = [...state?.products, action?.payload];
         if (action.payload?.published === true)
-          state.publishedProducts = action.payload
+          state.publishedProducts =[...state?.publishedProducts, action?.payload]; 
         state.addProductState = initialAddProductState
       })
       .addCase(addNewProduct.rejected, (state, action) => {

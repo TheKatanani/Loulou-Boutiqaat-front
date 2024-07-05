@@ -15,7 +15,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 
 var productsSlice = (0, _toolkit.createSlice)({
   name: 'search',
-  //this is a key
   initialState: {
     searchResults: [],
     status: 'idle',

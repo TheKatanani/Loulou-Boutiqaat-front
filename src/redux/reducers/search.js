@@ -8,7 +8,7 @@ import {
 import axios from '../../api/axios';
 
 export const productsSlice = createSlice({
-  name: 'search', //this is a key
+  name: 'search',
   initialState: {
     searchResults: [],
     status: 'idle',

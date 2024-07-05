@@ -17,11 +17,7 @@ const Sections = () => {
           <Profile />
           <p>Profile</p>
         </Link>
-      }
-      {/* <Link to="/page2" className="icon">
-        <Message />
-        <p>Message</p>
-      </Link> */}
+      } 
       <Link to="/home/saved" className="icon">
         <Orders />
         <p>Orders</p>

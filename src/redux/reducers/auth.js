@@ -8,13 +8,13 @@ import {
 } from '../../Actions';
 import {
     validationSchemaLogIn
-} from '../../validationSchema'; 
+} from '../../validationSchema';
 import axios from '../../api/axios';
 const initailFormState = {
     phone: "",
     selectPhone: "+972",
     password: "",
-    agree: false,
+    rememberMe: false,
     showPassword: false,
 }
 
@@ -26,7 +26,8 @@ const authSlice = createSlice({
         status: 'idle',
         error: null,
         user: {},
-        formData: initailFormState, 
+        formData: initailFormState,
+        rememberMe: false
         // {
         //     "id": "",
         //     "name": "",
@@ -38,7 +39,7 @@ const authSlice = createSlice({
         // }
     },
     reducers: {
-        setAxiosPrivate: (state, action) => { 
+        setAxiosPrivate: (state, action) => {
             state.axiosPrivate = action.payload
         },
         handleInputChange: (state, action) => {
@@ -78,33 +79,16 @@ const authSlice = createSlice({
             state.isAuthenticated = true;
             state.token = action.payload;
         },
-        // setLogOut(state) {
-        //     state.isAuthenticated = false;
-        //     state.token = null;
-        //     state.user = {};
-        //     localStorage.removeItem("token")
-        //     localStorage.removeItem("user")
-        // },
         setUser(state, action) {
             state.user = action.payload
         },
-        // setStatusIdle: (state) => {
-        //     state.status = 'idle';
-        // },
-        // setStatusLoading: (state) => {
-        //     state.status = STATUS.LOADING;
-        // },
-        // setStatusSucceeded: (state, action) => {
-        //     state.status = STATUS.SUCCEEDED;
-        //     state.token = action.payload
-        // },
-        // setStatusFailed: (state, action) => {
-        //     state.status = STATUS.FAILED;
-        //     state.error = action.payload?.errors;
-        // },
-        // clearError: (state) => {
-        //     state.error = null;
-        // },
+        resetUserInfo: (state) => {
+            state.isAuthenticated = false
+            state.token = null
+            state.status = 'idle'
+            state.error = null
+            state.user = {}
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -121,6 +105,7 @@ const authSlice = createSlice({
                     state.isAuthenticated = true;
                     state.user = action.payload?.data?.user
                     state.status = STATUS.SUCCEEDED;
+                    state.rememberMe = action.meta.arg.formData.rememberMe
                 } else {
                     state.status = STATUS.FAILED;
                 }
@@ -134,8 +119,10 @@ const authSlice = createSlice({
                 state.error = null;
             })
             .addCase(handleRefresh.fulfilled, (state, action) => {
+                state.token = action.payload?.accessToken;
+                state.isAuthenticated = true;
+                state.user = action.payload?.user
                 state.status = STATUS.SUCCEEDED;
-                state.token = action.payload;
             })
             .addCase(handleRefresh.rejected, (state, action) => {
                 state.status = STATUS.FAILED;
@@ -150,7 +137,7 @@ const authSlice = createSlice({
                 if (action.payload === 204) { // the sarver send this status for logout success with no content 
                     state.token = '';
                     state.isAuthenticated = false;
-                    state.user ={}
+                    state.user = {}
                 }
             })
             .addCase(handleLogout.rejected, (state, action) => {
@@ -197,11 +184,11 @@ export const handleLogin = createAsyncThunk(
 export const handleRefresh = createAsyncThunk(
     "auth/handleRefresh",
     async () => {
-        const res = await axios.post('/refresh', {
+        const res = await axios.get('/refresh', {
             withCredentials: true,
         })
         if (res) {
-            return res?.data?.accessToken
+            return res?.data
         }
     })
 export const handleLogout = createAsyncThunk(
@@ -220,6 +207,7 @@ export const selectStatus = state => state.auth.status;
 export const selectError = state => state.auth.error;
 export const SelectIsAuthenticated = state => state.auth.isAuthenticated
 export const selectFormData = state => state.auth.formData
+export const selectRememberMe = state => state.auth.rememberMe
 
 export const {
     handleInputChange,
@@ -231,6 +219,7 @@ export const {
     clearError,
     showPassword,
     setLogIn,
-    setAxiosPrivate
+    setAxiosPrivate,
+    resetUserInfo
 } = authSlice.actions;
 export default authSlice.reducer;

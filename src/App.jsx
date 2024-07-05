@@ -8,7 +8,7 @@ import MyRoutes from './Routes'
 import { useDispatch, useSelector } from 'react-redux';
 import { setProducts, setPublishedProducts } from './redux/reducers/products';
 import { setCategories, setPublishedCategories } from './redux/reducers/categories';
-import { SelectIsAuthenticated, selectUser } from './redux/reducers/auth';
+import { SelectIsAuthenticated, handleRefresh, selectRememberMe, selectUser } from './redux/reducers/auth';
 import { setCart, setCartLocal, uploadLocalCart } from './redux/reducers/cart';
 import { setSaved, setSavedLocal, uploadLocalSaved } from './redux/reducers/saved';
 import { setSocial } from './redux/reducers/social';
@@ -21,6 +21,8 @@ function App() {
   const user = useSelector(selectUser)
   const axiosPrivate = useAxiosPrivate()
   const isAuthenticated = useSelector(SelectIsAuthenticated)
+  const remeberMe = useSelector(selectRememberMe)
+
   useEffect(() => {
     if (isAuthenticated) {
       dispatch(uploadLocalCart({ axiosPrivate }))
@@ -31,6 +33,8 @@ function App() {
       dispatch(setCart({ axiosPrivate }))
       dispatch(setSaved({ axiosPrivate }))
     } else {
+      remeberMe &&
+        dispatch(handleRefresh())
       // this is for guest user before registeration
       dispatch(setCartLocal())
       dispatch(setSavedLocal())

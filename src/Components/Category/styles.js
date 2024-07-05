@@ -2,7 +2,8 @@ import styled from "styled-components";
 
 export const CategoryStyled = styled.div `
         display: flex;
-        width: 100%;
+        /* width: 100%; */
+        flex:1;
         gap:20px;
         justify-content:space-between;
         align-items:center;
