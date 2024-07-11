@@ -1,10 +1,10 @@
 import { LoginStyle } from './styled';
 import Input from '../../Components/Input';
 import Checkbox from '../../Components/Checkbox';
-import { Link } from 'react-router-dom'; 
+import { Link } from 'react-router-dom';
 import { Container } from '../../Global/components';
 import ErrorForm from '../../Components/ErrorForm';
-import { handleCheckBoxChange, handleInputChange, selectFormData, showPassword, selectStatus, selectError, setStatusIdle } from '../../redux/reducers/auth.js';
+import { handleCheckBoxChange, handleInputChange, selectFormData, showPassword, selectStatus, selectError, setStatusIdle, selectRememberMe } from '../../redux/reducers/auth.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { API2 } from '../../API.js';
 import { handleLogin } from '../../redux/reducers/auth.js';
@@ -14,12 +14,13 @@ import LogoLoading from '../../Components/common/LogoLoading/index.jsx';
 import PasswordInput from '../../Components/common/PasswordInput/index.jsx';
 import Copy from '../../Components/UI/Copy/index.jsx';
 import ButtonAnimation from '../../Components/common/ButtonAnimation/index.jsx';
-import { useEffect } from 'react'; 
+import { useEffect } from 'react';
 function SignIn() {
     const formData = useSelector(selectFormData);
     const status = useSelector(selectStatus)
-    const errors = useSelector(selectError) 
+    const errors = useSelector(selectError)
     const dispatch = useDispatch()
+    const rememberMe = useSelector(selectRememberMe)
     const { data: allowedPhones, error, isLoading } = useFetch(`${API2}/countryCode`)
     // // // // // // // // /// // // // // // // // // /// // // // // // // // // /// 
     const handleInputChangeFunc = (event) => {
@@ -34,8 +35,8 @@ function SignIn() {
         dispatch(handleLogin({ formData }))
     };
     useEffect(() => {
-        setStatusIdle()
-    })
+        dispatch(setStatusIdle())
+    },[dispatch])
     if (isLoading) {
         return <LogoLoading />
     }
@@ -74,7 +75,7 @@ function SignIn() {
                             <PasswordInput handleInputChange={handleInputChangeFunc} value={formData?.password} id={'password'} label={"password"} showPassword={formData.showPassword} showPasswordFunc={showPassword} />
                             {/* *********************** */}
                             {errors?.agree && <ErrorForm>{errors?.agree}</ErrorForm>}
-                            <Checkbox id="rememberMe" label="Remember me" onChange={handleCheckBoxChangeFunc} />
+                            <Checkbox id="rememberMe" label="Remember me" onChange={handleCheckBoxChangeFunc} checked={rememberMe} />
                             {errors?.isAxiosError && <ErrorForm>{errors?.isAxiosError}</ErrorForm>}
                             {errors?.message && <ErrorForm>{errors?.message}</ErrorForm>}
                             {/* <LogInButton type="submit">{formData.isLoading ? <ButtonAnimation /> : "Login"}</LogInButton> */}

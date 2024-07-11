@@ -2,10 +2,9 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { StyledTable } from '../sytled'
 import { MOOD } from '../../../Actions'
-import { deleteUser, selectAddUserState, selectMood, selectUsers, setUpdateUser } from '../../../redux/reducers/users'
+import { deleteUser, selectAddUserState, selectMood, setUpdateUser } from '../../../redux/reducers/users'
 import useAxiosPrivate from '../../../Hook/useAxiosPrivet'
-const Table = () => {
-  const users = useSelector(selectUsers)
+const Table = ({ users }) => {
   const dispatch = useDispatch()
   const mood = useSelector(selectMood)
   const { id } = useSelector(selectAddUserState)

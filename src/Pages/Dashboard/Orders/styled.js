@@ -14,3 +14,17 @@ export const StyledBill = styled.div `
         margin: 10px;
     }
 `
+export const StyledOrders = styled.div ` 
+    padding: 20px; 
+    .input{
+        input{
+        background-color:${({theme})=>theme.palette.main};
+        }
+        margin: 0px auto;
+        width: max(50%,100px);
+    }
+    color:${({theme})=>theme.palette.font};   
+    table{
+        margin:10px 0;
+    }
+`

@@ -1,11 +1,14 @@
 import { Link } from "react-router-dom"
-import { About, Categories, ContactUs, Favorites, Home, Language, MyOrders, Profile } from "../../Icons"
-import Avater from "../Avater"
+import { Categories, ContactUs, Favorites, Home, MyOrders, Profile } from "../../Icons"
 import Toggle from "../Toggle"
 import { MenuStyled } from "./styeld"
 import Logo from "../Logo"
+import { MainButton } from "../../Global/components"
+import { useSelector } from "react-redux"
+import { SelectIsAuthenticated } from "../../redux/reducers/auth"
 
 const Menu = ({ show }) => {
+    const isAuthorized = useSelector(SelectIsAuthenticated)
     return (
         <MenuStyled  {...{ show }}>
             <header>
@@ -43,42 +46,33 @@ const Menu = ({ show }) => {
                     </Link>
                 </li>
                 <li>
-                    <Link to="">
-                        <div className="iconArea"><Language /></div>
-                        <p>English | USD</p>
-                    </Link>
-                </li>
-                <li>
-                    {/* contact us WhatsApp */}
-                    <Link to="">
+                    {/* contact us WhatsApp */} 
+                    <Link to={`https://wa.me/00970597229340`} target="_blank">
                         <div className="iconArea"><ContactUs /></div>
                         <p>Contact us</p>
                     </Link>
                 </li>
-                <li>
+                {/* <li>
                     <Link to="">
                         <div className="iconArea"><About /></div>
                         <p>About</p>
                     </Link>
-                </li>
-                <li>
-                    <Link to="">
-                        <div className="iconArea"></div>
-                        <p>User agreement</p>
-                    </Link>
-                </li>
-                <li>
-                    <Link to="">
-                        <div className="iconArea"></div>
-                        <p>Partnership</p>
-                    </Link>
-                </li>
-                <li>
-                    <Link to="">
-                        <div className="iconArea"></div>
-                        <p>Privacy policy</p>
-                    </Link>
-                </li>
+                </li>  */}
+                {
+                    !isAuthorized &&
+                    <li className="auth">
+                        <Link to="/login">
+                            <MainButton>
+                                logIn
+                            </MainButton>
+                        </Link>
+                        <Link to="/register">
+                            <MainButton>
+                                register
+                            </MainButton>
+                        </Link>
+                    </li>
+                }
                 <li><Toggle /></li>
             </ul>
         </MenuStyled>

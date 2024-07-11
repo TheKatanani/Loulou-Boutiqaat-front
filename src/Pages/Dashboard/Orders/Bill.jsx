@@ -4,9 +4,7 @@ import { selectProducts } from '../../../redux/reducers/products'
 import { StyledBill } from './styled'
 
 const Bill = ({ orders, paid = 0 }) => {
-  // orders => [{productId,quantity}]
   const products = useSelector(selectProducts)
-  console.log(orders)
   let billTotal = 0
   return (
     <StyledBill>
@@ -14,7 +12,7 @@ const Bill = ({ orders, paid = 0 }) => {
         <thead>
           <tr>
             <th className='id'>id</th>
-            <th >product</th>{/* product name */}
+            <th >product</th> 
             <th >quantity</th>
             <th >cost</th>
             <th >total</th>

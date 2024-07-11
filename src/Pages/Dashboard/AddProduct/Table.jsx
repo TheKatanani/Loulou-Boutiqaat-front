@@ -12,7 +12,7 @@ const Table = ({products}) => {
   const { id } = useSelector(selectAddProductsState)
   const mood = useSelector(selectMood)
   return (
-    <StyledTable>
+    <StyledTable style={{margin:'10px 0'}}>
       <thead>
         <tr>
           <th className='id'>id</th>

@@ -151,13 +151,24 @@ export const StyledAdd = styled.div `
   }
   form{
     padding:20px;
+    margin-top: 20px; 
+  }
+  .input{
     margin-top: 20px;
+    input{
+      background-color:${({theme})=>theme.palette.main};
+    }
+      margin: 0px auto;
+      width: max(50%,100px);
   }
 `
 export const StyledTable = styled.table `
+  td .checkbox{
+    justify-content:center;
+  }
   width:100%;
-  overflow-x: auto; 
-  margin: 60px 0;
+  overflow-x: auto;
+  margin: 20px 0;
   box-shadow: 5px 5px 10px ${props=>props.theme.palette.ColorApp.gray_100};
   @media (width <= 300px) {
     .images{

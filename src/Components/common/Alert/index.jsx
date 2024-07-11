@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import PortalCard from '../../UI/PortalCard'
 import { StyledAlert } from './styled'
 
-const Alert = ({message, link,cancel}) => {
+const Alert = ({ message, link, cancel }) => {
   return (
     <PortalCard>
       <StyledAlert>
@@ -10,7 +10,7 @@ const Alert = ({message, link,cancel}) => {
         <p>{message}</p>
         {
           link &&
-          <Link to={link?.path}>{link.message}</Link>
+          <Link to={link?.path} target={link.target ? link.target : '_self'}>{link.message}</Link>
         }
       </StyledAlert>
     </PortalCard>

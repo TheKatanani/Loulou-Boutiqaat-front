@@ -81,7 +81,7 @@ const UpdateInfo = () => {
         <Register isFromUserProfile={true} showPasswordFunc={showPasswordFunc} {...{ status, errors, formData, showPassword, handleSubmit, handleInputChangeFunc, handleCheckBoxChangeFunc }} />
         {
           status === STATUS.SUCCEEDED &&
-          <Alert text={'updated successfolly'} />
+          <Alert text={'updated successfully'} />
         }
       </Container>
     </div>

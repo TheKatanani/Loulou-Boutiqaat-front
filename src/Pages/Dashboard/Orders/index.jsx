@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from 'react'
-import { StyledTable } from '../sytled'
 import { useDispatch, useSelector } from 'react-redux'
-import { removeOrder, selectOrders, setOrders } from '../../../redux/reducers/orders'
+import { selectOrders, setOrders } from '../../../redux/reducers/orders'
 import useAxiosPrivate from '../../../Hook/useAxiosPrivet'
-import PortalCard from '../../../Components/UI/PortalCard'
-import Bill from './Bill'
-import User from './User'
-import { setUsers } from '../../../redux/reducers/users'
+import { selectUsers, setUsers } from '../../../redux/reducers/users'
+import Table from './Table'
+import Input from '../../../Components/Input'
+import { StyledOrders } from './styled'
 
 const Orders = () => {
   const dispatch = useDispatch()
   const orders = useSelector(selectOrders)
+  const [visibleOrders, setVisibleOrders] = useState(orders)
+  const users = useSelector(selectUsers)
+  const [searchTerm, setSearchTerm] = useState('')
+  const axiosPrivate = useAxiosPrivate()
   const [bill, setBill] = useState({
     orders: '',
     show: false
@@ -19,7 +22,6 @@ const Orders = () => {
     userId: '',
     show: false
   })
-  const axiosPrivate = useAxiosPrivate()
   const handlePillShow = (orders) => {
     setBill({
       orders,
@@ -32,58 +34,45 @@ const Orders = () => {
       show: true
     })
   }
+
+  const handleSearchChanged = (e) => {
+    const value = e.target.value
+    setSearchTerm(value)
+  }
+  useEffect(() => {
+    if (visibleOrders.length <= 0 || searchTerm.length <= 0) {
+      setVisibleOrders(orders)
+    }
+  }, [visibleOrders, orders, searchTerm])
+  useEffect(() => {
+    if (searchTerm) {
+      const visible = orders.filter(order => { 
+        const user = users.find(u => u.id === order.userId) 
+        return user.name.includes(searchTerm) 
+      })
+      setVisibleOrders(visible)
+    }
+  }, [searchTerm, orders, users])
   useEffect(() => {
     dispatch(setOrders({ axiosPrivate }))
     dispatch(setUsers({ axiosPrivate }))
-  }, [dispatch, axiosPrivate]) 
+  }, [dispatch, axiosPrivate])
   return (
-    <StyledTable >
-      <thead>
-        <tr>
-          <th className='id'>id</th>
-          <th >user</th>
-          <th >orders</th>
-          <th >location</th>
-          <th >total Cost</th>
-          <th >paid</th>
-          <th>delete</th>
-        </tr>
-      </thead>
-      <tbody>
-        {
-          orders?.map(order => (
-            <tr key={order.id}>
-              <td className='id'>{order?.id}</td> 
-              <td style={{cursor:'pointer'}}  onClick={() => handleUserShow(order?.userId)}>view the user</td>
-              <td style={{cursor:'pointer'}}  onClick={() => handlePillShow(order?.orders)}>view the bill</td>
-              <td >{order?.location}</td>
-              <td >{order?.totalCost}</td>
-              <td >{order?.paid}</td>
-              <td>
-                <button className='delete'
-                  onClick={() => {
-                    dispatch(removeOrder({ orderId: order.id, axiosPrivate }))
-                  }}>
-                  delete
-                </button>
-              </td>
-            </tr>
-          ))
-        }
-      </tbody>
-      {
-        bill.show &&
-        <PortalCard onClick={() => setBill(prev => ({ ...prev, show: !bill.show }))}>
-          <Bill orders={bill?.orders} />
-        </PortalCard>
-      }
-      {
-        userState.show &&
-        <PortalCard onClick={() => setUserState(prev => ({ ...prev, show: !userState.show }))}>
-          <User userId={userState.userId} />
-        </PortalCard>
-      }
-    </StyledTable>
+    <StyledOrders>
+      <Input
+      label="Search By User Name"
+        type='text'
+        id='search'
+        placeholder='search term'
+        onChange={handleSearchChanged}
+        value={searchTerm}
+      />
+      <h2>Current Orders</h2>
+      <Table orders={visibleOrders.filter(order => !order.status)} {...{ handlePillShow, handleUserShow, bill, setBill, userState, setUserState }} />
+      <br />
+      <h2>Old Orders</h2>
+      <Table orders={visibleOrders.filter(order => order.status)} {...{ handlePillShow, handleUserShow, bill, setBill, userState, setUserState }} />
+    </StyledOrders>
   )
 }
 

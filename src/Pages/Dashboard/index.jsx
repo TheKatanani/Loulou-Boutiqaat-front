@@ -21,19 +21,19 @@ const Dashboard = () => {
               <Link to='/home'>Home</Link>
             </li>
             <li>
-              <Link to='/dashboard'>Add Products</Link>
+              <Link to='/dashboard'>Products</Link>
             </li>
             <li>
-              <Link to='addcategory'>Add Catetory</Link>
+              <Link to='addcategory'>Catetories</Link>
             </li>
             {
               user?.role === ROLES.ADMIN &&
               <li>
-                <Link to='adduser'>Add User</Link>
+                <Link to='adduser'>Users</Link>
               </li>
             }
             <li>
-              <Link to='AddSocial'>Add Social</Link>
+              <Link to='AddSocial'>Social</Link>
             </li>
             <li>
               <Link to='orders'>Orders</Link>

@@ -14,7 +14,7 @@ const initailFormState = {
     phone: "",
     selectPhone: "+972",
     password: "",
-    rememberMe: false,
+    rememberMe: JSON.parse(localStorage.getItem('rememberMe')),
     showPassword: false,
 }
 
@@ -27,7 +27,6 @@ const authSlice = createSlice({
         error: null,
         user: {},
         formData: initailFormState,
-        rememberMe: false
         // {
         //     "id": "",
         //     "name": "",
@@ -55,6 +54,8 @@ const authSlice = createSlice({
                 checked
             } = action.payload
             state.formData[id] = checked
+            if (id === 'rememberMe')
+                localStorage.setItem('rememberMe', checked)
         },
         setStatusIdle: (state) => {
             state.status = 'idle';
@@ -81,6 +82,11 @@ const authSlice = createSlice({
         },
         setUser(state, action) {
             state.user = action.payload
+        },
+        handlelocalLogout(state) {
+            state.token = '';
+            state.isAuthenticated = false;
+            state.user = {}
         },
         resetUserInfo: (state) => {
             state.isAuthenticated = false
@@ -157,7 +163,8 @@ export const handleLogin = createAsyncThunk(
             });
             const res = await axios.post('/login', {
                 phone: `${formData.selectPhone}${formData.phone}`,
-                password: formData.password
+                password: formData.password,
+                rememberMe: formData.rememberMe
             }, {
                 withCredentials: true,
                 // signal: controller.signal
@@ -207,7 +214,7 @@ export const selectStatus = state => state.auth.status;
 export const selectError = state => state.auth.error;
 export const SelectIsAuthenticated = state => state.auth.isAuthenticated
 export const selectFormData = state => state.auth.formData
-export const selectRememberMe = state => state.auth.rememberMe
+export const selectRememberMe = state => state.auth.formData.rememberMe
 
 export const {
     handleInputChange,
@@ -220,6 +227,7 @@ export const {
     showPassword,
     setLogIn,
     setAxiosPrivate,
+    handlelocalLogout,
     resetUserInfo
 } = authSlice.actions;
 export default authSlice.reducer;

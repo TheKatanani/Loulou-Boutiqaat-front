@@ -54,16 +54,27 @@ const ordersSlice = createSlice({
         state.status = STATUS.LOADING;
         state.error = null
       })
-      .addCase(removeOrder.fulfilled, (state, action) => { 
+      .addCase(removeOrder.fulfilled, (state, action) => {
         state.status = STATUS.SUCCEEDED;
         state.orders = state.orders.filter(order => order.id != action.payload)
-        // state.orders = state.orders.map(order => order.id == orderId ?
-        //   order.filter(item => item.productId != action.payload) :
-        //   order
-        //   )
-        // .filter(item => item.productId != action.payload);
       })
       .addCase(removeOrder.rejected, (state, action) => {
+        state.status = STATUS.FAILED;
+        state.error = action.payload;
+      })
+      // updateOrder
+      .addCase(updateOrder.pending, (state) => {
+        state.status = STATUS.LOADING;
+        state.error = null
+      })
+      .addCase(updateOrder.fulfilled, (state, action) => {
+        state.status = STATUS.SUCCEEDED;
+        state.orders = state.orders.map(order => order.id == action.payload.id ? {
+          ...order,
+          ...action.payload
+        } : order)
+      })
+      .addCase(updateOrder.rejected, (state, action) => {
         state.status = STATUS.FAILED;
         state.error = action.payload;
       })
@@ -89,6 +100,17 @@ export const addOrder = createAsyncThunk(
   }
 )
 
+export const updateOrder = createAsyncThunk(
+  "order/updateOrder",
+  async ({
+    orderId,
+    data,
+    axiosPrivate
+  }) => {
+    const response = await axiosPrivate.put(`/order/${orderId}`, data);
+    return response.data
+  }
+)
 export const removeOrder = createAsyncThunk(
   "order/removeOrder",
   async ({

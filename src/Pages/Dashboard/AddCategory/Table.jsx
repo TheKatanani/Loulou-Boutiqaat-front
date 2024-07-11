@@ -26,8 +26,7 @@ const Table = () => {
         return ++count
       }
       return count
-    }, 0)
-    console.log(catetoryProducts)
+    }, 0) 
     if (catetoryProducts > 0) {
       setMessage(`you can not delete this category, there ${catetoryProducts} products in this category`)
       setIsAlert(true)

@@ -20,18 +20,24 @@ figure {
 }
 color:${({theme})=>theme.palette.ColorApp.primary};  
 .text{
-    min-width: min(100%,400px);
-      flex: 1;
-      padding: 20px;
-      text-align: center;
-      font-family: 'Times New Roman', Times, serif;
-    h1{
-      font-size: 5rem;
-    }
-    p{
-      font-size: 1.2rem;
-      padding: 20px;
-      color: #000;
+  min-width: min(100%,400px);
+  flex: 1;
+  padding: 20px;
+  text-align: center;
+  font-family: 'Times New Roman', Times, serif;
+  h1{
+    font-size: 5rem;
+  }
+  p{
+    font-size: 1.2rem;
+    direction:rtl;
+    padding: 20px;
+    color:${({theme})=>theme.palette.ColorApp.primary};
+    /* color:black;   */
+    font-size:22px;
+    font-weight:bold;
+      margin-top: 30px;
+      line-height: 35px;
     }
   }
 `

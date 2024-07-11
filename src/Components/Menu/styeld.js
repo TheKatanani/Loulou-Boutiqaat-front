@@ -44,11 +44,23 @@ export const MenuStyled = styled.div`
                 width:100%;
                 justify-content:space-between;
                 align-items: center;
-                gap:10px;
-                button{
+                gap:3px;
+                padding:0;
+                button{ 
                     border: 1px solid ${props=>props.theme.palette.ColorApp.gray_500};
+                    font-size:12px;
+                    :last-child{
+                        padding:3px 5px;
+                    }
                 }
             }
+        }
+    }
+    .auth{
+        display: flex;
+        gap:5px; 
+        a{
+            flex:1
         }
     }
     display: none;

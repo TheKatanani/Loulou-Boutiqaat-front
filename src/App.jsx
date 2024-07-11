@@ -32,7 +32,7 @@ function App() {
       }, 2000);
       dispatch(setCart({ axiosPrivate }))
       dispatch(setSaved({ axiosPrivate }))
-    } else {
+    } else { 
       remeberMe &&
         dispatch(handleRefresh())
       // this is for guest user before registeration
@@ -45,7 +45,7 @@ function App() {
     dispatch(setPublishedCategories())
     dispatch(setSocial({ axiosPrivate }))
     setTheme(localStorage.getItem('theme') === 'light' ? darkTheme : lightTheme);//change this fucken line and dont put static values
-  }, [dispatch, user, isAuthenticated, axiosPrivate]);
+  }, [dispatch, user, isAuthenticated,remeberMe, axiosPrivate]);
   return (
     <ThemeProvider theme={theme} page="page4">
       <ThemeContext.Provider value={[theme, setTheme]}>
