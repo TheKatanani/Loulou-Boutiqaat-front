@@ -120,15 +120,16 @@ export const StyledForm = styled.form `
     }
     display: flex;
     justify-content: center;
-    align-items:end;
+    align-items:center;
+    /* flex-direction:row; */
     ${({theme:{media}})=>media.xs}{
-    flex-wrap: wrap;
+    flex-wrap: wrap; 
   }
     ${({theme:{media}})=>media.s}{
-    flex-wrap: wrap;
+    flex-wrap: wrap; 
   }
     ${({theme:{media}})=>media.m}{
-    flex-wrap: nowrap;
+    flex-wrap: nowrap; 
   }
     gap:10px;
     .input,.select,select{
@@ -159,7 +160,7 @@ export const StyledAdd = styled.div `
       background-color:${({theme})=>theme.palette.main};
     }
       margin: 0px auto;
-      width: max(50%,100px);
+      /* width: max(50%,100px); */
   }
 `
 export const StyledTable = styled.table `
@@ -184,6 +185,8 @@ export const StyledTable = styled.table `
 ,.gender
 ,.password
 ,.role
+,.price
+,.category
 ,.stars{
   display:none
 }}
@@ -192,11 +195,22 @@ ${({theme:{media}})=>media.s}{
   ,.role
   ,.barthDay
   ,.gender
+  ,.price 
+  ,.category
   ,.description 
 ,.stars{
 display:none
 }}
-  ${({theme:{media}})=>media.l}{
+${({theme:{media}})=>media.m}{
+  .id 
+  ,.role
+  ,.barthDay
+  ,.gender
+  ,.description 
+,.stars{
+display:none
+}}
+  ${({theme:{media}})=>media.xl}{
   .id
 ,.description
 ,.previous
@@ -205,6 +219,8 @@ display:none
 ,.gender
 ,.password
 ,.role
+,.price
+,.category
 ,.stars{
 display:table-cell
 }

@@ -18,12 +18,12 @@ const Table = ({products}) => {
           <th className='id'>id</th>
           <th>name</th>
           <th className='description'>description</th>
-          <th>price</th>
+          <th className='price'>price</th>
           <th className='previous'>pre price</th>
           <th className='images'>images</th>
           <th className='count'>count</th>
           <th className='stars'>stars</th>
-          <th>category</th>
+          <th className='category'>category</th>
           <th>visibility</th>
           <th>update</th>
           <th>delete</th>
@@ -36,7 +36,7 @@ const Table = ({products}) => {
               <td className='id'>{product.id}</td>
               <td>{product.name}</td>
               <td className='description'>{product.description?.slice(0, 50)}...</td>
-              <td>{product.price}</td>
+              <td className='price'>{product.price}</td>
               <td className='previous'>{product.prevPrice}</td>
               <td className='images'>{
                 product?.images && typeof (product.images) === 'string' ? JSON.parse(product.images) : product.images?.map((img, i) => (
@@ -45,7 +45,7 @@ const Table = ({products}) => {
               }</td>
               <td className='count'>{product?.count}</td>
               <td className='stars'>{product.stars}</td>
-              <td>{categories.find(el => el.id == product.categoryId)?.name
+              <td className='category'>{categories.find(el => el.id == product.categoryId)?.name
               }</td>
               <td className='visibility'>{product?.published == 1 || product?.published === undefined ? 'published' : 'unpublished'}</td>
               <td>

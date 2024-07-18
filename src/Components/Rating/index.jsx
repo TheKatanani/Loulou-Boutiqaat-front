@@ -20,11 +20,11 @@ const Rating = ({ num, num2 }) => {
           <StarYellow />
         </Fragment>
       ))}
-      {grayStars.map((_, i) => (
+      {grayStars.length ? grayStars.map((_, i) => (
         <Fragment key={i}>
           <StarGray />
         </Fragment>
-      ))}
+      )) : undefined}
       <span>{num2}</span>
     </StyleRating>
   );

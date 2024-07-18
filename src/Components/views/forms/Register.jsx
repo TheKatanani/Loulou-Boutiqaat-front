@@ -28,7 +28,7 @@ const Register = ({ setGender, isFromUserProfile, errors, status, showPasswordFu
       // to dont fill the new password input in hash password
       dispatch(handleInputChangeReducer({ id: "password", value: '' }))
     }
-  }, [formData.id])
+  }, [formData.id, dispatch, mood])
   if (isLoading) {
     return <LogoLoading />
   }

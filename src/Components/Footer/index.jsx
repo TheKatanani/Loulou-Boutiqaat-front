@@ -10,12 +10,14 @@ import { useEffect } from 'react'
 import Copy from '../UI/Copy'
 import { selectPublishedCategoryies } from '../../redux/reducers/categories'
 import { STATUS } from '../../Actions'
+import useAxiosPrivate from '../../Hook/useAxiosPrivet'
 // import { selectPublishedProducts } from '../../redux/reducers/products'
 const Footer = () => {
     const dispatch = useDispatch()
     const social = useSelector(selectSocial)
     const socialStatus = useSelector(selectStatus)
     const categories = useSelector(selectPublishedCategoryies)
+    const axiosPrivate = useAxiosPrivate()
     // const products = useSelector(selectPublishedProducts)
     // const validcategories = categories?.map((category) => {
     //     return products.find(product => {
@@ -80,21 +82,26 @@ const Footer = () => {
     ]
     let facebook = '',
         X = '',
-        instagram = ''
+        instagram = '',
+        whatsApp;
     if (socialStatus === STATUS.SUCCEEDED) {
         facebook = social?.find(el => el?.name === 'facebook')?.value || ''
         X = social?.find(el => el?.name === 'x')?.value || ''
         instagram = social?.find(el => el?.name === 'instagram')?.value || ''
+        whatsApp = social?.find(el => el?.name === 'whatsApp')?.value || ''
     }
     useEffect(() => {
-        dispatch(setSocial())
-    }, [dispatch])
+        dispatch(setSocial({ axiosPrivate }))
+    }, [dispatch, axiosPrivate])
     return (
         <FooterStyled>
             <Container className='container'>
                 <div className='logoBox'>
                     <Logo />
-                    <p>Best information about the company gies here but now lorem ipsum is </p>
+                    <p>
+                        Online boutique ♾️<br /> 📍 Gaza <br />
+                        Skincare, Cosmetics and more...<br />🧖‍♀️💅💄
+                    </p>
                     <div className="icons">
                         <Link to={facebook} target='_blank' className="facebook">
                             <FaceBook />
@@ -113,6 +120,10 @@ const Footer = () => {
                     {footerData.map((el, i) => (
                         <FooterList key={i} title={el.title} data={el.data} />
                     ))}
+                </div>
+                <div>
+                    <h4>Contact Us</h4>
+                    <p>{whatsApp}</p>
                 </div>
             </Container>
             <Copy />

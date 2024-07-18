@@ -10,7 +10,7 @@ var _styledComponents = _interopRequireDefault(require("styled-components"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _templateObject4() {
-  var data = _taggedTemplateLiteral(["\n  td .checkbox{\n    justify-content:center;\n  }\n  width:100%;\n  overflow-x: auto;\n  margin: 20px 0;\n  box-shadow: 5px 5px 10px ", ";\n  @media (width <= 300px) {\n    .images{\n      display: none;\n    }\n  }\n  ", "{\n  .id\n,.description\n,.previous\n,.count\n,.barthDay\n,.gender\n,.password\n,.role\n,.stars{\n  display:none\n}}\n", "{\n  .id \n  ,.role\n  ,.barthDay\n  ,.gender\n  ,.description \n,.stars{\ndisplay:none\n}}\n  ", "{\n  .id\n,.description\n,.previous\n,.count\n,.barthDay\n,.gender\n,.password\n,.role\n,.stars{\ndisplay:table-cell\n}\n  }\n  th , td {\n    width: fit-content;\n    max-width: 150px;\n    padding: 5px;\n    text-align: center;\n  }\n  th{\n    background-color:", ";\n  }\n  td{\n    background-color:", "; \n    color:", "; \n    &.images{\n    img{\n      width: 30px;\n      height: 30px;\n      border-radius: 50%;\n      border:1px solid;\n      object-fit: cover;\n    }\n      overflow-x: auto;\n    }\n    button{\n      padding: 5px 7px;\n      border-radius: 8px;\n      cursor: pointer;\n      font-weight: bold;\n      ", "{\n        font-weight: normal;\n        padding: 2px 4px;\n        font-size: 1rem;\n  }\n      color:", "; \n      border:2px solid ", ";\n      &.update{\n        background-color:", ";\n      }\n      &.delete{\n        background-color:red;\n      }\n    }\n  }\n  tr{\n    &:nth-child(2n){\n      td{\n        background-color:", ";\n      }\n  }\n    \n    &.underUpdate \n    {\n      td{ \n        background-color:", ";\n      }\n      button{\n        background-color: ", ";\n        opacity: 0.7;\n        cursor:not-allowed;\n      }\n    }\n}\n"]);
+  var data = _taggedTemplateLiteral(["\n  td .checkbox{\n    justify-content:center;\n  }\n  width:100%;\n  overflow-x: auto;\n  margin: 20px 0;\n  box-shadow: 5px 5px 10px ", ";\n  @media (width <= 300px) {\n    .images{\n      display: none;\n    }\n  }\n  ", "{\n  .id\n,.description\n,.previous\n,.count\n,.barthDay\n,.gender\n,.password\n,.role\n,.price\n,.category\n,.stars{\n  display:none\n}}\n", "{\n  .id \n  ,.role\n  ,.barthDay\n  ,.gender\n  ,.price \n  ,.category\n  ,.description \n,.stars{\ndisplay:none\n}}\n", "{\n  .id \n  ,.role\n  ,.barthDay\n  ,.gender\n  ,.description \n,.stars{\ndisplay:none\n}}\n  ", "{\n  .id\n,.description\n,.previous\n,.count\n,.barthDay\n,.gender\n,.password\n,.role\n,.price\n,.category\n,.stars{\ndisplay:table-cell\n}\n  }\n  th , td {\n    width: fit-content;\n    max-width: 150px;\n    padding: 5px;\n    text-align: center;\n  }\n  th{\n    background-color:", ";\n  }\n  td{\n    background-color:", "; \n    color:", "; \n    &.images{\n    img{\n      width: 30px;\n      height: 30px;\n      border-radius: 50%;\n      border:1px solid;\n      object-fit: cover;\n    }\n      overflow-x: auto;\n    }\n    button{\n      padding: 5px 7px;\n      border-radius: 8px;\n      cursor: pointer;\n      font-weight: bold;\n      ", "{\n        font-weight: normal;\n        padding: 2px 4px;\n        font-size: 1rem;\n  }\n      color:", "; \n      border:2px solid ", ";\n      &.update{\n        background-color:", ";\n      }\n      &.delete{\n        background-color:red;\n      }\n    }\n  }\n  tr{\n    &:nth-child(2n){\n      td{\n        background-color:", ";\n      }\n  }\n    \n    &.underUpdate \n    {\n      td{ \n        background-color:", ";\n      }\n      button{\n        background-color: ", ";\n        opacity: 0.7;\n        cursor:not-allowed;\n      }\n    }\n}\n"]);
 
   _templateObject4 = function _templateObject4() {
     return data;
@@ -20,7 +20,7 @@ function _templateObject4() {
 }
 
 function _templateObject3() {
-  var data = _taggedTemplateLiteral(["\n  #description{\n    resize: vertical;\n    height: 100px;\n  }\n  form{\n    padding:20px;\n    margin-top: 20px; \n  }\n  .input{\n    margin-top: 20px;\n    input{\n      background-color:", ";\n    }\n      margin: 0px auto;\n      width: max(50%,100px);\n  }\n"]);
+  var data = _taggedTemplateLiteral(["\n  #description{\n    resize: vertical;\n    height: 100px;\n  }\n  form{\n    padding:20px;\n    margin-top: 20px; \n  }\n  .input{\n    margin-top: 20px;\n    input{\n      background-color:", ";\n    }\n      margin: 0px auto;\n      /* width: max(50%,100px); */\n  }\n"]);
 
   _templateObject3 = function _templateObject3() {
     return data;
@@ -30,7 +30,7 @@ function _templateObject3() {
 }
 
 function _templateObject2() {
-  var data = _taggedTemplateLiteral([" \n  margin: 30px 0;\n  padding: 20px;\n  border-radius:8px;\n  background-color:", ";\n  box-shadow: 5px 5px 10px ", ";\n  .d-flex{\n    div{\n      flex:1;\n    }\n    display: flex;\n    justify-content: center;\n    align-items:end;\n    ", "{\n    flex-wrap: wrap;\n  }\n    ", "{\n    flex-wrap: wrap;\n  }\n    ", "{\n    flex-wrap: nowrap;\n  }\n    gap:10px;\n    .input,.select,select{\n      width: 100%;\n    }\n  }\n  button{\n  background-color:", ";\n  &.disabled{\n    opacity: 0.7;\n    background-color:", ";\n    cursor:not-allowed\n    }\n  } \n"]);
+  var data = _taggedTemplateLiteral([" \n  margin: 30px 0;\n  padding: 20px;\n  border-radius:8px;\n  background-color:", ";\n  box-shadow: 5px 5px 10px ", ";\n  .d-flex{\n    div{\n      flex:1;\n    }\n    display: flex;\n    justify-content: center;\n    align-items:center;\n    /* flex-direction:row; */\n    ", "{\n    flex-wrap: wrap; \n  }\n    ", "{\n    flex-wrap: wrap; \n  }\n    ", "{\n    flex-wrap: nowrap; \n  }\n    gap:10px;\n    .input,.select,select{\n      width: 100%;\n    }\n  }\n  button{\n  background-color:", ";\n  &.disabled{\n    opacity: 0.7;\n    background-color:", ";\n    cursor:not-allowed\n    }\n  } \n"]);
 
   _templateObject2 = function _templateObject2() {
     return data;
@@ -142,36 +142,39 @@ var StyledTable = _styledComponents["default"].table(_templateObject4(), functio
   return media.s;
 }, function (_ref24) {
   var media = _ref24.theme.media;
-  return media.l;
+  return media.m;
 }, function (_ref25) {
-  var theme = _ref25.theme;
-  return theme.palette.ColorApp.primary_light;
+  var media = _ref25.theme.media;
+  return media.xl;
 }, function (_ref26) {
   var theme = _ref26.theme;
-  return theme.palette.main;
+  return theme.palette.ColorApp.primary_light;
 }, function (_ref27) {
   var theme = _ref27.theme;
-  return theme.palette.font;
-}, function (_ref28) {
-  var media = _ref28.theme.media;
-  return media.xs;
-}, function (_ref29) {
-  var theme = _ref29.theme;
   return theme.palette.main;
+}, function (_ref28) {
+  var theme = _ref28.theme;
+  return theme.palette.font;
+}, function (_ref29) {
+  var media = _ref29.theme.media;
+  return media.xs;
 }, function (_ref30) {
   var theme = _ref30.theme;
-  return theme.palette.ColorApp.gray_100;
+  return theme.palette.main;
 }, function (_ref31) {
   var theme = _ref31.theme;
-  return theme.palette.ColorApp.primary_light;
+  return theme.palette.ColorApp.gray_100;
 }, function (_ref32) {
   var theme = _ref32.theme;
-  return theme.palette.ColorApp.gray_200;
+  return theme.palette.ColorApp.primary_light;
 }, function (_ref33) {
   var theme = _ref33.theme;
-  return theme.palette.ColorApp.gray_400;
+  return theme.palette.ColorApp.gray_200;
 }, function (_ref34) {
   var theme = _ref34.theme;
+  return theme.palette.ColorApp.gray_400;
+}, function (_ref35) {
+  var theme = _ref35.theme;
   return theme.palette.ColorApp.gray_400;
 });
 

@@ -10,7 +10,6 @@ import { StyledForm } from '../sytled.js'
 import ButtonAnimation from '../../../Components/common/ButtonAnimation/index.jsx'
 import ErrorForm from '../../../Components/ErrorForm/index.jsx'
 import { validationSchema } from './validation.js'
-// import usePost from '../../../Hook/usePost.jsx'
 import useAxiosPrivate from '../../../Hook/useAxiosPrivet.js'
 import { MainButton } from '../../../Global/components.js'
 const Form = () => {
@@ -20,7 +19,6 @@ const Form = () => {
   const status = useSelector(selectStatus)
   const errors = useSelector(selectError);
   const mood = useSelector(selectMood)
-  // const { error, fetchData, isLoading } = usePost()
   const axiosPrivate = useAxiosPrivate()
   const handleInputChange = (e) => {
     const {
@@ -29,23 +27,22 @@ const Form = () => {
     } = e.target
     dispatch(handleInputChangeReducer({ id, value }))
   }
-  const setImage = (value) => {
-    dispatch(handleInputChangeReducer({ id: 'background', value }))
+  const setImage = (value) => { 
+    if (Array.isArray(value) && value.length) { 
+      dispatch(handleInputChangeReducer({ id: 'background', value: value[0] }))
+    } else{ 
+      dispatch(handleInputChangeReducer({ id: 'background', value }))
+    }
   }
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      // dispatch(setStatusLoading(true));
-      // dispatch(clearError());
       await validationSchema.validate(formData, { abortEarly: false });
       if (mood === MOOD.ADD) {
-        // const response = await fetchData('/category', formData)  //this is plan B
-
         dispatch(addNewCategory({ newcategory: formData, axiosPrivate })) //I wanna try to put all logic in the redux toll kit
 
       } else {
-        dispatch(updateCategory({ category: formData, axiosPrivate }))
-        // dispatch(resitCategory())
+        dispatch(updateCategory({ category: formData, axiosPrivate })) 
       }
     } catch (e) {
       const errors = e.inner?.reduce((acc, { path, message }) => {

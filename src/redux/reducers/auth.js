@@ -132,7 +132,7 @@ const authSlice = createSlice({
             })
             .addCase(handleRefresh.rejected, (state, action) => {
                 state.status = STATUS.FAILED;
-                state.error = action?.error
+                // state.error = action?.error //you must add token expired while using the app
             })
             .addCase(handleLogout.pending, (state) => {
                 state.status = STATUS.LOADING;

@@ -1,37 +1,14 @@
-import Input from "../../../../Components/Input";
-import { StyledFileUploaded } from "./styled";
+import MyDropzone from "../../../../Components/Dropzone"; 
+import { StyledFileUploaded } from "./styled"; 
 
 
-
-const FileHandler = ({ image, setImage }) => {
-  const handleFileChange = async (e) => {
-    const { files } = e.target;
-    const selectedFile = files?.[0];
-    if (selectedFile) {
-      let render = new FileReader()
-      render.readAsDataURL(selectedFile)
-      render.onload = () => {
-        setImage(render.result);
-      }
-      render.onerror = (error) => {
-        console.log(error)
-      }
-      // setImage( URL.createObjectURL(selectedFile)); 
-    }
-  };
+const FileHandler = ({ image, setImage }) => { 
   const handleRemoveImage = () => {
     setImage('')
   }
   return (
-    <StyledFileUploaded className='d-flex' style={{ padding: 5 }}>
-      <Input
-        id="images"
-        type="file"
-        placeholder="0.0"
-        label='images'
-        onChange={handleFileChange}
-        accept="image/*"
-      />
+    <StyledFileUploaded className='d-flex' style={{ padding: 5 }}> 
+      <MyDropzone setImages={setImage} images={image}/>
       <div className="imageBox">
         {
           image &&

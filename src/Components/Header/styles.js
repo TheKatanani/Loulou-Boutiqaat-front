@@ -78,7 +78,8 @@ export const Header = styled.header `
         padding:10px 12px;
         width:80px;
         border:2px solid ${(props)=>props.theme.palette.ColorApp.primary};
-        color:${(props)=>props.theme.palette.ColorApp.gray_800};
+        background-color:${(props)=>props.theme.palette.ColorApp.gray_100};
+        color:${(props)=>props.theme.palette.font};
     }
 }
 }

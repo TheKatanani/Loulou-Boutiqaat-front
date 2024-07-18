@@ -38,22 +38,22 @@ const Category = ({ name, id }) => {
   useEffect(() => {
     setDisaple(sliderHandler)
   }, [sliderHandler])
-  useEffect(() => {  
-    if(status === STATUS.SUCCEEDED){ 
-      const initCategoryProducts = products.filter((product)=> product.categoryId == id)
-      setCategoryProducts(initCategoryProducts) 
+  useEffect(() => {
+    if (status === STATUS.SUCCEEDED || status === STATUS.IDLE) { 
+      const initCategoryProducts = products.filter((product) => product.categoryId == id)
+      setCategoryProducts(initCategoryProducts)
     }
   }, [products, id, status])
-   
+
   if (status === STATUS.LOADING) {
     return <LogoLoading />
-  }
+  } 
   return (
     <>
       <Styledcategory {...{ page }}>
         <Container className='container'>
           {
-            categoryProducts.length  ?
+            categoryProducts.length ?
               <>
                 <Link to={`/home/categories/${id}`}>
                   <TitleSections>{name}</TitleSections>

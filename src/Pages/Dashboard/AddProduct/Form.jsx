@@ -13,6 +13,7 @@ import { validationSchema } from './validation.js'
 import ErrorForm from '../../../Components/ErrorForm/index.jsx'
 import useAxiosPrivate from '../../../Hook/useAxiosPrivet.js'
 import { MainButton } from '../../../Global/components.js'
+import MyDropzone from '../../../Components/Dropzone/index.jsx'
 
 const Form = () => {
   const dispatch = useDispatch()
@@ -31,7 +32,6 @@ const Form = () => {
   }
   const setImages = (value) => {
     dispatch(handleInputChangeReducer({ id: 'images', value }))
-
   }
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -173,6 +173,7 @@ const Form = () => {
       </div>
       {errors?.images && <ErrorForm>{errors?.images}</ErrorForm>}
       <FileHandler images={formData?.images && typeof (formData.images) === 'string' ? JSON.parse(formData.images) : formData.images} setImages={setImages} />
+        {/* <MyDropzone images={formData?.images &&( typeof (formData.images) === 'string' ? JSON.parse(formData.images) : formData.images)} setImages={setImages} />  */}
       <ButtonAnimation status={status}>
         {
           mood === MOOD.ADD ? 'ADD' : 'UPDATE'

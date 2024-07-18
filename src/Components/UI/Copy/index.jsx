@@ -15,7 +15,7 @@ const StyledCopy = styled.p`
 `
 const Copy = () => {
   return (
-    <StyledCopy>made by <Link to={"https://thekatanani.netlify.app"}>theKatanani</Link> &copy; 2024</StyledCopy>
+    <StyledCopy>made by <Link to={"https://thekatanani.netlify.app"} target='_blank'>theKatanani</Link> &copy; 2024</StyledCopy>
   )
 }
 
