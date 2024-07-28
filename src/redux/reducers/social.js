@@ -5,6 +5,7 @@ import {
 import {
     STATUS
 } from '../../Actions';
+import axios from '../../api/axios';
 
 const socialSlice = createSlice({
     name: 'social',
@@ -99,7 +100,6 @@ const socialSlice = createSlice({
                 const name = action.meta.arg.social.name
                 console.log(action.meta.arg.social.name)
                 const index = state.status.findIndex(el => el.name === name)
-                console.log("index", index)
                 if (index !== -1) {
                     state.status[index] = {
                         ...state.status[index],
@@ -112,10 +112,8 @@ const socialSlice = createSlice({
 });
 export const setSocial = createAsyncThunk(
     "social/setSocial",
-    async ({
-        axiosPrivate
-    }) => {
-        const response = await axiosPrivate.get(`/social`);
+    async () => {
+        const response = await axios.get(`/social`);
         return response.data
     }
 )

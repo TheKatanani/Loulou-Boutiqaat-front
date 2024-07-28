@@ -10,14 +10,13 @@ import { useEffect } from 'react'
 import Copy from '../UI/Copy'
 import { selectPublishedCategoryies } from '../../redux/reducers/categories'
 import { STATUS } from '../../Actions'
-import useAxiosPrivate from '../../Hook/useAxiosPrivet'
+import { footerData } from './footerData'
 // import { selectPublishedProducts } from '../../redux/reducers/products'
 const Footer = () => {
     const dispatch = useDispatch()
     const social = useSelector(selectSocial)
     const socialStatus = useSelector(selectStatus)
     const categories = useSelector(selectPublishedCategoryies)
-    const axiosPrivate = useAxiosPrivate()
     // const products = useSelector(selectPublishedProducts)
     // const validcategories = categories?.map((category) => {
     //     return products.find(product => {
@@ -28,58 +27,7 @@ const Footer = () => {
     //         return undefined
     //     }) && category
     // })
-    const footerData = [
-        {
-            title: 'categories',
-            data:
-                categories.map(category => {
-                    return (
-                        {
-                            'text': category?.name,
-                            'link': `/home/categories/${category?.id}`
-                        }
-                    )
-                })
-        },
-        {
-            title: 'sections',
-            data: [
-                {
-                    text: 'home',
-                    link: '/home'
-                },
-                {
-                    text: 'cart',
-                    link: '/home/cart'
-                },
-                {
-                    text: 'saved',
-                    link: '/home/saved'
-                },
-                {
-                    text: 'profile',
-                    link: '/home/profile'
-                }
-            ]
-        },
-        {
-            title: 'more links',
-            data: [
-                {
-                    text: 'categories',
-                    link: '/home/categories'
-                },
-                {
-                    text: 'search',
-                    link: '/home/search'
-                },
-                {
-                    text: 'update information',
-                    link: '/home/updateInfo'
-                },
-            ]
-        }
-    ]
+  
     let facebook = '',
         X = '',
         instagram = '',
@@ -91,8 +39,8 @@ const Footer = () => {
         whatsApp = social?.find(el => el?.name === 'whatsApp')?.value || ''
     }
     useEffect(() => {
-        dispatch(setSocial({ axiosPrivate }))
-    }, [dispatch, axiosPrivate])
+        dispatch(setSocial())
+    }, [dispatch])
     return (
         <FooterStyled>
             <Container className='container'>
@@ -117,7 +65,7 @@ const Footer = () => {
                     </div>
                 </div>
                 <div className='uls'>
-                    {footerData.map((el, i) => (
+                    {footerData(categories).map((el, i) => (
                         <FooterList key={i} title={el.title} data={el.data} />
                     ))}
                 </div>

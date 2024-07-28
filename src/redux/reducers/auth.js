@@ -144,6 +144,7 @@ const authSlice = createSlice({
                     state.token = '';
                     state.isAuthenticated = false;
                     state.user = {}
+                    localStorage.setItem('rememberMe',false)
                 }
             })
             .addCase(handleLogout.rejected, (state, action) => {

@@ -48,4 +48,10 @@ export const validationSchemaLogIn = object().shape({
       .matches(phoneNumberRegex, "Invalid phone number the valid phone'00-000-00-00' or '123456789'")
       .required("Phone number is required") 
 });
+export const validationSchemaOTP = object().shape({ 
+  phone:
+    string()
+      .matches(phoneNumberRegex, "Invalid phone number the valid phone'00-000-00-00' or '123456789'")
+      .required("Phone number is required") 
+});
 

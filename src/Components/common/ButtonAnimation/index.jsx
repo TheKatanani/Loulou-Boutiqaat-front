@@ -1,9 +1,9 @@
 import { StyledButton } from "./styled"
 import { STATUS } from "../../../Actions"
 
-const ButtonAnimation = ({ children, status, className, disabled = false }) => {
+const ButtonAnimation = ({ children, status, className, disabled = false,onClick }) => {
   return (
-    <StyledButton type="submit" className={className || undefined} disabled={disabled}>
+    <StyledButton onClick={onClick} type="submit" className={className || undefined} disabled={disabled}>
       {
         !(status === STATUS.LOADING) ?
           <p>{children}</p>

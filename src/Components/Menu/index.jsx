@@ -6,9 +6,17 @@ import Logo from "../Logo"
 import { MainButton } from "../../Global/components"
 import { useSelector } from "react-redux"
 import { SelectIsAuthenticated } from "../../redux/reducers/auth"
+import { selectSocial, selectStatus } from "../../redux/reducers/social"
+import { STATUS } from "../../Actions"
+import LogoLoading from "../common/LogoLoading"
 
 const Menu = ({ show }) => {
     const isAuthorized = useSelector(SelectIsAuthenticated)
+    const social = useSelector(selectSocial)
+    const status = useSelector(selectStatus)
+    if(status !== STATUS.SUCCEEDED){
+        return <LogoLoading/>
+    } 
     return (
         <MenuStyled  {...{ show }}>
             <header>
@@ -46,8 +54,8 @@ const Menu = ({ show }) => {
                     </Link>
                 </li>
                 <li>
-                    {/* contact us WhatsApp */} 
-                    <Link to={`https://wa.me/00970597229340`} target="_blank">
+                    {/* contact us WhatsApp */}
+                    <Link to={`https://wa.me/${social?.find(el => el?.name === 'whatsApp')?.value || ''}`} target="_blank">
                         <div className="iconArea"><ContactUs /></div>
                         <p>Contact us</p>
                     </Link>

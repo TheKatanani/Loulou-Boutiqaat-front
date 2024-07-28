@@ -39,12 +39,12 @@ const Header = () => {
             <div className="auth">
               <Link to="/login">
                 <MainButton>
-                  logIn
+                  Sign In
                 </MainButton>
               </Link>
               <Link to="/register">
                 <MainButton>
-                  register
+                  Register
                 </MainButton>
               </Link>
             </div>

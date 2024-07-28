@@ -10,6 +10,9 @@ import PageNotFound from "./Components/PageNotFound";
 import LogoLoading from "./Components/common/LogoLoading";
 import Layout from "./Components/Layout";
 import ErrorBoundary from "./Components/common/Errorboundary";
+import ForgotPassword from "./Pages/ForgotPassword";
+import VerifyOTP from "./Pages/ForgotPassword/VerifyOTP";
+import Contactus from "./Pages/ForgotPassword/Contactus";
 const CategoryProducts = lazy(() => import("./Pages/Dashboard/AddCategory/CategoryProducts"));
 const Orders = lazy(() => import("./Pages/Dashboard/Orders"));
 const Categories = lazy(() => import("./Pages/Categories"));
@@ -42,6 +45,23 @@ const MyRoutes = () => {
         <Route
           path="/register"
           element={isAuthenticated ? <Navigate to="/home" /> : <Register />}
+        />
+        <Route
+          path="/forgotPassword"
+          element={<Layout />}
+          // element={<ForgotPassword />}
+        >
+        <Route
+          index
+          element={<Contactus />}
+          // element={<ForgotPassword />}
+        />
+
+        </Route>
+
+        <Route
+          path="/verifyOTP"
+          element={<VerifyOTP/>}
         />
         <Route
           path="/dashboard"

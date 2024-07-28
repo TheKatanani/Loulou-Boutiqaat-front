@@ -12,6 +12,7 @@ const Input = (props) => {
         onChange={props.onChange}
         required={!!props.required}
         value={props.value}
+        maxLength={props.maxLength}
         className={props.className}
       />
     </div>

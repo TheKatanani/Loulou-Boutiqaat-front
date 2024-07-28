@@ -9,6 +9,10 @@ var _toolkit = require("@reduxjs/toolkit");
 
 var _Actions = require("../../Actions");
 
+var _axios = _interopRequireDefault(require("../../api/axios"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -106,7 +110,6 @@ var socialSlice = (0, _toolkit.createSlice)({
       var index = state.status.findIndex(function (el) {
         return el.name === name;
       });
-      console.log("index", index);
 
       if (index !== -1) {
         state.status[index] = _objectSpread({}, state.status[index], {
@@ -118,21 +121,20 @@ var socialSlice = (0, _toolkit.createSlice)({
     });
   }
 });
-var setSocial = (0, _toolkit.createAsyncThunk)("social/setSocial", function _callee(_ref) {
-  var axiosPrivate, response;
+var setSocial = (0, _toolkit.createAsyncThunk)("social/setSocial", function _callee() {
+  var response;
   return regeneratorRuntime.async(function _callee$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
-          axiosPrivate = _ref.axiosPrivate;
-          _context.next = 3;
-          return regeneratorRuntime.awrap(axiosPrivate.get("/social"));
+          _context.next = 2;
+          return regeneratorRuntime.awrap(_axios["default"].get("/social"));
 
-        case 3:
+        case 2:
           response = _context.sent;
           return _context.abrupt("return", response.data);
 
-        case 5:
+        case 4:
         case "end":
           return _context.stop();
       }
@@ -140,13 +142,13 @@ var setSocial = (0, _toolkit.createAsyncThunk)("social/setSocial", function _cal
   });
 });
 exports.setSocial = setSocial;
-var updateSocial = (0, _toolkit.createAsyncThunk)("socials/updateSocial", function _callee2(_ref2) {
+var updateSocial = (0, _toolkit.createAsyncThunk)("socials/updateSocial", function _callee2(_ref) {
   var social, axiosPrivate, response;
   return regeneratorRuntime.async(function _callee2$(_context2) {
     while (1) {
       switch (_context2.prev = _context2.next) {
         case 0:
-          social = _ref2.social, axiosPrivate = _ref2.axiosPrivate;
+          social = _ref.social, axiosPrivate = _ref.axiosPrivate;
           _context2.next = 3;
           return regeneratorRuntime.awrap(axiosPrivate.put("/social", social));
 

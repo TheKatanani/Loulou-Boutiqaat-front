@@ -12,6 +12,7 @@ import usersReducer from './users';
 import socialReducer from './social';
 import checkoutReducer from './checkout';
 import orderReducer from './orders';
+import OTPReducer from './OTP';
 const rootReducer = combineReducers({
   signup: signupReducer,
   auth: authReducer, 
@@ -23,6 +24,7 @@ const rootReducer = combineReducers({
   users: usersReducer,
   checkout: checkoutReducer,
   order: orderReducer,
+  OTP: OTPReducer,
   social: socialReducer
 });
 

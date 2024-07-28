@@ -14,7 +14,7 @@ const PasswordInput = ({ showPassword,showPasswordFunc, handleInputChange, id, v
           dispatch(showPasswordFunc())
         }} />
       </span>
-      <Link to="/#" className='forgotPassword'>Forgot Password</Link>
+      <Link to="/forgotPassword" className='forgotPassword'>Forgot Password</Link>
       <Input
         onChange={handleInputChange}
         id={id}
