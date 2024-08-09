@@ -6,6 +6,7 @@ import { MOOD } from '../../../Actions'
 import useAxiosPrivate from '../../../Hook/useAxiosPrivet'
 import { selectProducts } from '../../../redux/reducers/products' 
 import Alert from '../../../Components/common/Alert'
+import { ButtonUpadte } from '../../../Global/components'
 const Table = () => {
   const [message, setMessage] = useState()
   const [isAlert, setIsAlert] = useState(false)
@@ -69,12 +70,12 @@ const Table = () => {
                 </button>
               </td>
               <td>
-                <button className='delete' disabled={mood === MOOD.UPDATE && category?.id === id}
+                <ButtonUpadte className='delete' disabled={mood === MOOD.UPDATE && category?.id === id}
                   onClick={() => {
                     handelDelete(category.id)
                   }}>
                   delete
-                </button>
+                </ButtonUpadte>
               </td>
               {
                 isAlert &&

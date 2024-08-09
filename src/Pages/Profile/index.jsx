@@ -1,41 +1,73 @@
-import React from 'react'
 import { useSelector } from 'react-redux'
 import { selectUser } from '../../redux/reducers/auth'
 import { StyledProfile } from './styled'
-import { Container } from '../../Global/components'
+import { ButtonUpadte, Container } from '../../Global/components'
 import { StyledTable } from '../Dashboard/sytled'
-import { Link } from 'react-router-dom'
 import { ROLES } from '../../Actions'
+import { Link } from 'react-router-dom'
 const Profile = () => {
   const user = useSelector(selectUser)
-   return (
+  return (
     <StyledProfile>
       <Container className='container'>
         <StyledTable>
           <thead>
-            <tr>
-              <td>id</td>
-              <td>name</td>
-              <td>role</td>
-              <td>gender</td>
-              <td>barthDay</td>
-              <td>password</td>
-            </tr>
+            <th>#</th>
+            <th>value</th>
+            <th>update</th>
           </thead>
           <tbody>
             <tr>
-              <td>{user.id}</td>
-              <td>{user.name}</td>
-              <td>{
-                Object.keys(ROLES)[Object.values(ROLES).indexOf(user.role)]
-              }</td>
-              <td>{user.gender}</td>
-              <td>{user.barthDay}</td>
-              <td>{user.password}</td>
+              <td>id</td>
+              <td>{user?.id}</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>phone</td>
+              <td>{user?.phone}</td>
+              <td>
+                <ButtonUpadte as={Link} to={`updateUserInfo/phone`}>
+                  update
+                </ButtonUpadte>
+              </td>
+            </tr>
+            <tr>
+              <td>name</td>
+              <td>{user?.name}</td>
+              <td>
+                <ButtonUpadte as={Link} to={`updateUserInfo/name`}>
+                  update
+                </ButtonUpadte>
+              </td>
+            </tr>
+            <tr>
+              <td>Gender</td>
+              <td>{user?.gender}</td>
+              <td>
+                <ButtonUpadte as={Link} to={`updateUserInfo/gender`}>update</ButtonUpadte>
+              </td>
+            </tr>
+            <tr>
+              <td>Barth Day</td>
+              <td>{user?.barthDay}</td>
+              <td>
+                <ButtonUpadte as={Link} to={`updateUserInfo/barthDay`}>update</ButtonUpadte>
+              </td>
+            </tr>
+            <tr>
+              <td>Password</td>
+              <td>{user?.password}</td>
+              <td>
+                <ButtonUpadte as={Link} to={`updateUserInfo/password`}>update</ButtonUpadte>
+              </td>
+            </tr>
+            <tr>
+              <td>role</td>
+              <td>{Object.keys(ROLES)[Object.values(ROLES).indexOf(user.role)]}</td>
+              <td></td>
             </tr>
           </tbody>
         </StyledTable>
-        <Link to={'/home/updateInfo'}>update information</Link>
       </Container>
     </StyledProfile>
   )

@@ -13,8 +13,7 @@ import axios from '../../api/axios';
 const initailFormState = {
     phone: "",
     selectPhone: "+972",
-    password: "",
-    rememberMe: JSON.parse(localStorage.getItem('rememberMe')),
+    password: "", 
     showPassword: false,
 }
 
@@ -53,9 +52,7 @@ const authSlice = createSlice({
                 id,
                 checked
             } = action.payload
-            state.formData[id] = checked
-            if (id === 'rememberMe')
-                localStorage.setItem('rememberMe', checked)
+            state.formData[id] = checked 
         },
         setStatusIdle: (state) => {
             state.status = 'idle';
@@ -110,8 +107,7 @@ const authSlice = createSlice({
                     state.token = action.payload?.data?.accessToken;
                     state.isAuthenticated = true;
                     state.user = action.payload?.data?.user
-                    state.status = STATUS.SUCCEEDED;
-                    state.rememberMe = action.meta.arg.formData.rememberMe
+                    state.status = STATUS.SUCCEEDED; 
                 } else {
                     state.status = STATUS.FAILED;
                 }
@@ -143,8 +139,7 @@ const authSlice = createSlice({
                 if (action.payload === 204) { // the sarver send this status for logout success with no content 
                     state.token = '';
                     state.isAuthenticated = false;
-                    state.user = {}
-                    localStorage.setItem('rememberMe',false)
+                    state.user = {} 
                 }
             })
             .addCase(handleLogout.rejected, (state, action) => {
@@ -164,8 +159,7 @@ export const handleLogin = createAsyncThunk(
             });
             const res = await axios.post('/login', {
                 phone: `${formData.selectPhone}${formData.phone}`,
-                password: formData.password,
-                rememberMe: formData.rememberMe
+                password: formData.password, 
             }, {
                 withCredentials: true,
                 // signal: controller.signal
@@ -214,8 +208,7 @@ export const selectToken = state => state.auth.token
 export const selectStatus = state => state.auth.status;
 export const selectError = state => state.auth.error;
 export const SelectIsAuthenticated = state => state.auth.isAuthenticated
-export const selectFormData = state => state.auth.formData
-export const selectRememberMe = state => state.auth.formData.rememberMe
+export const selectFormData = state => state.auth.formData 
 
 export const {
     handleInputChange,
@@ -229,6 +222,7 @@ export const {
     setLogIn,
     setAxiosPrivate,
     handlelocalLogout,
+    setUser,
     resetUserInfo
 } = authSlice.actions;
 export default authSlice.reducer;

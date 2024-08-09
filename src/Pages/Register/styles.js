@@ -86,10 +86,7 @@ margin: 20px 0;
             flex: 1;
         }
     }
-   }
-   button,#agree{
-    margin: 7px 0;
-   }
+   } 
    form{
     border-bottom: 1px solid ${props=> props.theme.palette.ColorApp.gray_300};
    }

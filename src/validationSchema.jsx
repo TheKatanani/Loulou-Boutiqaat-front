@@ -1,4 +1,4 @@
-import { boolean, object, ref, string } from 'yup';
+import { object, ref, string } from 'yup';
 import { phoneNumberRegex } from './Regex';
 export const validationSchema = object().shape({
   name:
@@ -17,11 +17,7 @@ export const validationSchema = object().shape({
   phone:
     string()
       .matches(phoneNumberRegex, "Invalid phone number the valid phone'00-000-00-00'")
-      .required("Phone number is required"),
-  agree:
-    boolean()
-      .oneOf([true], "You must agree to the terms and conditions")
-      .required("You must agree to the terms and conditions"),
+      .required("Phone number is required"), 
 });
 export const validationSchemaUpdateAdmain = object().shape({
   name:
@@ -32,11 +28,7 @@ export const validationSchemaUpdateAdmain = object().shape({
   phone:
     string()
       .matches(phoneNumberRegex, "Invalid phone number the valid phone'00-000-00-00'")
-      .required("Phone number is required"),
-  agree:
-    boolean()
-      .oneOf([true], "You must agree to the terms and conditions")
-      .required("You must agree to the terms and conditions"),
+      .required("Phone number is required"), 
 });
 export const validationSchemaLogIn = object().shape({
   password:

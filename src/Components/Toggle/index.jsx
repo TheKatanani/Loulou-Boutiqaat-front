@@ -6,7 +6,7 @@ import Light from '../../Images/brightness.png'
 import { MainButton } from '../../Global/components';
 import { ButtonStayled, MainStayled } from './styled';
 import { useDispatch, useSelector } from 'react-redux';
-import { SelectIsAuthenticated, handleLogout, handlelocalLogout, selectRememberMe, selectUser, setLogOut } from '../../redux/reducers/auth';
+import { SelectIsAuthenticated, handleLogout,  selectUser } from '../../redux/reducers/auth';
 import { resetState } from '../../redux/reducers/cart';
 import { resetState as resetSavedState } from '../../redux/reducers/saved';
 import { ROLES } from '../../Actions';
@@ -14,7 +14,6 @@ import { Link } from 'react-router-dom';
 const Toggle = () => {
   const [theme, setTheme] = useContext(ThemeContext);
   const isAuthenticated = useSelector(SelectIsAuthenticated)
-  const rememberMe = useSelector(selectRememberMe)
 
   const user = useSelector(selectUser)
   const dispath = useDispatch()
@@ -26,9 +25,7 @@ const Toggle = () => {
     <MainStayled>
       <ButtonStayled onClick={toggleTheme}><img src={theme.theme === "light" ? Dark : Light} alt="" /></ButtonStayled>
       {isAuthenticated && <MainButton onClick={() => {
-        rememberMe ?
-        dispath(handleLogout()):
-        dispath(handlelocalLogout())
+        dispath(handleLogout())
         // to delete all user date from cart and saved
         dispath(resetState())
         dispath(resetSavedState())

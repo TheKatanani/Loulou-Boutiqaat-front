@@ -31,15 +31,20 @@ const Form = () => {
       gender: formData.gender,
       barthDay: formData.barthDay,
       roles: {
-        [formData?.role]: ROLES[formData?.role]
+        [formData?.roles]: ROLES[formData?.roles]
       }
-    }
+    } 
     try {
       if (mood === MOOD.ADD) {
         await validationSchema.validate(formData, { abortEarly: false });
         dispatch(addNewUser({ user: { ...user, password: formData.password }, axiosPrivate }))
       } else {
-        await validationSchemaUpdateAdmain.validate(formData, { abortEarly: false });
+        // check if user have a new pass must validate the password inputs
+        if (formData.password) {
+          await validationSchema.validate(formData, { abortEarly: false });
+          user.password = formData.password
+        } else
+          await validationSchemaUpdateAdmain.validate(formData, { abortEarly: false });
         dispatch(updateUser({ user: { ...user, id: formData.id }, axiosPrivate }))
       }
     } catch (e) {

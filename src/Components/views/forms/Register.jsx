@@ -4,8 +4,7 @@ import ErrorForm from '../../ErrorForm'
 import useFetch from '../../../Hook/useFetch'
 import Select from '../../Select'
 import { useDispatch, useSelector } from 'react-redux'
-import { MainButton } from '../../../Global/components'
-import Checkbox from '../../Checkbox'
+import { MainButton } from '../../../Global/components' 
 import { API2 } from '../../../API'
 import LogoLoading from '../../common/LogoLoading'
 import { StyledRigisterForm } from './styled'
@@ -19,7 +18,7 @@ import { selectSuccess } from '../../../redux/reducers/signup'
 
 const Register = ({ setGender, isFromUserProfile, errors, status, showPasswordFunc, showPassword, formData, handleSubmit, handleInputChangeFunc, handleCheckBoxChangeFunc }) => {
   const { data: allowedPhones, isLoading, error } = useFetch(`${API2}/countryCode`)
-  const user = useSelector(selectUser)
+  const user = useSelector(selectUser) 
   const success = useSelector(selectSuccess);
   const mood = useSelector(selectMood)
   const dispatch = useDispatch()
@@ -94,7 +93,7 @@ const Register = ({ setGender, isFromUserProfile, errors, status, showPasswordFu
         )
       }
       {
-        !(mood === MOOD.UPDATE && user?.role === ROLES.ADMIN) &&
+        // !(mood === MOOD.UPDATE && user?.role === ROLES.ADMIN) &&
         <>
           {errors?.password && <ErrorForm>{errors?.password}</ErrorForm>}
           <Input
@@ -159,13 +158,10 @@ const Register = ({ setGender, isFromUserProfile, errors, status, showPasswordFu
             <MainButton type='button'>cansel</MainButton>
           </Link>
           :
-          <MainButton type='button' onClick={() => {
+          <MainButton type='button' className="cansel" onClick={() => {
             dispatch(reSetUser())
           }}>cansel</MainButton>)
       }
-      {errors?.agree && <ErrorForm>{errors?.agree}</ErrorForm>}
-      {/* remove this if is not there terms and conditions */}
-      <Checkbox checked={formData.agree} id="agree" label="I agree with " primary="Terms and Conditions" onChange={handleCheckBoxChangeFunc} />
       {errors?.isAxiosError && <ErrorForm>{errors?.isAxiosError}</ErrorForm>}
       {errors?.message && <ErrorForm>{errors?.message}</ErrorForm>}
       {/* correct these */}

@@ -16,8 +16,7 @@ const initialAddUserstate = {
   confirmPassword: "",
   gender: 'female',
   barthDay: '2000-01-01',
-  role: Object.keys(ROLES)[0],//user
-  agree: false
+  role: Object.keys(ROLES)[0], 
 }
 export const usersSlice = createSlice({
   name: 'users',
@@ -52,13 +51,11 @@ export const usersSlice = createSlice({
     },
     setUpdateUser: (state, action) => {
       const selectPhone = action.payload.user?.phone?.slice(0, 4)
-      const phone = action.payload.user?.phone?.slice(4)
-      const agree = true
+      const phone = action.payload.user?.phone?.slice(4) 
       const user = {
         ...action.payload.user,
         selectPhone,
-        phone,
-        agree
+        phone 
       }
       state.addUserState = user
       state.mood = MOOD.UPDATE
@@ -115,9 +112,10 @@ export const usersSlice = createSlice({
       })
       .addCase(addNewUser.pending, (state) => {
         state.status = STATUS.LOADING;
-        state.error = null 
+        state.error = null
       })
       .addCase(addNewUser.fulfilled, (state, action) => {
+        state.error = null
         state.status = STATUS.SUCCEEDED;
         state.addUserState = initialAddUserstate
         state.users = [...state?.users, action?.payload];
@@ -147,6 +145,27 @@ export const usersSlice = createSlice({
         state.users = state.users.map(user => user.id === action.payload.id ? action.payload : user)
       })
       .addCase(updateUser.rejected, (state, action) => {
+        state.status = STATUS.FAILED;
+        state.error = action.payload;
+      })
+      .addCase(updateUserInfo.pending, (state) => {
+        state.status = STATUS.LOADING;
+        state.error = null
+      })
+      .addCase(updateUserInfo.fulfilled, (state, action) => {
+        if (action.payload?.errors) {
+          state.status = STATUS.FAILED;
+          state.error = action.payload?.errors
+        } else if (action.payload?.data) {
+          state.status = STATUS.SUCCEEDED;
+          state.mood = MOOD.ADD
+          state.addUserState = initialAddUserstate
+          state.users = state.users.map(user => user.id === action.payload.id ? action.payload : user)
+        } else {
+          state.status = STATUS.FAILED;
+        }
+      })
+      .addCase(updateUserInfo.rejected, (state, action) => {
         state.status = STATUS.FAILED;
         state.error = action.payload;
       })
@@ -183,6 +202,28 @@ export const updateUser = createAsyncThunk(
       ...user
     });
     return response.data
+  }
+)
+export const updateUserInfo = createAsyncThunk(
+  "users/updateUserInfo",
+  async ({
+    user,
+    password,
+    axiosPrivate
+  }) => {
+    try {
+      const response = await axiosPrivate.put(`/users/updateUserInfo`, {
+        user,
+        password
+      });
+      return response
+    } catch (err) {
+      if (err?.response?.status) { // if there status then the error from the sarver and return {message:''} in the data
+        return {
+          errors: err?.response?.data
+        }
+      }
+    }
   }
 )
 export const deleteUser = createAsyncThunk(

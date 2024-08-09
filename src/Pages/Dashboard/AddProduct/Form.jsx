@@ -12,8 +12,7 @@ import ButtonAnimation from '../../../Components/common/ButtonAnimation/index.js
 import { validationSchema } from './validation.js'
 import ErrorForm from '../../../Components/ErrorForm/index.jsx'
 import useAxiosPrivate from '../../../Hook/useAxiosPrivet.js'
-import { MainButton } from '../../../Global/components.js'
-import MyDropzone from '../../../Components/Dropzone/index.jsx'
+import { MainButton } from '../../../Global/components.js' 
 
 const Form = () => {
   const dispatch = useDispatch()

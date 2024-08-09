@@ -30,7 +30,7 @@ function _templateObject3() {
 }
 
 function _templateObject2() {
-  var data = _taggedTemplateLiteral([" \n  margin: 30px 0;\n  padding: 20px;\n  border-radius:8px;\n  background-color:", ";\n  box-shadow: 5px 5px 10px ", ";\n  .d-flex{\n    div{\n      flex:1;\n    }\n    display: flex;\n    justify-content: center;\n    align-items:center;\n    /* flex-direction:row; */\n    ", "{\n    flex-wrap: wrap; \n  }\n    ", "{\n    flex-wrap: wrap; \n  }\n    ", "{\n    flex-wrap: nowrap; \n  }\n    gap:10px;\n    .input,.select,select{\n      width: 100%;\n    }\n  }\n  button{\n  background-color:", ";\n  &.disabled{\n    opacity: 0.7;\n    background-color:", ";\n    cursor:not-allowed\n    }\n  } \n"]);
+  var data = _taggedTemplateLiteral([" \n  margin: 30px 0;\n  padding: 20px;\n  border-radius:8px;\n  background-color:", ";\n  box-shadow: 5px 5px 10px ", ";\n  .cansel{\n    margin:10px 0;\n  }\n  .d-flex{\n    div{\n      flex:1;\n    }\n    display: flex;\n    justify-content: center;\n    align-items:center;\n    /* flex-direction:row; */\n    ", "{\n    flex-wrap: wrap; \n  }\n    ", "{\n    flex-wrap: wrap; \n  }\n    ", "{\n    flex-wrap: nowrap; \n  }\n    gap:10px;\n    .input,.select,select{\n      width: 100%;\n    }\n  }\n  button{\n  background-color:", ";\n  &.disabled{\n    opacity: 0.7;\n    background-color:", ";\n    cursor:not-allowed\n    }\n  } \n"]);
 
   _templateObject2 = function _templateObject2() {
     return data;

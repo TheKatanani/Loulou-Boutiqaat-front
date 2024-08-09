@@ -4,6 +4,7 @@ import { StyledTable } from '../sytled'
 import { MOOD } from '../../../Actions'
 import { deleteUser, selectAddUserState, selectMood, setUpdateUser } from '../../../redux/reducers/users'
 import useAxiosPrivate from '../../../Hook/useAxiosPrivet'
+import { ButtonUpadte } from '../../../Global/components'
 const Table = ({ users }) => {
   const dispatch = useDispatch()
   const mood = useSelector(selectMood)
@@ -36,14 +37,14 @@ const Table = ({ users }) => {
               <td className='barthDay'>{user?.barthDay}</td>
               <td className='role'>{Object.keys(user?.roles)[0]}</td>
               <td>
-                <button className='update'
+                <ButtonUpadte className='update'
                   disabled={mood === MOOD.UPDATE && user.id === id}
                   onClick={() => {
                     dispatch(setUpdateUser({ user: { ...user, roles: Object.keys(user.roles)[0] } }))
                   }}
                 >
                   update
-                </button>
+                </ButtonUpadte>
               </td>
               <td>
                 <button className='delete' disabled={mood === MOOD.UPDATE && user.id === id}

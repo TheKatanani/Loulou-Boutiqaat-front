@@ -10,8 +10,7 @@ var _toolkit = require("@reduxjs/toolkit");
 var initailState = {
   phone: "",
   selectPhone: "+972",
-  password: "",
-  agree: false,
+  password: "", 
   showPassword: false
 };
 var loginSlice = (0, _toolkit.createSlice)({

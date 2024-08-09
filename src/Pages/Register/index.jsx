@@ -1,11 +1,11 @@
-import { Link } from 'react-router-dom';
-import SignFooter from '../../Components/SignFooter';
+import { Link } from 'react-router-dom'; 
 import { Container } from '../../Global/components';
 import { RegisterStyled } from './styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { handleCheckBoxChange, handleInputChange, handleRegister, selectError, selectFormData, selectStatus, setGender, setStatusIdle } from '../../redux/reducers/signup';
 import Form from '../../Components/views/forms/Register';
 import { useEffect } from 'react';
+import Copy from '../../Components/UI/Copy';
 
 function Register() {
     const formData = useSelector(selectFormData);
@@ -44,7 +44,7 @@ function Register() {
                     </Link>
                 </Container>
             </RegisterStyled>
-            <SignFooter />
+            <Copy />
         </>
     );
 }

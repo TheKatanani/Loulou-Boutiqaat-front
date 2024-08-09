@@ -114,6 +114,9 @@ export const StyledForm = styled.form `
   border-radius:8px;
   background-color:${({theme})=>theme.palette.main};
   box-shadow: 5px 5px 10px ${props=>props.theme.palette.ColorApp.gray_100};
+  .cansel{
+    margin:10px 0;
+  }
   .d-flex{
     div{
       flex:1;

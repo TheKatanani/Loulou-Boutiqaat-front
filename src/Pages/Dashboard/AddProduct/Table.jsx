@@ -5,6 +5,7 @@ import { selectCategories } from '../../../redux/reducers/categories'
 import { StyledTable } from '../sytled'
 import { MOOD } from '../../../Actions'
 import useAxiosPrivate from '../../../Hook/useAxiosPrivet'
+import { ButtonUpadte } from '../../../Global/components'
 const Table = ({products}) => {
   const categories = useSelector(selectCategories)
   const dispatch = useDispatch()
@@ -49,14 +50,14 @@ const Table = ({products}) => {
               }</td>
               <td className='visibility'>{product?.published == 1 || product?.published === undefined ? 'published' : 'unpublished'}</td>
               <td>
-                <button className='update'
+                <ButtonUpadte className='update'
                   disabled={mood === MOOD.UPDATE && product.id === id}
                   onClick={() => {
                     dispatch(setUpdateProduct({ product }))
                   }}
                 >
                   update
-                </button>
+                </ButtonUpadte>
               </td>
               <td>
                 <button className='delete' disabled={mood === MOOD.UPDATE && product.id === id}

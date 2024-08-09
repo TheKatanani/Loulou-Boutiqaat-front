@@ -109,7 +109,7 @@ const Form = () => {
       </ButtonAnimation>
       {
         mood === MOOD.UPDATE &&
-        <MainButton onClick={() => {
+        <MainButton className="cansel" onClick={() => {
           dispatch(cancelUpdate())
         }}>
           cancel

@@ -28,25 +28,45 @@ export const MainButton = styled.button `
     cursor: pointer;
     border: none;
 `
-export const LogInButton = styled(MainButton)`
+export const ButtonUpadte = styled.button `
+    padding: 5px 7px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    color:${({theme})=>theme.palette.ColorApp.white};
+    text-decoration: none!important;;
+    display:block;
+    font-size: ${(props) => props.theme.fontSizes.body}rem;
+    background-color:${({theme})=>theme.palette.ColorApp.primary_light};
+    ${({theme:{media}})=>media.xs}{
+        font-weight: normal;
+        padding: 2px 4px;
+        font-size: 1rem;
+  }
+`
+export const LogInButton = styled(MainButton)
+`
     background-color: ${(props)=>props.theme.palette.ColorApp.primary};
     color:${(props)=>props.theme.palette.ColorApp.white};
 `
-export const PrimaryButton = styled(MainButton)`
+export const PrimaryButton = styled(MainButton)
+`
     background-color:${props=>props.theme.palette.ColorApp.primary};
     color:${props=>props.theme.palette.ColorApp.white};
 `
 
-export const WhitePrimaryButton = styled(MainButton)`
+export const WhitePrimaryButton = styled(MainButton)
+`
     border: 1px solid ${(props) => props.theme.palette.ColorApp.gray_300};
     background-color:${props=>props.theme.palette.ColorApp.white};
     color:${props=>props.theme.palette.ColorApp.primary};
 `
-export const NewsletterButton = styled(LogInButton)`
+export const NewsletterButton = styled(LogInButton)
+`
     width:fit-content;
     padding:10px;
 `
-export const Info = styled.div`
+export const Info = styled.div `
             display: flex;
             justify-content:flex-start;
             align-items:baseline;
@@ -67,7 +87,7 @@ export const Info = styled.div`
                 background-color:${(props) =>  props.theme.palette.ColorApp.gray_300};
             }
 `
-export const IconButton = styled.div`
+export const IconButton = styled.div `
     position:relative;
     margin:10px 0;
     img{
@@ -77,16 +97,18 @@ export const IconButton = styled.div`
         width:22px
     }
 `
-export const GoogleButton = styled(MainButton)`
+export const GoogleButton = styled(MainButton)
+`
     background-color: ${(props)=>props.theme.palette.ColorApp.gray_200};
     color:${(props)=>props.theme.palette.ColorApp.gray_800};
     box-shadow: 0px 1px 3px rgba(56, 56, 56, 0.1);
 `
-export const FaceButton= styled(MainButton)`
+export const FaceButton = styled(MainButton)
+`
     background-color: #4267B2;
     color:${(props)=>props.theme.palette.ColorApp.white};
 `
-export const LiSignIn= styled.li`
+export const LiSignIn = styled.li `
     background-color:${(props)=>props.theme.palette.ColorApp.white};
     border: 1px solid #EEEEEE;
     border-radius: 4px;

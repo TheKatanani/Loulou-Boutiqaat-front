@@ -20,6 +20,9 @@ border-bottom: 1px solid ${props=> props.theme.palette.ColorApp.gray_300};
     label{
         color:${props=> props.theme.palette.font};      
     }
+    .cansel{
+        margin: 10px 0;
+    }
     >div{
         display: flex;
         align-items:center;
@@ -42,8 +45,5 @@ border-bottom: 1px solid ${props=> props.theme.palette.ColorApp.gray_300};
             margin-inline-end: 5px;
         }    
     }
-   }
-    button,#agree{
-    margin: 7px 0;
-    }
+   } 
 `

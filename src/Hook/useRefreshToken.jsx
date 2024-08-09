@@ -1,26 +1,22 @@
 import axios from '../api/axios'
-import { useDispatch, useSelector } from 'react-redux'
-import { resetUserInfo, selectRememberMe, setLogIn } from '../redux/reducers/auth' 
+import { useDispatch } from 'react-redux'
+import { resetUserInfo, setLogIn, setUser } from '../redux/reducers/auth'
 import { useNavigate } from 'react-router-dom'
 
 const useRefreshToken = () => {
   // setAuth
   const dispatch = useDispatch()
-  const remeberMe = useSelector(selectRememberMe)
   const navigate = useNavigate()
-  const refresh = async ()=>{
-    try{  
-      if(remeberMe){
-        const res = await axios.get('/refresh',{
-          withCredentials:true
-        }) 
-        dispatch(setLogIn(res.data.accessToken)) //update the current token
-        return res.data.accessToken;
-      }else{
-        dispatch(resetUserInfo())
-        navigate("/login")
-      }
-    }catch (err) {
+  const refresh = async () => {
+    try {
+      const res = await axios.get('/refresh', {
+        withCredentials: true
+      })
+      dispatch(setLogIn(res.data.accessToken)) //update the current token
+      dispatch(setUser(res.data.user))
+      return res.data.accessToken;
+    } catch (err) {
+      //403 most error here 
       console.log(err)
       dispatch(resetUserInfo())
       navigate("/login")

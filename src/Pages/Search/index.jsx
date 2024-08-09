@@ -1,5 +1,4 @@
-import React from 'react'
-import Aside from '../../Components/Aside'
+import React from 'react' 
 import Main from '../../Components/Main' 
 // import Path from '../../Components/Path'
 import { Container } from '../../Global/components'

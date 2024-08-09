@@ -10,10 +10,12 @@ import PageNotFound from "./Components/PageNotFound";
 import LogoLoading from "./Components/common/LogoLoading";
 import Layout from "./Components/Layout";
 import ErrorBoundary from "./Components/common/Errorboundary";
-import ForgotPassword from "./Pages/ForgotPassword";
-import VerifyOTP from "./Pages/ForgotPassword/VerifyOTP";
-import Contactus from "./Pages/ForgotPassword/Contactus";
+// import ForgotPassword from "./Pages/ForgotPassword";
+import VerifyOTP from "./Pages/ForgotPassword/VerifyOTP"; 
+import UpdateUserInfo from "./Pages/Profile/UpdateInfo";
+const Contactus = lazy(() => import("./Pages/ForgotPassword/Contactus"));
 const CategoryProducts = lazy(() => import("./Pages/Dashboard/AddCategory/CategoryProducts"));
+// const UpdateUserInfo = lazy(() => import("./Pages/Profile/UpdateInfo"));
 const Orders = lazy(() => import("./Pages/Dashboard/Orders"));
 const Categories = lazy(() => import("./Pages/Categories"));
 const Category = lazy(() => import("./Pages/Category"));
@@ -24,7 +26,6 @@ const AddProduct = lazy(() => import("./Pages/Dashboard/AddProduct"));
 const AddUser = lazy(() => import("./Pages/Dashboard/AddUser"));
 const AddSocial = lazy(() => import("./Pages/Dashboard/AddSocial"));
 const Profile = lazy(() => import("./Pages/Profile"));
-const UpdateInfo = lazy(() => import("./Pages/Profile/UpdateInfo"));
 const Home = lazy(() => import("./Pages/Home"));
 const Search = lazy(() => import("./Pages/Search"));
 const Saved = lazy(() => import("./Pages/Saved"));
@@ -49,19 +50,19 @@ const MyRoutes = () => {
         <Route
           path="/forgotPassword"
           element={<Layout />}
-          // element={<ForgotPassword />}
+        // element={<ForgotPassword />}
         >
-        <Route
-          index
-          element={<Contactus />}
+          <Route
+            index
+            element={<Contactus />}
           // element={<ForgotPassword />}
-        />
+          />
 
         </Route>
 
         <Route
           path="/verifyOTP"
-          element={<VerifyOTP/>}
+          element={<VerifyOTP />}
         />
         <Route
           path="/dashboard"
@@ -160,12 +161,18 @@ const MyRoutes = () => {
                 <Profile />
               </ErrorBoundary>
             } />
+            <Route path="updateUserInfo/:id" element={
+              <ErrorBoundary>
+                <UpdateUserInfo />
+              </ErrorBoundary>
+            } />
+
             <Route path="*" element={<PageNotFound />} />
           </Route>
-          <Route path="updateInfo" element={<PrivateRoute requireRole={[ROLES.USER, ROLES.ADMIN, ROLES.EDITOR]} />}>
+          {/* <Route path="updateInfo" element={<PrivateRoute requireRole={[ROLES.USER, ROLES.ADMIN, ROLES.EDITOR]} />}>
             <Route index element={<UpdateInfo />} />
             <Route path="*" element={<PageNotFound />} />
-          </Route>
+          </Route> */}
           <Route path="saved" element={
             <ErrorBoundary>
               <Saved />
