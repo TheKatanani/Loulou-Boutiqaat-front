@@ -13,7 +13,7 @@ const Phone = ({ setInput, errors }) => {
   useEffect(() => {
     setInput(`${selectPhone}${phone}`)
   }, [selectPhone, phone, setInput])
-  useEffect(() => { 
+  useEffect(() => {
     if (!isLoading) {
       setSelectPhone(allowedPhones?.[0].value)
     }
@@ -23,13 +23,12 @@ const Phone = ({ setInput, errors }) => {
   }
   if (error) {
     return <p>{error}</p>
-  } 
+  }
   return (
     <>
       {errors?.phone && <ErrorForm>{errors?.phone}</ErrorForm>}
-      <div className="phone">
-        <label htmlFor="Phone">Phone</label>
-        <div>
+      <label htmlFor="Phone">رقم الجوال</label>
+      <div className="phone"> 
           <Select
             defualt={allowedPhones[0].value}
             id="selectPhone"
@@ -43,8 +42,7 @@ const Phone = ({ setInput, errors }) => {
             type="text"
             placeholder="00-000-00-00"
             value={phone}
-          />
-        </div>
+          /> 
       </div>
     </>
   )

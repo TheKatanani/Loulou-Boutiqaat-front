@@ -20,20 +20,24 @@ const Contactus = () => {
   return (
     <StyledContactus>
       <Container className='container'>
-        <img src={contactImage} alt="" />
+        <img loading="lazy" src={contactImage} alt="contact us" />
         <div>
-          <h1>Contact Us</h1>
-          <p>Send a message  with your number and new password
+          <h1>تواصل معنا</h1>
+          <p>
+            {/* make it props */}
+            {/* Send a message  with your number and new password */}
+            ارسل كلمة المرور الجديدة ورقم هاتفك في رسالة عبر تطبيق واتساب 
           </p>
           <div className="buttons"> 
-          <Link to={`https://wa.me/${phone}`}>
+          <Link to={`https://wa.me/${phone}`} target='_blank'>
             <PrimaryButton>
-              {phone}
+              {/* {phone} */}
+              ارسال
             </PrimaryButton>
           </Link>
           <Link to={`/login`}>
             <MainButton className="signIn">
-              Sign In
+              تسجيل الدخول
             </MainButton>
           </Link>
           </div>

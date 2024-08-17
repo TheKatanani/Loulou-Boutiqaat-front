@@ -22,7 +22,7 @@ export const Input = styled.input `
     font-size: ${(props) => props.theme.fontSizes.body2}rem;
     line-height: 17px;
     /* identical to box height */
-    color: ${(props)=>props.theme.palette.ColorApp.gray_500};
+    color: ${(props)=>props.theme.palette.ColorApp.gray_800};
     background-color:transparent;
     padding: 10px; 
     margin: 3px 0 10px;

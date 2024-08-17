@@ -1,19 +1,19 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { deleteProduct, selectAddProductsState, selectMood,  setUpdateProduct } from '../../../redux/reducers/products'
+import { deleteProduct, selectAddProductsState, selectMood, setUpdateProduct } from '../../../redux/reducers/products'
 import { selectCategories } from '../../../redux/reducers/categories'
 import { StyledTable } from '../sytled'
 import { MOOD } from '../../../Actions'
 import useAxiosPrivate from '../../../Hook/useAxiosPrivet'
 import { ButtonUpadte } from '../../../Global/components'
-const Table = ({products}) => {
+const Table = ({ products }) => {
   const categories = useSelector(selectCategories)
   const dispatch = useDispatch()
   const axiosPrivate = useAxiosPrivate()
   const { id } = useSelector(selectAddProductsState)
   const mood = useSelector(selectMood)
   return (
-    <StyledTable style={{margin:'10px 0'}}>
+    <StyledTable style={{ margin: '10px 0' }}>
       <thead>
         <tr>
           <th className='id'>id</th>
@@ -22,7 +22,6 @@ const Table = ({products}) => {
           <th className='price'>price</th>
           <th className='previous'>pre price</th>
           <th className='images'>images</th>
-          <th className='count'>count</th>
           <th className='stars'>stars</th>
           <th className='category'>category</th>
           <th>visibility</th>
@@ -41,10 +40,9 @@ const Table = ({products}) => {
               <td className='previous'>{product.prevPrice}</td>
               <td className='images'>{
                 product?.images && typeof (product.images) === 'string' ? JSON.parse(product.images) : product.images?.map((img, i) => (
-                  <img key={i} src={img} alt="" />
+                  <img loading="lazy" key={i} src={img} alt="product img" />
                 ))
               }</td>
-              <td className='count'>{product?.count}</td>
               <td className='stars'>{product.stars}</td>
               <td className='category'>{categories.find(el => el.id == product.categoryId)?.name
               }</td>
@@ -62,7 +60,7 @@ const Table = ({products}) => {
               <td>
                 <button className='delete' disabled={mood === MOOD.UPDATE && product.id === id}
                   onClick={() => {
-                    dispatch(deleteProduct({ id: product.id,axiosPrivate }))
+                    dispatch(deleteProduct({ id: product.id, axiosPrivate }))
                   }}>
                   delete
                 </button>

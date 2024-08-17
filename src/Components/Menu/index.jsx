@@ -26,38 +26,38 @@ const Menu = ({ show }) => {
                 <li>
                     <Link to="/Home/">
                         <div className="iconArea"><Home /></div>
-                        <p>Home</p>
+                        <p>الصفحة الرئيسية</p>
                     </Link>
                 </li>
                 <li>
                     <Link to="/home/categories">
                         <div className="iconArea"><Categories /></div>
-                        <p>Categories</p>
+                        <p>الأقسام</p>
                     </Link>
                 </li>
                 <li>
                     <Link to="/home/saved">
                         <div className="iconArea"><Favorites /></div>
-                        <p>Favorites</p>
+                        <p>المفضلة</p>
                     </Link>
                 </li>
                 <li>
                     <Link to="/home/cart">
                         <div className="iconArea"><MyOrders /></div>
-                        <p>My cart</p>
+                        <p>السلة</p>
                     </Link>
                 </li>
                 <li>
                     <Link to="/home/profile">
                         <div className="iconArea"><Profile /></div>
-                        <p>Profile</p>
+                        <p>الصفحة الشخصية</p>
                     </Link>
                 </li>
                 <li>
                     {/* contact us WhatsApp */}
                     <Link to={`https://wa.me/${social?.find(el => el?.name === 'whatsApp')?.value || ''}`} target="_blank">
                         <div className="iconArea"><ContactUs /></div>
-                        <p>Contact us</p>
+                        <p>تواصل معنا</p>
                     </Link>
                 </li>
                 {/* <li>
@@ -71,12 +71,12 @@ const Menu = ({ show }) => {
                     <li className="auth">
                         <Link to="/login">
                             <MainButton>
-                                logIn
+                                تسجيل الدخول
                             </MainButton>
                         </Link>
                         <Link to="/register">
                             <MainButton>
-                                register
+                                انشاء حساب
                             </MainButton>
                         </Link>
                     </li>

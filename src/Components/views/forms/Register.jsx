@@ -41,14 +41,14 @@ const Register = ({ setGender, isFromUserProfile, errors, status, showPasswordFu
         onChange={handleInputChangeFunc}
         id="name"
         type="text"
-        placeholder="Type here"
-        label="User Name"
+        placeholder="اكتب هنا"
+        label="اسم المستخدم"
         value={formData.name}
       />
       {/* *************************** */}
       {errors?.phone && <ErrorForm>{errors?.phone}</ErrorForm>}
       <div className="phone">
-        <label htmlFor="Phone">Phone</label>
+        <label htmlFor="Phone">رقم الجوال</label>
         <div>
           <Select
             defualt={allowedPhones[0].value}
@@ -75,13 +75,13 @@ const Register = ({ setGender, isFromUserProfile, errors, status, showPasswordFu
             }}
             checked={formData.gender === 'male'}
           />
-          male</label>
+          ذكر</label>
         <label htmlFor="male">
           <input type="radio" name="gender" id="female"
             onChange={() => dispatch(setGender('female'))}
             checked={formData.gender === 'female'}
           />
-          female</label>
+          انثى</label>
       </div>
       {
         user.role === ROLES.USER &&
@@ -100,8 +100,8 @@ const Register = ({ setGender, isFromUserProfile, errors, status, showPasswordFu
             onChange={handleInputChangeFunc}
             id="password"
             type="Password"
-            placeholder="Type here"
-            label="Password"
+            placeholder="اكتب هنا"
+            label="كلمة المرور"
             value={formData.password}
           />
 
@@ -110,8 +110,8 @@ const Register = ({ setGender, isFromUserProfile, errors, status, showPasswordFu
             onChange={handleInputChangeFunc}
             id="confirmPassword"
             type="Password"
-            placeholder="Type here"
-            label="Repeat password"
+            placeholder="اكتب هنا"
+            label="تاكيد كلمة المرور"
             value={formData.confirmPassword}
           />
         </>
@@ -140,7 +140,7 @@ const Register = ({ setGender, isFromUserProfile, errors, status, showPasswordFu
           type="date"
           name="barthDay"
           id="barthDay"
-          label="Barth Day"
+          label="تاريخ الميلاد"
           value={formData.barthDay}
           onChange={handleInputChangeFunc}
         />{/* *********************** */}
@@ -148,7 +148,7 @@ const Register = ({ setGender, isFromUserProfile, errors, status, showPasswordFu
       {/* submit button */}
       <ButtonAnimation status={status}>
         {
-          mood === MOOD.UPDATE ? "Update Now" : "Register Now"
+          mood === MOOD.UPDATE ? "Update Now" : "انشاء"
         }
       </ButtonAnimation>
       {

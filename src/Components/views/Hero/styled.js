@@ -9,7 +9,7 @@ export const StyledHero = styled.section `
   justify-content: center;
   align-items: center; 
 }
-figure {
+.imgContainer {
   flex: 1;
   text-align: center;
   img{

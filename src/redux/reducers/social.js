@@ -68,9 +68,7 @@ const socialSlice = createSlice({
                 // state.status = STATUS.LOADING;
                 state.status = [];
                 const name = action.meta.arg.social.name
-                console.log(action.meta.arg.social.name)
                 const index = state.status.findIndex(el => el.name === name)
-                console.log("index", index)
                 if (index !== -1) {
                     state.status[index] = {
                         ...state.status[index],
@@ -84,10 +82,8 @@ const socialSlice = createSlice({
                 }
             })
             .addCase(updateSocial.fulfilled, (state, action) => {
-                // state.status = STATUS.SUCCEEDED;
                 const name = action.meta.arg.social.name
                 const index = state.status.findIndex(el => el.name === name)
-                console.log("index", index)
                 if (index !== -1) {
                     state.status[index] = {
                         ...state.status[index],
@@ -96,9 +92,7 @@ const socialSlice = createSlice({
                 }
             })
             .addCase(updateSocial.rejected, (state, action) => {
-                // state.status = STATUS.FAILED;
                 const name = action.meta.arg.social.name
-                console.log(action.meta.arg.social.name)
                 const index = state.status.findIndex(el => el.name === name)
                 if (index !== -1) {
                     state.status[index] = {

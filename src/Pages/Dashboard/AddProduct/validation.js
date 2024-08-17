@@ -1,26 +1,17 @@
-import {
-  array,
-  number,
-  object,
-  string
-} from 'yup';
+import { object, number, string, array } from 'yup';
 export const validationSchema = object().shape({
   name: string()
-    .min(6, "Name should be more than 6 characters long")
-    .max(20)
-    .required("Name is required"),
+    .min(6, "يجب أن يكون الاسم أكثر من 6 أحرف")
+    .max(40)
+    .required("الاسم مطلوب"),
   description: string()
-    .min(8, "description must be at least 8 characters long")
-    .required("description is required"),
+    .min(8, "يجب أن يكون الوصف على الأقل 8 أحرف")
+    .required("الوصف مطلوب"),
   price: number()
-    .positive('the price must be positive value')
-    .required('you must add price'),
+    .positive('السعر يجب أن يكون قيمة موجبة')
+    .required('يجب إضافة سعر'),
   prevPrice: number()
-    .positive('the price must be positive value')
-    .required('you must add price'),
-  count: number()
-    .positive('the count must be positive value')
-    .required('you must add count'),
+    .min(0, 'السعر يجب أن يكون قيمة موجبة أو صفر'),
   images: array()
-    .min(1, "you must add atleast one image")
+    .min(1, "يجب إضافة صورة واحدة على الأقل")
 });

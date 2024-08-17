@@ -1,44 +1,44 @@
-export const footerData = (categories) => [{
-    title: 'categories',
-    data: categories.map(category => {
+export const footerData = (الأقسام) => [{
+    title: 'الأقسام',
+    data: الأقسام.map(category => {
       return ({
         'text': category?.name,
-        'link': `/home/categories/${category?.id}`
+        'link': `/home/الأقسام/${category?.id}`
       })
     })
   },
   {
-    title: 'sections',
+    title: 'الصفحات',
     data: [{
-        text: 'home',
+        text: 'الرئيسية',
         link: '/home'
       },
       {
-        text: 'cart',
+        text: 'السلة',
         link: '/home/cart'
       },
       {
-        text: 'saved',
+        text: 'أعجبني',
         link: '/home/saved'
       },
       {
-        text: 'profile',
+        text: 'الصفحة الشخصية',
         link: '/home/profile'
       }
     ]
   },
   {
-    title: 'more links',
+    title: 'المزيد من الصفحات',
     data: [{
-        text: 'categories',
-        link: '/home/categories'
+        text: 'الأقسام',
+        link: '/home/الأقسام'
       },
       {
-        text: 'search',
+        text: 'البحث',
         link: '/home/search'
       },
       {
-        text: 'update information',
+        text: 'تعديل المعلومات الشخصية',
         link: '/home/updateInfo'
       },
     ]

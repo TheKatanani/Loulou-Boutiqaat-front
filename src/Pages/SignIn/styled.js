@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
-export const LoginStyle = styled.div `
+export const LoginStyle = styled.div ` 
+    direction: rtl;
     display: flex;
     align-items:center;
     justify-content:center;
@@ -39,8 +40,11 @@ export const LoginStyle = styled.div `
     }
     
     .phone{
+        direction:ltr;
         margin: 20px 0 0;
+        text-align: end;
         label{
+            direction:rtl;
             color:${props=> props.theme.palette.font};      
         }
         >div{

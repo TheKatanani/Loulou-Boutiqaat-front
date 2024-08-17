@@ -56,7 +56,7 @@ const Table = () => {
               <td>{category?.name}</td>
               <td className='description'>{category.description?.slice(0, 50)}...</td>
               <td className='images'>{
-                <img src={category?.background} alt="" />
+                <img loading="lazy" src={category?.background} alt="category background" />
               }</td>
               <td>{category?.published ? 'True' : 'False'}</td>
               <td>

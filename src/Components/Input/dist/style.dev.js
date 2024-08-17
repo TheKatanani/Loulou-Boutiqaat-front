@@ -44,7 +44,7 @@ var Input = _styledComponents["default"].input(_templateObject2(), function (pro
 }, function (props) {
   return props.theme.fontSizes.body2;
 }, function (props) {
-  return props.theme.palette.ColorApp.gray_500;
+  return props.theme.palette.ColorApp.gray_800;
 });
 
 exports.Input = Input;

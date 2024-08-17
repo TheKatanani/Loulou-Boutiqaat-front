@@ -10,8 +10,8 @@ const BarthDay = ({ setInput, input, errors }) => {
         onChange={(e) => setInput(e.target.value)}
         id="barthDay"
         type="date"
-        placeholder="Type here"
-        label="BarthDay"
+        placeholder="اكتب هنا"
+        label="تاريخ الميلاد"
         value={input}
       />
     </>

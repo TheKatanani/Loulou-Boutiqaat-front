@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const MainStayled = styled.div`
+export const MainStayled = styled.div `
   width:137px;
   padding:5px 20px 5px 20px;
   background-color: ${(props) => props.theme.palette.ColorApp.primary};
@@ -29,14 +29,15 @@ export const MainStayled = styled.div`
   :hover{
     left: -3px;
   }
-@media (max-width: 576px) {
-  display: none;
- }
- .dashboardLink{
-  padding:0;
+  @media (max-width: 576px) {
+    display: none;
+  }
+  .dashboardLink{
+    width:100%;
+    padding:0;
  }
 `;
-export const ButtonStayled = styled.button`
+export const ButtonStayled = styled.button `
 img{
   width:30px;
   height:30px;

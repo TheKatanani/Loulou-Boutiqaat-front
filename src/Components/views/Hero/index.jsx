@@ -15,9 +15,9 @@ const Hero = () => {
             يهتم بجمالك من رأسك حتى قدمكِ ...
           </p>
         </div>
-        <figure>
-          <img src={Img3} alt="testImage" />
-        </figure>
+        <div className='imgContainer'>
+          <img loading="lazy" src={Img3} alt="testImage" />
+        </div>
       </Container>
     </StyledHero>
   )

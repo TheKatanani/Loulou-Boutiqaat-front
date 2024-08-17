@@ -182,13 +182,12 @@ export const StyledTable = styled.table `
   ${({theme:{media}})=>media.xs}{
   .id
 ,.description
-,.previous
-,.count
+,.previous 
 ,.barthDay
 ,.gender
 ,.password
 ,.role
-,.price
+,.price 
 ,.category
 ,.stars{
   display:none
@@ -197,8 +196,8 @@ ${({theme:{media}})=>media.s}{
   .id 
   ,.role
   ,.barthDay
-  ,.gender
-  ,.price 
+  ,.gender 
+  ,.previous
   ,.category
   ,.description 
 ,.stars{
@@ -216,8 +215,7 @@ display:none
   ${({theme:{media}})=>media.xl}{
   .id
 ,.description
-,.previous
-,.count
+,.previous 
 ,.barthDay
 ,.gender
 ,.password

@@ -10,16 +10,16 @@ const PasswordInput = ({ showPassword,showPasswordFunc, handleInputChange, id, v
   return (
     <StyledPasswordInput className={`logInPassword ${showPassword ? 'text' : 'password'}`}>
       <span>
-        <img src={logInPassword} alt="" onClick={() => {
+        <img src={logInPassword} loading="lazy" alt="show" onClick={() => {
           dispatch(showPasswordFunc())
         }} />
       </span>
-      <Link to="/forgotPassword" className='forgotPassword'>Forgot Password</Link>
+      <Link to="/forgotPassword" className='forgotPassword'>نسيت كلمة المرور</Link>
       <Input
         onChange={handleInputChange}
         id={id}
         type={showPassword ? 'text' : 'password'}
-        placeholder="Type here"
+        placeholder="اكتب هنا"
         label={label}
         value={value}
       />

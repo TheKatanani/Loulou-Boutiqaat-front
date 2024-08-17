@@ -11,8 +11,8 @@ const Password = ({ errors, newPassword, confirmPassword, setNewPassword, setCon
         onChange={(e) => setNewPassword(e.target.value)}
         id="newPassword"
         type="password"
-        placeholder="Type here"
-        label="New Password"
+        placeholder="اكتب هنا"
+        label="كلمة مرور جديدة"
         value={newPassword}
       /> 
       {errors?.confirmPassword && <ErrorForm>{errors?.confirmPassword}</ErrorForm>}
@@ -20,8 +20,8 @@ const Password = ({ errors, newPassword, confirmPassword, setNewPassword, setCon
         onChange={(e) => setConfirmPassword(e.target.value)}
         id="confirmPassword"
         type="password"
-        placeholder="Type here"
-        label="Confirm  password"
+        placeholder="اكتب هنا"
+        label="تاكيد كلمة المرور"
         value={confirmPassword}
       />
     </>

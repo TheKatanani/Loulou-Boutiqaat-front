@@ -53,7 +53,7 @@ function SearchComponent({ isOnChangeRequest = false }) {
     <StyleSearch className="searchBox"{...{ isOnChangeRequest }} onSubmit={handelSubmit}>
       <input
         type="text"
-        placeholder="Search"
+        placeholder="بحث"
         value={searchTerm}
         onChange={(e) => handleSearch(e.target.value)}
         onKeyDown={handleEnterKeyDown}
@@ -67,14 +67,14 @@ function SearchComponent({ isOnChangeRequest = false }) {
         }}
       />
       <select value={categoryId} onChange={(e) => handleSelectChange(e.target.value)}>
-        <option defaultValue="" value="">All category</option>
+        <option defaultValue="" value="">كل الأقسام</option>
         {
           categories?.map((catig) => (
             <option key={catig.id} value={catig?.id}>{catig?.name}</option>
           ))
         }
       </select>
-      <button type="submit">Search</button>
+      <button type="submit">بحث</button>
       <ul className={`results ${blur && 'd-none'} ${myResults?.length <= 0 && 'd-none'}`}>
         {
           myResults?.slice(0, 4)?.map((resulte) => (

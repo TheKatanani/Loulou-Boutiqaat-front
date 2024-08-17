@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 export const StyledProfile = styled.div `
+  direction:rtl;
   margin: 160px 0 60px;
   min-height:calc(50dvh - 113px);
   color:${({theme})=>theme.palette.font};
@@ -14,9 +15,10 @@ export const StyledProfile = styled.div `
 `
 export const StyledUpdateUserInfo = styled.div `
 /* margin: 30px 0; */
-/* margin: 120px 0 30px; */
-min-height: 50vh;
+margin: 120px 0 30px;
+min-height: 60vh;
 form{
+    direction:rtl;
     padding: 20px;
     margin:0 auto;
     border-radius:8px;
@@ -26,14 +28,21 @@ form{
     width:400px;
     /* width: min(400px , 100%) */ 
     color:${({theme})=>theme.palette.font};
+    .phone{
+      display: flex;
+      text-align:end;
+      align-items:center;
+      direction: ltr;
+    }
     .gender{
       margin:10px;
-      label{
-        margin:10px 10px 10px 0;
-        input{
-          margin-right: 6px;
-          transform: translateY(1px);
-        }
+      label:nth-child(2){
+        margin:0 20px 0 0;
+        /* margin:10px 10px 10px 0; */
+      }
+      input{
+        margin-left: 6px;
+        transform: translateY(1px);
       }
     }
   } 

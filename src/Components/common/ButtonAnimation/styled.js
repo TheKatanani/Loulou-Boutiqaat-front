@@ -3,7 +3,7 @@ import { MainButton } from "../../../Global/components";
 
 export const StyledButton = styled(MainButton)` 
   p{
-    margin: 0;
+    margin: 0 !important;
     padding: 0;
     color:${props=> props.theme.palette.font};      
   }

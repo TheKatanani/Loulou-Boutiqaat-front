@@ -4,6 +4,7 @@ export const StyleSearch = styled.form `
   display: flex;
   align-items: center;
   height:40px;
+  direction: rtl;
 *{
   height:100%;
     :focus{
@@ -36,27 +37,29 @@ export const StyleSearch = styled.form `
 input[type="text"] {
   width:421px;
   padding: 0.5em;
-  border-top-left-radius: 4px;
-  border-bottom-left-radius: 4px;
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
   border: 2px solid ${props=>props.theme.palette.ColorApp.primary};
   @media (min-width: 576px) {
-    border-right: none;
+    border-left: none;
   }
-  color:${props=>props.theme.palette.ColorApp.gray_500};
+  color:${props=>props.theme.palette.ColorApp.gray_800};
   background-color:${props=>props.theme.palette.page};
 }
 
 select {
   padding: 0.5em;
   border: 2px solid ${props=>props.theme.palette.ColorApp.primary};
-  color:  ${props=>props.theme.palette.ColorApp.gray_500};
+  color:  ${props=>props.theme.palette.ColorApp.gray_800};
   background-color:${props=>props.theme.palette.page};
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
 }
 
 button {
   padding: 0.5em 1em;
-  border-top-right-radius: 4px;
-  border-bottom-right-radius: 4px;
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
   background:${props=>props.theme.palette.ColorApp.primary};
   border: 2px solid ${props=>props.theme.palette.ColorApp.primary};
   color: ${props=>props.theme.palette.ColorApp.white};

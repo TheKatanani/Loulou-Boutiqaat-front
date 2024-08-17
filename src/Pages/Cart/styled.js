@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 export const PageStyled = styled.div`
     margin: 60px auto;
+    direction: rtl;
     .flex{
       display: flex;
       justify-content:space-between;

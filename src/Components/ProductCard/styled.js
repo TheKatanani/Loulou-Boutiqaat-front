@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const ProductCardStyeld = styled.div `
     padding:20px;
     background-color:${(props) =>  props.theme.palette.main};
-
+    direction:rtl;
     width:100%;
     border: 1px solid ${(props) =>  props.theme.palette.ColorApp.gray_300};;
         border-radius: 6px;
@@ -19,7 +19,7 @@ export const ProductCardStyeld = styled.div `
             cursor: pointer;
             position:absolute;
             top:0px;
-            right:0px;
+            left:0px;
             display: flex;
             gap:3px;
             .Select svg{
@@ -57,6 +57,9 @@ export const ProductCardStyeld = styled.div `
         margin:25px 0 0 ;
         }
     } 
+    span{
+        direction:ltr;
+    }
         ${props=>props.full&&
             `display: flex;
             align-items:center;

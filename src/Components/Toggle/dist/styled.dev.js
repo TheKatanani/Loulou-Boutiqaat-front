@@ -20,7 +20,7 @@ function _templateObject2() {
 }
 
 function _templateObject() {
-  var data = _taggedTemplateLiteral(["\n  width:137px;\n  padding:5px 20px 5px 20px;\n  background-color: ", ";\n  position:fixed;\n  z-index:999;\n  border-radius: 6px;\n  top:30px;\n  text-align:center;\n  left:-120px;\n  transition: all 0.5s;\n  button{\n    margin: 10px 0;\n    transition: 0.3s;\n    color: ", ";\n    background-color: ", ";\n    a{\n      color:black;\n      justify-content: center;\n    }\n    :hover{\n      color: ", ";\n      background-color: ", ";\n      \n    }\n  }\n  :hover{\n    left: -3px;\n  }\n@media (max-width: 576px) {\n  display: none;\n }\n .dashboardLink{\n  padding:0;\n }\n"]);
+  var data = _taggedTemplateLiteral(["\n  width:137px;\n  padding:5px 20px 5px 20px;\n  background-color: ", ";\n  position:fixed;\n  z-index:999;\n  border-radius: 6px;\n  top:30px;\n  text-align:center;\n  left:-120px;\n  transition: all 0.5s;\n  button{\n    margin: 10px 0;\n    transition: 0.3s;\n    color: ", ";\n    background-color: ", ";\n    a{\n      color:black;\n      justify-content: center;\n    }\n    :hover{\n      color: ", ";\n      background-color: ", ";\n      \n    }\n  }\n  :hover{\n    left: -3px;\n  }\n  @media (max-width: 576px) {\n    display: none;\n  }\n  .dashboardLink{\n    width:100%;\n    padding:0;\n }\n"]);
 
   _templateObject = function _templateObject() {
     return data;

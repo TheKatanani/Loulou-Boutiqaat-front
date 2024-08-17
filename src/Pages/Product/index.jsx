@@ -19,7 +19,7 @@ const Product = () => {
   const status = useSelector(selectStatus)
   const isFull = true;
   const currentProduct = products?.find((el) => el.id == productId)
-  const { id, description, stars = '4', name, price, prevPrice, images, count = 1 } = currentProduct
+  const { id, description, stars = '4', name, price, prevPrice, images } = currentProduct
 
   useEffect(() => {
     !products.length &&
@@ -31,30 +31,32 @@ const Product = () => {
   return (
     <>
       {
-        !(count <= 0) ?
-          <Container>
-            <StyledProductPage >
-              <div className="card">
-                <div className="img">
-                  <ImageSlider images={!!images.length ? images : localImages} />
-                </div>
-                <div className="content">
-                  <h2 className="title">{name}</h2>
-                  <p className="price">{price}₪ <span className="prevCost">{prevPrice}₪</span>   </p>
-                  <Info>
-                    <div className="rating"><Rating num={stars} /></div>
-                  </Info>
-                  {isFull && <p className="description">{description}</p>}
-                  <div className="icons">
-                    <AddToCartButton  {...{ id }} />
-                    <SavedButton {...{ id }} />
-                  </div>
+        <Container>
+          <StyledProductPage >
+            <div className="card">
+              <div className="img">
+                <ImageSlider images={!!images.length ? images : localImages} />
+              </div>
+              <div className="content">
+                <h2 className="title">{name}</h2>
+                <p className="price">{price}₪
+                  {
+                    prevPrice > 0 &&
+                    <span className="prevCost">{prevPrice}₪</span>
+                  }
+                </p>
+                <Info>
+                  <div className="rating"><Rating num={stars} /></div>
+                </Info>
+                {isFull && <p className="description">{description}</p>}
+                <div className="icons">
+                  <AddToCartButton  {...{ id }} />
+                  <SavedButton {...{ id }} />
                 </div>
               </div>
-            </StyledProductPage>
-          </Container>
-          :
-          <p>no data to show</p>
+            </div>
+          </StyledProductPage>
+        </Container>
       }
     </>
   )

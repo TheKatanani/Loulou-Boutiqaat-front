@@ -8,7 +8,7 @@ import Logo from '../Logo'
 import Menu from '../Menu'
 import Search from '../Search'
 import Sections from '../Sections'
-import { Header as Myheader } from './styles'
+import { StyledHeader } from './styles'
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { SelectIsAuthenticated } from '../../redux/reducers/auth'
@@ -18,7 +18,7 @@ const Header = () => {
   const isAuthorized = useSelector(SelectIsAuthenticated)
   const [theme] = useContext(ThemeContext)
   return (
-    <Myheader >
+    <StyledHeader >
       <Container>
         <div style={{ padding: "0 15px" }}>
           <div className='logoBox'>
@@ -39,12 +39,12 @@ const Header = () => {
             <div className="auth">
               <Link to="/login">
                 <MainButton>
-                  Sign In
+                  تسجيل دخول
                 </MainButton>
               </Link>
               <Link to="/register">
                 <MainButton>
-                  Register
+                  انشاء حساب
                 </MainButton>
               </Link>
             </div>
@@ -53,7 +53,7 @@ const Header = () => {
       </Container>
       {show && <div className="layout" onClick={() => setShow(false)} />}
       <Menu {...{ show }} />
-    </Myheader>
+    </StyledHeader>
   )
 }
 

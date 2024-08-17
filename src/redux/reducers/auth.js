@@ -71,7 +71,7 @@ const authSlice = createSlice({
             state.error = null;
         },
         showPassword: (state) => {
-            state.formData.showPassword = !state.showPassword
+            state.formData.showPassword = !state.formData.showPassword
         },
         setLogIn(state, action) {
             state.isAuthenticated = true;

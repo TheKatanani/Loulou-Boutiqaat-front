@@ -1,7 +1,8 @@
 import styled from "styled-components";
 
 export const FilterStyled =styled.div`
-padding:11px;
+    direction: rtl;
+    padding:11px;
     display: flex;
     flex-wrap: wrap;
     justify-content:space-between;
@@ -16,6 +17,9 @@ padding:11px;
         .results{
             display: none;
         }    
+    }
+    select{
+        border-radius:initial;
     }
     .mood{
         gap:8px;

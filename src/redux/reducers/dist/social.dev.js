@@ -74,11 +74,9 @@ var socialSlice = (0, _toolkit.createSlice)({
       // state.status = STATUS.LOADING;
       state.status = [];
       var name = action.meta.arg.social.name;
-      console.log(action.meta.arg.social.name);
       var index = state.status.findIndex(function (el) {
         return el.name === name;
       });
-      console.log("index", index);
 
       if (index !== -1) {
         state.status[index] = _objectSpread({}, state.status[index], {
@@ -91,12 +89,10 @@ var socialSlice = (0, _toolkit.createSlice)({
         });
       }
     }).addCase(updateSocial.fulfilled, function (state, action) {
-      // state.status = STATUS.SUCCEEDED;
       var name = action.meta.arg.social.name;
       var index = state.status.findIndex(function (el) {
         return el.name === name;
       });
-      console.log("index", index);
 
       if (index !== -1) {
         state.status[index] = _objectSpread({}, state.status[index], {
@@ -104,9 +100,7 @@ var socialSlice = (0, _toolkit.createSlice)({
         });
       }
     }).addCase(updateSocial.rejected, function (state, action) {
-      // state.status = STATUS.FAILED;
       var name = action.meta.arg.social.name;
-      console.log(action.meta.arg.social.name);
       var index = state.status.findIndex(function (el) {
         return el.name === name;
       });

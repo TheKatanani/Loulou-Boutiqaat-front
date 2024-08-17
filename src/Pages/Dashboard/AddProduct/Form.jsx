@@ -105,18 +105,7 @@ const Form = () => {
             onChange={handleInputChange}
             value={formData.prevPrice}
           />
-        </div>
-        <div>
-          {errors?.count && <ErrorForm>{errors?.count}</ErrorForm>}
-          <Input
-            id="count"
-            type="number"
-            placeholder="0.0"
-            label='Count'
-            onChange={handleInputChange}
-            value={formData.count}
-          />
-        </div>
+        </div> 
       </div>
       <div className="d-flex">
         <Select id="published"

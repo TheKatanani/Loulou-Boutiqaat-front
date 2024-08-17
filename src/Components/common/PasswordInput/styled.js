@@ -2,8 +2,9 @@ import styled from "styled-components";
 
 export const StyledPasswordInput = styled.div` 
         position:relative;
+        direction:rtl;
         top:2px;
-        right:0;  
+        left:0;  
         span{
           position:absolute;
         img{
@@ -11,7 +12,7 @@ export const StyledPasswordInput = styled.div`
         }
         top:50%;
         transform:translateY(-14%);
-        right: 12px;
+        left: 12px;
         cursor: pointer;
     } 
     &.text span::before{
@@ -31,7 +32,7 @@ export const StyledPasswordInput = styled.div`
     .forgotPassword{
         position:absolute;
         top:2px;
-        right:0;
+        left:0;
         font-size: 0.8rem;
     }
 `

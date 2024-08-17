@@ -16,8 +16,7 @@ const useRefreshToken = () => {
       dispatch(setUser(res.data.user))
       return res.data.accessToken;
     } catch (err) {
-      //403 most error here 
-      console.log(err)
+      //403 most error here  
       dispatch(resetUserInfo())
       navigate("/login")
     }

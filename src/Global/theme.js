@@ -5,7 +5,7 @@ const fontSizes = {
     h4: 1.8,
     h5: 1.6,
     h6: 1.4,
-    body: 1,
+    body: 1.1,
     body2: 0.76,
 };
 const media = {

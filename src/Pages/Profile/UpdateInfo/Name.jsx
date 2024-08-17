@@ -10,8 +10,8 @@ const Name = ({ setInput, input, errors }) => {
         onChange={(e) => setInput(e.target.value)}
         id="name"
         type="text"
-        placeholder="Type here"
-        label="Name"
+        placeholder="اكتب هنا"
+        label="لاسم"
         value={input}
       />
     </>

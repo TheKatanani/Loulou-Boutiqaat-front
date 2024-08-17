@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 export const StyledProductPage = styled.div `
     margin: 140px 0 20px;
+    direction: rtl;
     padding:20px;
     background-color:${(props) =>  props.theme.palette.main};
     width:100%;
@@ -31,7 +32,7 @@ export const StyledProductPage = styled.div `
             cursor: pointer;
             position:absolute;
             top:0px;
-            right:0px;
+            left:0px;
             display: flex;
             gap:3px; 
         }

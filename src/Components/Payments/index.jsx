@@ -9,10 +9,10 @@ import { PaymentsStyled } from './styled'
 const Payments = () => {
   return (
     <PaymentsStyled>
-      <LiSignIn><img src={img2} alt="1" /></LiSignIn>
-      <LiSignIn><img src={img3} alt="2" /></LiSignIn>
-      <LiSignIn><img src={img4} alt="3" /></LiSignIn>
-      <li><img src={img5} alt="4" /></li>
+      <LiSignIn><img loading="lazy" src={img2} alt="1" /></LiSignIn>
+      <LiSignIn><img loading="lazy" src={img3} alt="2" /></LiSignIn>
+      <LiSignIn><img loading="lazy" src={img4} alt="3" /></LiSignIn>
+      <li><img loading="lazy" src={img5} alt="4" /></li>
     </PaymentsStyled>
   )
 }

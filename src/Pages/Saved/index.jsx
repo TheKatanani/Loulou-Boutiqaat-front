@@ -18,14 +18,14 @@ const Saved = () => {
   )
     :
     <>
-      <p className="noItems">No Saved Items :)</p>
-      <Link to={'/home/categories'}>See more Products 👀</Link>
+      <p className="noItems">لا يوجدعناصر مفضلة :)</p>
+      <Link to={'/home/الاقسام'}>عرض المنتجات👀</Link>
     </>
 
   return (
     <StyledSaved>
       <Container>
-        <TitleSections>Saved Products</TitleSections>
+        <TitleSections>المنتجات المفضلة</TitleSections>
         {
           savedData
         }

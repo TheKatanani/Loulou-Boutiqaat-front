@@ -8,7 +8,7 @@ import ImagesSliderCard from '../common/ImagesSliderCard';
 import { OPERATOR } from '../../Actions';
 import useAxiosPrivate from '../../Hook/useAxiosPrivet';
 
-const MyCartItem = ({ itemQuantity, data: { images, name, price = 0, description, id, count = 1 } }) => {
+const MyCartItem = ({ itemQuantity, data: { images, name, price = 0, description, id } }) => {
   const dispatch = useDispatch()
   const saved = useSelector(selectsaved)
   const axiosPrivate = useAxiosPrivate()
@@ -22,10 +22,10 @@ const MyCartItem = ({ itemQuantity, data: { images, name, price = 0, description
         </div>
         <div className="text">
           <p className='title'>{name}</p>
-          <p className='details'>{description.slice(0, 150)}...<Link to={`/home/products/${id}`}>more</Link></p>
+          <p className='details'>{description.slice(0, 120)}...<Link to={`/home/products/${id}`}>المزيد</Link></p>
           <div className="buttons">
-            <WhitePrimaryButton onClick={() => dispatch(removeFromCart({ productId: id, axiosPrivate }))}> Remove</WhitePrimaryButton>
-            <WhitePrimaryButton className='saveForLater' onClick={() => { 
+            <WhitePrimaryButton onClick={() => dispatch(removeFromCart({ productId: id, axiosPrivate }))}>حذف</WhitePrimaryButton>
+            <WhitePrimaryButton className='saveForLater' onClick={() => {
               if (!isInSaved) {
                 dispatch(addToSaved({
                   productId: id,
@@ -36,17 +36,16 @@ const MyCartItem = ({ itemQuantity, data: { images, name, price = 0, description
                   productId: id,
                   axiosPrivate
                 }))
-              } 
-            }}> Save for later</WhitePrimaryButton>
+              }
+            }}>اضافة للمفضلة</WhitePrimaryButton>
           </div>
         </div>
       </div>
       <div className="quntity">
         <p className='price'>{price}*{itemQuantity}={price * itemQuantity}₪</p>
         <div className="itemQuantity">
-          <button disabled={count <= itemQuantity} className="increase" onClick={() => {
-            if (count > itemQuantity)
-              dispatch(quantityCartItem({ productId: id, operator: OPERATOR.INCREASE, axiosPrivate }))
+          <button className="increase" onClick={() => {
+            dispatch(quantityCartItem({ productId: id, operator: OPERATOR.INCREASE, axiosPrivate }))
           }}>+</button>
           <p className="quantity">{itemQuantity}</p>
           <button className="decrease"

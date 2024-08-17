@@ -16,6 +16,7 @@ import Gender from "./Gender"
 import { STATUS } from "../../../Actions"
 import { selectUser, setUser } from "../../../redux/reducers/auth"
 import useRefreshToken from "../../../Hook/useRefreshToken"
+import Alert from "../../../Components/UI/Alert"
 
 const UpdateUserInfo = () => {
   // for the id use paramse insted and edit the router for that
@@ -57,8 +58,7 @@ const UpdateUserInfo = () => {
   }
 
   useEffect(() => {
-    if (status === STATUS.SUCCEEDED) {
-      alert(`the ${id} updated successfolly`)
+    if (status === STATUS.SUCCEEDED) { 
       // set the new changes in the auth slice
       if (id !== password) {
         const newUserInfo = {
@@ -81,9 +81,9 @@ const UpdateUserInfo = () => {
           <Input
             onChange={(e) => setPassword(e.target.value)}
             id="password"
-            type="Password"
-            placeholder="Type here"
-            label="Password"
+            type="password"
+            placeholder="اكنب هنا"
+            label="كلمة المرور"
             value={password}
           />
           {errors?.[id] && <ErrorForm>{errors[id]}</ErrorForm>}
@@ -108,11 +108,14 @@ const UpdateUserInfo = () => {
             <Gender {...{ errors, input, setInput }} />
           }
           <ButtonAnimation status={status}>
-            UPDATE
+            تعديل
           </ButtonAnimation>
 
           {errors?.message && <ErrorForm>{errors?.message}</ErrorForm>}
-
+          {/* {
+          status === STATUS.SUCCEEDED &&
+          <Alert text={`تم التعديل بنجاح`} />
+        } */}
         </form>
       </StyledUpdateUserInfo>
     </Container>

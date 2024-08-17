@@ -17,29 +17,12 @@ const Summary = ({ setShow }) => {
         else return total
     }, 0)
     return (
-        <SummaryStyled>
-            {/* <div className="info">
-            <ul>
-                <li>
-                    <p>Subtotal:</p>
-                    <p>$1403.97</p>
-                </li>
-                <li>
-                    <p>Discount:</p>
-                    <p>- $60.00</p>
-                </li>
-                <li>
-                    <p>Tax:</p>
-                    <p>+ $14.00</p>
-                </li>
-            </ul>
-        </div> */}
+        <SummaryStyled> 
             <div className="total">
-                <p>Total:</p>
+                <p>المجموع:</p>
                 <p>{total}₪</p>
             </div>
-            <MainButton onClick={() => { setShow(true) }}>Checkout</MainButton>
-            {/* shwo the checkout form */}
+            <MainButton onClick={() => { setShow(true) }}>أرسل الطلب</MainButton>
             <Payments />
         </SummaryStyled>
     )

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const Header = styled.header `
+export const StyledHeader = styled.header `
     padding:11px 0;
     position: fixed;
     top: 0;
@@ -73,10 +73,11 @@ export const Header = styled.header `
     ${({theme})=>theme.media.xs}{
         display:none;
     }
+    a{
+        margin:0 5px; 
+    }
     button{
-        margin:0 5px;
-        padding:10px 12px;
-        width:80px;
+        width:95px;
         border:2px solid ${(props)=>props.theme.palette.ColorApp.primary};
         background-color:${(props)=>props.theme.palette.ColorApp.gray_100};
         color:${(props)=>props.theme.palette.font};

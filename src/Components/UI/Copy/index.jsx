@@ -8,7 +8,7 @@ const StyledCopy = styled.p`
         background-color: ${(props) => props.theme.palette.ColorApp.primary_light};
         color:${(props) => props.theme.palette.ColorApp.dark}; 
         a{
-            color:${(props) => props.theme.palette.ColorApp.dark};
+            color:${(props) => props.theme.palette.ColorApp.dark} !important;
             font-weight:bold;
             font-size:1.2rem; 
         }

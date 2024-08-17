@@ -10,12 +10,17 @@ const ProductCard = ({ data: { id, description, images, name, price, prevPrice }
         <ProductCardStyeld full={isFull} >
             <ImagesSliderCard images={images} />
             <div className="content">
-                <p className="price">{price}₪ <span className="prevCost">{prevPrice}₪</span>   </p>
+                <p className="price">{price}₪
+                    {
+                        prevPrice > 0 &&
+                        <span className="prevCost">{prevPrice}₪</span>
+                    }
+                </p>
                 <Info>
                     <div className="rating"><Rating num="4" num2="7.5" /></div>
                 </Info>
                 {isFull && <p className="description">{description}</p>}
-                {isFull && <Link to={`/home/products/${id}`} className="ViewDetails">View details</Link>}
+                {isFull && <Link to={`/home/products/${id}`} className="ViewDetails">عرض التفاصيل</Link>}
                 <h3 className="title">{name}</h3>
                 <div className="icons">
                     <AddToCartButton  {...{ id }} />

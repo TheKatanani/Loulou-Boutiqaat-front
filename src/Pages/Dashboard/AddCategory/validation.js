@@ -1,15 +1,12 @@
-import {
-  object,
-  string
-} from 'yup';
+import { object, string } from 'yup';
 export const validationSchema = object().shape({
   name: string()
-    .min(6, "Name should be more than 6 characters long")
+    .min(6, "يجب أن يكون الاسم أكثر من 6 أحرف")
     .max(20)
-    .required("Name is required"),
+    .required("الاسم مطلوب"),
   description: string()
-    .min(8, "description must be at least 8 characters long")
-    .required("description is required"),
+    .min(8, "يجب أن يكون الوصف على الأقل 8 أحرف")
+    .required("الوصف مطلوب"),
   background: string()
-    .min(1, "you must add a background for the category")
+    .min(1, "يجب إضافة خلفية للتصنيف")
 });

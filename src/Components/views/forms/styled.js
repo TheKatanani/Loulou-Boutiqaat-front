@@ -5,6 +5,7 @@ export const StyledRigisterForm = styled(StyledForm)`
 border-bottom: 1px solid ${props=> props.theme.palette.ColorApp.gray_300};
     padding:0;
     margin:0;
+    direction: rtl;
     .name{
         display: flex;
         align-items:center;
@@ -17,6 +18,8 @@ border-bottom: 1px solid ${props=> props.theme.palette.ColorApp.gray_300};
         align-items: center;
     }
     .phone{
+        direction:ltr;
+        text-align:end;
     label{
         color:${props=> props.theme.palette.font};      
     }

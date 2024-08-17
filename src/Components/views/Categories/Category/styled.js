@@ -82,7 +82,9 @@ export const StyeldCard = styled.div `
     color:${(props) =>  props.theme.palette.font};
     font-size:${(props) => props.theme.fontSizes.body}rem;
     transition: 0.3s ease-in-out;
- 
+    p{
+        margin:10px 0;
+    }
     .content{
         position:relative;
         display: flex;
@@ -91,8 +93,8 @@ export const StyeldCard = styled.div `
         .icons{
             cursor: pointer;
             position:absolute;
-            top:0px;
-            right:0px;
+            top:5px;
+            left:0px;
             display: flex;
             gap:3px;
             .Select svg{

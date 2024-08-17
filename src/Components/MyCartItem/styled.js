@@ -8,6 +8,7 @@ export const MyCartItemStyled = styled.div `
     gap:11px;
     a{
         color:${(props) =>  props.theme.palette.ColorApp.primary};
+        font-weight: bold;
     }
     .content{
         display: flex;
@@ -20,7 +21,7 @@ export const MyCartItemStyled = styled.div `
         max-height: 110px;
         object-fit: contain;
         margin:5px;
-        border: 1px solid ${props=> props.theme.palette.ColorApp.gray_300};
+        border: 1px solid ${props=> props.theme.palette.ColorApp.gray_600};
         border-radius: 6px;
         display: flex;
         align-items:center;
@@ -30,6 +31,11 @@ export const MyCartItemStyled = styled.div `
                 max-width:80%;
                 max-height:80%;
             }
+    }
+    .quntity{
+        p{    
+            direction:ltr;
+        }
     }
     .text ,.quntity{
     margin:10px 0;

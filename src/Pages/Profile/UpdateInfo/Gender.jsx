@@ -11,13 +11,13 @@ const Gender = ({ setInput, input, errors }) => {
             onChange={() => setInput('male')}
             checked={input === 'male'}
           />
-          male</label>
+          ذكر</label>
         <label htmlFor="male">
           <input type="radio" name="gender" id="female"
               onChange={() => setInput('female')}
               checked={input === 'female'}
           />
-          female</label>
+          انثى</label>
       </div>
     </>
   )

@@ -5,15 +5,15 @@ export const Container = styled.div `
     margin: 0 auto;
 /* Small */
 @media (min-width: 768px) {
-    width: 750px;
+    width: min(100%,750px);
 }
 /* Medium */
 @media (min-width: 992px) {
-    width: 970px;
+    width: min(100%,970px);
 }
 /* Large */
 @media (min-width: 1200px) {
-    width: 1170px;
+    width: min(100%,1170px);
 }
 `;
 export const MainButton = styled.button `

@@ -10,7 +10,7 @@ var _styledComponents = _interopRequireDefault(require("styled-components"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _templateObject2() {
-  var data = _taggedTemplateLiteral(["\n/* margin: 30px 0; */\n/* margin: 120px 0 30px; */\nmin-height: 50vh;\nform{\n    padding: 20px;\n    margin:0 auto;\n    border-radius:8px;\n    box-shadow: 5px 5px 10px ", ";\n    background-color:", ";\n    padding:2rem; \n    width:400px;\n    /* width: min(400px , 100%) */ \n    color:", ";\n    .gender{\n      margin:10px;\n      label{\n        margin:10px 10px 10px 0;\n        input{\n          margin-right: 6px;\n          transform: translateY(1px);\n        }\n      }\n    }\n  } \n"]);
+  var data = _taggedTemplateLiteral(["\n/* margin: 30px 0; */\nmargin: 120px 0 30px;\nmin-height: 60vh;\nform{\n    direction:rtl;\n    padding: 20px;\n    margin:0 auto;\n    border-radius:8px;\n    box-shadow: 5px 5px 10px ", ";\n    background-color:", ";\n    padding:2rem; \n    width:400px;\n    /* width: min(400px , 100%) */ \n    color:", ";\n    .phone{\n      display: flex;\n      text-align:end;\n      align-items:center;\n      direction: ltr;\n    }\n    .gender{\n      margin:10px;\n      label:nth-child(2){\n        margin:0 20px 0 0;\n        /* margin:10px 10px 10px 0; */\n      }\n      input{\n        margin-left: 6px;\n        transform: translateY(1px);\n      }\n    }\n  } \n"]);
 
   _templateObject2 = function _templateObject2() {
     return data;
@@ -20,7 +20,7 @@ function _templateObject2() {
 }
 
 function _templateObject() {
-  var data = _taggedTemplateLiteral(["\n  margin: 160px 0 60px;\n  min-height:calc(50dvh - 113px);\n  color:", ";\n  p{\n    text-transform: capitalize;\n  }\n  .container{\n    display: grid;\n    place-content: center;\n  } \n"]);
+  var data = _taggedTemplateLiteral(["\n  direction:rtl;\n  margin: 160px 0 60px;\n  min-height:calc(50dvh - 113px);\n  color:", ";\n  p{\n    text-transform: capitalize;\n  }\n  .container{\n    display: grid;\n    place-content: center;\n  } \n"]);
 
   _templateObject = function _templateObject() {
     return data;

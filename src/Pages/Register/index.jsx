@@ -33,14 +33,14 @@ function Register() {
             <RegisterStyled>
                 <Container>
                     <main>
-                        <h1>Register</h1>
+                        <h1>انشاء حساب</h1>
                         <Form errors={errors} status={status} {...{
                             setGender, formData, handleSubmit, handleInputChangeFunc, handleCheckBoxChangeFunc
                         }} />
-                        <p>Already have an accaunt? <Link to="/login">Logn in </Link></p>
+                        <p>هل تمتلك حساب؟ <Link to="/login">تسجيل الدخول </Link></p>
                     </main>
                     <Link to="/home" className="icon">
-                        <p>back to home page</p>
+                        <p>العودة للصفحة الرئيسية</p>
                     </Link>
                 </Container>
             </RegisterStyled>

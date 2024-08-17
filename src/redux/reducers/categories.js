@@ -149,7 +149,6 @@ export const categoriesSlice = createSlice({
       })
       .addCase(updateCategory.rejected, (state, action) => {
         state.status = STATUS.FAILED;
-        console.log(action.error?.name === "AxiosError");
         if (action.error?.name === "AxiosError") {
           state.error = {
             isAxiosError: action?.error?.message

@@ -57,12 +57,12 @@ const Checkout = ({cancel}) => {
           onChange={handleInputChangeFun}
           id="location"
           type="text"
-          placeholder="Type here"
-          label="Add Your Location"
+          placeholder="أكتب هنا"
+          label="أضف عنوانك"
           value={formData?.location}
         />
         {/* <MainButton disabled>Pay Now</MainButton> */}
-        <MainButton onClick={handleSendOrder}>Send Order</MainButton>
+        <MainButton onClick={handleSendOrder}>أرسل الطلب</MainButton>
         <span className='cancel' onClick={cancel}>x</span>
       </StyledCheckOut>
     </PortalCard>

@@ -18,7 +18,7 @@ const Home = () => {
       {
         !!categories.length &&
         <>
-          <TransitionOne card="two" title="categories" />
+          <TransitionOne card="two" title="الأقسام" />
           <Categories />
         </>
       }

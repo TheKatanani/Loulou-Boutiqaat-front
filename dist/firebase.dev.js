@@ -25,7 +25,6 @@ var firebaseConfig = {
 }; // Initialize Firebase
 
 var app = (0, _app.initializeApp)(firebaseConfig);
-var auth = (0, _auth.getAuth)(app);
-console.log(auth);
+var auth = (0, _auth.getAuth)(app); 
 var _default = auth;
 exports["default"] = _default;

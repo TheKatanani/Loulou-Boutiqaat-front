@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 export const StyledCheckOut = styled.div `   
   margin: 30px 0;
+  direction: rtl;
   padding: 20px;
   border-radius:8px;
   background-color:${({theme})=>theme.palette.main};
@@ -34,7 +35,7 @@ export const StyledCheckOut = styled.div `
   }
   span.cancel{
     position:absolute;
-    right:-5px;
+    left:-5px;
     top:-5px;
     border-radius:50%;
     border:1px solid ${({theme})=>theme.palette.main};

@@ -15,16 +15,16 @@ const Sections = () => {
         isAuthorized &&
         <Link to="/home/profile" className="icon">
           <Profile />
-          <p>Profile</p>
+          <p>الصفحة الشخصية</p>
         </Link>
       } 
       <Link to="/home/saved" className="icon">
         <Orders />
-        <p>Orders</p>
+        <p>المفضلة</p>
       </Link>
       <Link to="/home/cart" className="icon">
         <MyCart />
-        <p>My cart</p>
+        <p>السلة</p>
       </Link>
     </SectionsStyle>
   );

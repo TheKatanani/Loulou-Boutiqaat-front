@@ -104,8 +104,7 @@ const MyRoutes = () => {
             element={
               <ErrorBoundary>
                 <AddSocial />
-              </ErrorBoundary>
-
+              </ErrorBoundary> 
             } />
           <Route
             path="orders"
@@ -126,7 +125,7 @@ const MyRoutes = () => {
               <Home />
             </ErrorBoundary>
           } />
-          <Route path="categories">
+          <Route path="الأقسام">
             <Route index element={
               <ErrorBoundary>
                 <Categories />
@@ -165,14 +164,9 @@ const MyRoutes = () => {
               <ErrorBoundary>
                 <UpdateUserInfo />
               </ErrorBoundary>
-            } />
-
+            } /> 
             <Route path="*" element={<PageNotFound />} />
-          </Route>
-          {/* <Route path="updateInfo" element={<PrivateRoute requireRole={[ROLES.USER, ROLES.ADMIN, ROLES.EDITOR]} />}>
-            <Route index element={<UpdateInfo />} />
-            <Route path="*" element={<PageNotFound />} />
-          </Route> */}
+          </Route> 
           <Route path="saved" element={
             <ErrorBoundary>
               <Saved />

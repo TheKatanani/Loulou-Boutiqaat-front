@@ -1,11 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import logo from '../../Images/logo.png'
-const LogoStyled = styled.div`
-  /* h1 {
-    font-size:1.3rem;
-    color:#8f46c5;  
-  }   */
+const LogoStyled = styled.div` 
   img{
     transform: translateY(10px);
     filter: drop-shadow(-1px 2px 0px ${props=>props.theme.palette.ColorApp.gray_300});
@@ -22,11 +18,8 @@ const LogoStyled = styled.div`
 `
 const Logo = () => {
   return (
-    <LogoStyled>
-      {/* <h1>
-           LOULOU BOUTIQAAT 
-         </h1>  */}
-      <img src={logo} alt="" />
+    <LogoStyled> 
+      <img src={logo} loading="lazy" alt="logo" />
     </LogoStyled>
   )
 }

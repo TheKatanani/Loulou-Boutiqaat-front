@@ -1,7 +1,6 @@
 import { StyledImagesSliderCard } from './styled'
 import { useState } from 'react'
 import { useEffect } from 'react' 
-import ErrorBoundary from '../Errorboundary'
 const ImagesSliderCard = ({ images, className, handleRemoveImage }) => {
   const [imgIndex, setImgIndex] = useState(images.length - 1)
 
@@ -29,12 +28,11 @@ const ImagesSliderCard = ({ images, className, handleRemoveImage }) => {
   useEffect(() => {
     setImgIndex(images.length - 1)
   }, [images])
-  return (
-    <ErrorBoundary>
+  return ( 
       <StyledImagesSliderCard isImages={!!images.length} className={`imagesSlider ${className || ''}`}>
         {
           images.length &&
-          <img src={images?.[imgIndex]} className={images.length ? '' : 'defaultImage'} alt="loulou boutiqaat" />
+          <img src={images?.[imgIndex]} loading="lazy" className={images.length ? '' : 'defaultImage'} alt="loulou boutiqaat" />
         }
         <button type='button' disabled={disaple.prev} className={`prevImg ${disaple.prev && 'disabled'}`} onClick={() => {
           setImgIndex(prev => {
@@ -75,8 +73,7 @@ const ImagesSliderCard = ({ images, className, handleRemoveImage }) => {
             x
           </span>
         }
-      </StyledImagesSliderCard>
-    </ErrorBoundary>
+      </StyledImagesSliderCard> 
   )
 }
 

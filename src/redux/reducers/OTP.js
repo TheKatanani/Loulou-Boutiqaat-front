@@ -30,8 +30,7 @@ export const sendOTP = createAsyncThunk(
   }, {
     rejectWithValue,
     // getState
-  }) => {
-    // console.log(getState().OTP.phone)
+  }) => { 
     try {
       const confirmationResult = await signInWithPhoneNumber(auth, phone, appVerifier);
       return {

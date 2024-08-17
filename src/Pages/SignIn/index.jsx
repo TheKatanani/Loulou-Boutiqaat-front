@@ -44,11 +44,11 @@ function SignIn() {
             <LoginStyle>
                 <Container>
                     <main>
-                        <h1>Sign in</h1>
+                        <h1>تسجيل الدخول</h1>
                         <form onSubmit={handleSubmit}>
                             {errors?.phone && <ErrorForm>{errors?.phone}</ErrorForm>}
                             <div className="phone">
-                                <label htmlFor="Phone">Phone</label>
+                                <label htmlFor="Phone">رقم الجوال</label>
                                 <div>
                                     <Select
                                         defualt={allowedPhones[0].value}
@@ -68,17 +68,18 @@ function SignIn() {
                             </div>
                             {/* *************************** */}
                             {errors?.password && <ErrorForm>{errors?.password}</ErrorForm>}
-                            <PasswordInput handleInputChange={handleInputChangeFunc} value={formData?.password} id={'password'} label={"password"} showPassword={formData.showPassword} showPasswordFunc={showPassword} />
+                            <PasswordInput handleInputChange={handleInputChangeFunc} value={formData?.password} id={'password'} label={"كلمة المرور"} showPassword={formData.showPassword} showPasswordFunc={showPassword} />
                             {/* *********************** */}
                             {errors?.isAxiosError && <ErrorForm>{errors?.isAxiosError}</ErrorForm>}
                             {errors?.message && <ErrorForm>{errors?.message}</ErrorForm>}
                             {/* <LogInButton type="submit">{formData.isLoading ? <ButtonAnimation /> : "Login"}</LogInButton> */}
-                            <ButtonAnimation status={status}>Login</ButtonAnimation>
+                            <ButtonAnimation status={status}>تسجيل الدخول
+                            </ButtonAnimation>
                         </form>
-                        <p>Don't have an account? <Link to="/Register">Register</Link></p>
+                        <p>لا تمتلك حساب : <Link to="/Register">انشاء حساب جديد</Link></p>
                     </main>
                     <Link to="/home" className="icon">
-                        <p>back to home page</p>
+                        <p>عد للصفحة الرئيسية</p>
                     </Link>
                 </Container>
             </LoginStyle>

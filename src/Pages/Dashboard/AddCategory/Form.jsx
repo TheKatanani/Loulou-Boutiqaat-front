@@ -39,8 +39,7 @@ const Form = () => {
     try {
       await validationSchema.validate(formData, { abortEarly: false });
       if (mood === MOOD.ADD) {
-        dispatch(addNewCategory({ newcategory: formData, axiosPrivate })) //I wanna try to put all logic in the redux toll kit
-
+        dispatch(addNewCategory({ newcategory: formData, axiosPrivate })) 
       } else {
         dispatch(updateCategory({ category: formData, axiosPrivate })) 
       }

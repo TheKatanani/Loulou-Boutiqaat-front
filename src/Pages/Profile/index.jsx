@@ -13,8 +13,8 @@ const Profile = () => {
         <StyledTable>
           <thead>
             <th>#</th>
-            <th>value</th>
-            <th>update</th>
+            <th>القيمة</th>
+            <th>تعديل</th>
           </thead>
           <tbody>
             <tr>
@@ -23,46 +23,46 @@ const Profile = () => {
               <td></td>
             </tr>
             <tr>
-              <td>phone</td>
+              <td>رقم الجوال</td>
               <td>{user?.phone}</td>
               <td>
                 <ButtonUpadte as={Link} to={`updateUserInfo/phone`}>
-                  update
+                  تعديل
                 </ButtonUpadte>
               </td>
             </tr>
             <tr>
-              <td>name</td>
+              <td>الاسم</td>
               <td>{user?.name}</td>
               <td>
                 <ButtonUpadte as={Link} to={`updateUserInfo/name`}>
-                  update
+                  تعديل
                 </ButtonUpadte>
               </td>
             </tr>
             <tr>
-              <td>Gender</td>
+              <td>الجنس</td>
               <td>{user?.gender}</td>
               <td>
-                <ButtonUpadte as={Link} to={`updateUserInfo/gender`}>update</ButtonUpadte>
+                <ButtonUpadte as={Link} to={`updateUserInfo/gender`}>تعديل</ButtonUpadte>
               </td>
             </tr>
             <tr>
-              <td>Barth Day</td>
+              <td>تاريخ الميلاد</td>
               <td>{user?.barthDay}</td>
               <td>
-                <ButtonUpadte as={Link} to={`updateUserInfo/barthDay`}>update</ButtonUpadte>
+                <ButtonUpadte as={Link} to={`updateUserInfo/barthDay`}>تعديل</ButtonUpadte>
               </td>
             </tr>
             <tr>
-              <td>Password</td>
-              <td>{user?.password}</td>
+              <td>كلمة المرور</td>
+              <td>********</td>
               <td>
-                <ButtonUpadte as={Link} to={`updateUserInfo/password`}>update</ButtonUpadte>
+                <ButtonUpadte as={Link} to={`updateUserInfo/password`}>تعديل</ButtonUpadte>
               </td>
             </tr>
             <tr>
-              <td>role</td>
+              <td>الصلاحية</td>
               <td>{Object.keys(ROLES)[Object.values(ROLES).indexOf(user.role)]}</td>
               <td></td>
             </tr>

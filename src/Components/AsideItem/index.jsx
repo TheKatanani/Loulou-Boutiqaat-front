@@ -7,7 +7,7 @@ const ItemCard = ({ img, title, price, type, button }) => {
     return (
         <ItemCardStayled type={type}>
             <div className="imgarea">
-                <img src={img} alt="" />
+                <img src={img} loading="lazy" alt="ItemCard" />
             </div>
             <div className="text">
                 <p className='title'>{title}</p>

@@ -3,47 +3,46 @@ import { phoneNumberRegex } from './Regex';
 export const validationSchema = object().shape({
   name:
     string()
-      .min(6, "Name should be more than 6 characters long")
+      .min(6, "يجب أن يكون الاسم أكثر من 6 أحرف")
       .max(20)
-      .required("Name is required"),
+      .required("الاسم مطلوب"),
   password:
     string()
-      .min(8, "Password must be at least 8 characters long")
-      // .matches(passwordRegexMedium, "Password must contain at least 1 lowercase letter, 1 uppercase letter, and 1 special character")
-      .required("Password is required"),
+      .min(8, "يجب أن تكون كلمة المرور 8 أحرف على الأقل")
+      // .matches(passwordRegexMedium, "يجب أن تحتوي كلمة المرور على حرف صغير واحد وحرف كبير واحد ورمز خاص واحد")
+      .required("كلمة المرور مطلوبة"),
   confirmPassword: string()
-    .oneOf([ref('password'), null], 'Passwords must match')
-    .required('Password confirmation is required'),
+    .oneOf([ref('password'), null], "كلمتا المرور يجب أن تتطابق")
+    .required('تأكيد كلمة المرور مطلوب'),
   phone:
     string()
-      .matches(phoneNumberRegex, "Invalid phone number the valid phone'00-000-00-00'")
-      .required("Phone number is required"), 
+      .matches(phoneNumberRegex, "رقم الهاتف غير صالح، الصيغة الصحيحة هي '00-000-00-00'")
+      .required("رقم الهاتف مطلوب"), 
 });
 export const validationSchemaUpdateAdmain = object().shape({
   name:
     string()
-      .min(6, "Name should be more than 6 characters long")
+      .min(6, "يجب أن يكون الاسم أكثر من 6 أحرف")
       .max(20)
-      .required("Name is required"), 
+      .required("الاسم مطلوب"), 
   phone:
     string()
-      .matches(phoneNumberRegex, "Invalid phone number the valid phone'00-000-00-00'")
-      .required("Phone number is required"), 
+      .matches(phoneNumberRegex, "رقم الهاتف غير صالح، الصيغة الصحيحة هي '00-000-00-00'")
+      .required("رقم الهاتف مطلوب"), 
 });
 export const validationSchemaLogIn = object().shape({
   password:
     string()
-      .min(8, "Password must be at least 8 characters long")
-      .required("Password is required"),
+      .min(8, "يجب أن تكون كلمة المرور 8 أحرف على الأقل")
+      .required("كلمة المرور مطلوبة"),
   phone:
     string()
-      .matches(phoneNumberRegex, "Invalid phone number the valid phone'00-000-00-00' or '123456789'")
-      .required("Phone number is required") 
+      .matches(phoneNumberRegex, "رقم الهاتف غير صالح، الصيغة الصحيحة هي '00-000-00-00' أو '123456789'")
+      .required("رقم الهاتف مطلوب") 
 });
 export const validationSchemaOTP = object().shape({ 
   phone:
     string()
-      .matches(phoneNumberRegex, "Invalid phone number the valid phone'00-000-00-00' or '123456789'")
-      .required("Phone number is required") 
+      .matches(phoneNumberRegex, "رقم الهاتف غير صالح، الصيغة الصحيحة هي '00-000-00-00' أو '123456789'")
+      .required("رقم الهاتف مطلوب") 
 });
-

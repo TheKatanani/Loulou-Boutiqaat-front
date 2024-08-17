@@ -1,5 +1,5 @@
 import { Container } from '../../Global/components'
-import { FaceBook, Instagram, LinkedIn, Twitter, Youtube } from '../../Icons'
+import { FaceBook, Instagram, LinkedIn, Telegram, TikTok, Twitter, WhatsApp, Youtube } from '../../Icons'
 import FooterList from '../FooterList'
 import Logo from '../Logo'
 import { FooterStyled } from './styled'
@@ -11,32 +11,24 @@ import Copy from '../UI/Copy'
 import { selectPublishedCategoryies } from '../../redux/reducers/categories'
 import { STATUS } from '../../Actions'
 import { footerData } from './footerData'
-// import { selectPublishedProducts } from '../../redux/reducers/products'
 const Footer = () => {
     const dispatch = useDispatch()
     const social = useSelector(selectSocial)
     const socialStatus = useSelector(selectStatus)
     const categories = useSelector(selectPublishedCategoryies)
-    // const products = useSelector(selectPublishedProducts)
-    // const validcategories = categories?.map((category) => {
-    //     return products.find(product => {
-    //         if (product.categoryId == category.id)
-    //             if (product.count > 0) {
-    //                 return product
-    //             }
-    //         return undefined
-    //     }) && category
-    // })
-  
     let facebook = '',
         X = '',
         instagram = '',
+        tikTok = '',
+        telegram = '',
         whatsApp;
     if (socialStatus === STATUS.SUCCEEDED) {
         facebook = social?.find(el => el?.name === 'facebook')?.value || ''
         X = social?.find(el => el?.name === 'x')?.value || ''
         instagram = social?.find(el => el?.name === 'instagram')?.value || ''
         whatsApp = social?.find(el => el?.name === 'whatsApp')?.value || ''
+        tikTok = social?.find(el => el?.name === 'tikTok')?.value || ''
+        telegram = social?.find(el => el?.name === 'telegram')?.value || ''
     }
     useEffect(() => {
         dispatch(setSocial())
@@ -51,17 +43,24 @@ const Footer = () => {
                         Skincare, Cosmetics and more...<br />🧖‍♀️💅💄
                     </p>
                     <div className="icons">
-                        <Link to={facebook} target='_blank' className="facebook">
+                        <Link to={facebook} target='_blank' title='facebook' className="facebook">
                             <FaceBook />
                         </Link>
-                        <Link to={X} target='_blank' className="x">
+                        <Link to={X} target='_blank' title='X' className="x">
                             <Twitter />
-                        </Link>
-                        <LinkedIn />
-                        <Link to={instagram} target='_blank' className="instagram">
+                        </Link> 
+                        <Link to={instagram} target='_blank' title='instagram' className="instagram">
                             <Instagram />
-                        </Link>
-                        <Youtube />
+                        </Link> 
+                        <Link to={tikTok} target='_blank' title='TikTok' className="TikTok">
+                            <TikTok />
+                        </Link> 
+                        <Link to={telegram} target='_blank' title='telegram' className="Telegram">
+                            <Telegram />
+                        </Link> 
+                        <Link to={`https://wa.me/${whatsApp}`} target='_blank' title='whatsApp' className="whatsApp">
+                            <WhatsApp />
+                        </Link> 
                     </div>
                 </div>
                 <div className='uls'>
@@ -70,8 +69,10 @@ const Footer = () => {
                     ))}
                 </div>
                 <div>
-                    <h4>Contact Us</h4>
-                    <p>{whatsApp}</p>
+                    <h4>تواصل معنا</h4>
+                    <Link to={`https://wa.me/${whatsApp}`} title='whats app' aria-label='whats app' target="_blank">
+                        <p>{whatsApp}</p>
+                    </Link>
                 </div>
             </Container>
             <Copy />

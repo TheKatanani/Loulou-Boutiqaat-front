@@ -23,18 +23,18 @@ const Toggle = () => {
   }
   return (
     <MainStayled>
-      <ButtonStayled onClick={toggleTheme}><img src={theme.theme === "light" ? Dark : Light} alt="" /></ButtonStayled>
+      <ButtonStayled onClick={toggleTheme}><img loading="lazy" src={theme.theme === "light" ? Dark : Light} alt="mood" /></ButtonStayled>
       {isAuthenticated && <MainButton onClick={() => {
         dispath(handleLogout())
         // to delete all user date from cart and saved
         dispath(resetState())
         dispath(resetSavedState())
-      }}>Logout</MainButton>}
+      }}>تسجيل خروج</MainButton>}
       {
         (user?.role === ROLES.EDITOR || user?.role === ROLES.ADMIN) &&
         <Link className='dashboardLink' to='/dashboard'>
           <MainButton>
-            Dashboard
+            لوحة التحكم
           </MainButton>
         </Link>
       }

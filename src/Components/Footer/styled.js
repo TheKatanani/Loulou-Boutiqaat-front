@@ -5,27 +5,45 @@ export const FooterStyled = styled.div `
     color:${(props) => props.theme.palette.font};
     border-top: 1px solid ${(props) => props.theme.palette.ColorApp.primary_light};
     a{
-        color:${(props) => props.theme.palette.ColorApp.primary_light};
+        color:${(props) => props.theme.palette.ColorApp.gray_800};
     }
     .container{
-        padding: 20px auto 0;
+        padding: 30px 0;
         min-height:256px;
         display: flex;
         flex-wrap: wrap;
-        align-items:center;
+        align-items:flex-start; 
     }
     .logoBox{
+        direction:ltr;
         flex: 1;
         max-width:276px;
         p{
+            direction:ltr;
             margin:17px 0;
             color:${(props) => props.theme.palette.ColorApp.gray_600};
             font-size:${(props) => props.theme.fontSizes.body}rem;
         }
         .icons{
-        *{
-            margin:0 6px;
-        }
+            display: flex;
+            justify-content:flex-start;
+            align-items:center;
+            gap:7px;
+            a{
+                display: grid;
+                place-content: center;
+                width:40px;
+                height:40px;  
+                border-radius: 50%;
+                background-color:${(props) => props.theme.palette.ColorApp.gray_300};
+                transition: .3s;
+                :hover{
+                    background-color:${(props) => props.theme.palette.ColorApp.gray_400};
+                }
+            }
+            svg{
+                width:20px;
+            } 
     }
 }
     ul{

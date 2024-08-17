@@ -72,10 +72,7 @@ const UpdateInfo = () => {
     ;
   useEffect(() => {
     dispatch(setUpdateUser({ user: authUser }))
-  }, [dispatch, authUser])
-  // useEffect(() => {
-  //   dispatch(setUsers({ axiosPrivate }))
-  // }, [dispatch, axiosPrivate])
+  }, [dispatch, authUser]) 
   useEffect(() => {
     dispatch(setStatusIdle())
   }, [dispatch])
@@ -85,7 +82,7 @@ const UpdateInfo = () => {
         <Register isFromUserProfile={true} showPasswordFunc={showPasswordFunc} {...{ status, errors, formData, showPassword, handleSubmit, handleInputChangeFunc, handleCheckBoxChangeFunc }} />
         {
           status === STATUS.SUCCEEDED &&
-          <Alert text={`updated successfully`} />
+          <Alert text={`تم التعديل بنجاح`} />
         }
       </Container>
     </StyledUpdateUserInfo>

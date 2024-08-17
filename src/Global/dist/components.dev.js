@@ -120,7 +120,7 @@ function _templateObject2() {
 }
 
 function _templateObject() {
-  var data = _taggedTemplateLiteral(["\n    padding: 0;\n    margin: 0 auto;\n/* Small */\n@media (min-width: 768px) {\n    width: 750px;\n}\n/* Medium */\n@media (min-width: 992px) {\n    width: 970px;\n}\n/* Large */\n@media (min-width: 1200px) {\n    width: 1170px;\n}\n"]);
+  var data = _taggedTemplateLiteral(["\n    padding: 0;\n    margin: 0 auto;\n/* Small */\n@media (min-width: 768px) {\n    width: min(100%,750px);\n}\n/* Medium */\n@media (min-width: 992px) {\n    width: min(100%,970px);\n}\n/* Large */\n@media (min-width: 1200px) {\n    width: min(100%,1170px);\n}\n"]);
 
   _templateObject = function _templateObject() {
     return data;

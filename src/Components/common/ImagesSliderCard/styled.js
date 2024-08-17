@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 export const StyledImagesSliderCard = styled.div `
+        direction: ltr;
         ${({isImages})=>isImages && `
         height:210px;
         `}
@@ -16,6 +17,7 @@ export const StyledImagesSliderCard = styled.div `
         img{
             max-width:205px;
             width: 80%;
+            object-fit:cover;
             &.defaultImage{
             width: 100%;
             background-size:contain;

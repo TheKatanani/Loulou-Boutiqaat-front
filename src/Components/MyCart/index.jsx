@@ -27,18 +27,18 @@ const MyCart = () => {
   })
   return (
     <MyCartStyled>
-      <h6>My cart ({quantity})</h6>
+      <h6>سلتي ({quantity})</h6>
       <div className="container">
         <div className="items">
           {
             quantity ?
               dataCart :
-              <p className='empty'>your cart is empty</p>
+              <p className='empty'>سلتك فارغة</p>
           }
         </div>
         <div className="myButtons">
-          <PrimaryButton onClick={() => navigate("/home")}><Arrow /> Back to shop</PrimaryButton>
-          <WhitePrimaryButton onClick={() => dispatch(clearCart({ userId, axiosPrivate }))}>Remove all</WhitePrimaryButton>
+          <PrimaryButton onClick={() => navigate("/home")}><Arrow />عد للمتجر</PrimaryButton>
+          <WhitePrimaryButton onClick={() => dispatch(clearCart({ userId, axiosPrivate }))}>افرغ السلة</WhitePrimaryButton>
         </div>
       </div>
     </MyCartStyled>

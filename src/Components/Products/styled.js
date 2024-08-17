@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 export const ProductsStyled = styled.div`
+    direction:rtl;
     .content2{
         height:calc(100% - 40px);
         margin: 20px 0 30px;
