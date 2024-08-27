@@ -16,6 +16,7 @@ export const StyledProductPage = styled.div `
         align-items: center; 
         ${({theme:{media}})=>media.xs}{
             flex-wrap: wrap;
+            justify-content: center;
         }
         gap:20px;
         .title{
@@ -23,6 +24,7 @@ export const StyledProductPage = styled.div `
     }
     }
     .content{
+        min-width:min(400px,100%);
         flex:1;
         position:relative;
         display: flex;
@@ -37,6 +39,7 @@ export const StyledProductPage = styled.div `
             gap:3px; 
         }
         .title{
+            margin:35px 0 10px;
             ${props=>!props.full&&`color:${(props) =>  props.theme.palette.ColorApp.gray_800}`};
         }
         .price{
@@ -49,5 +52,9 @@ export const StyledProductPage = styled.div `
                 padding:5px;
             }
         }
+      }
+      pre{
+        text-wrap:wrap;
+        margin:15px 0;
       }
 `

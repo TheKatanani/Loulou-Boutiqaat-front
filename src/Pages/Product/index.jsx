@@ -48,7 +48,7 @@ const Product = () => {
                 <Info>
                   <div className="rating"><Rating num={stars} /></div>
                 </Info>
-                {isFull && <p className="description">{description}</p>}
+                {isFull && <pre className="description">{description}</pre>}
                 <div className="icons">
                   <AddToCartButton  {...{ id }} />
                   <SavedButton {...{ id }} />

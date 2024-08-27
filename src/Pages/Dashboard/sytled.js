@@ -25,7 +25,8 @@ export const StyledDashboard = styled.div `
   }
   ${({theme:{media}})=>media.s}{
   main{
-    padding-inline-start: 140px;
+    direction:rtl;
+    padding-left: 140px;
   }
   }
   aside{

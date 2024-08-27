@@ -13,6 +13,17 @@ export const FooterStyled = styled.div `
         display: flex;
         flex-wrap: wrap;
         align-items:flex-start; 
+        ${({theme:{media}})=>media.xs}{
+            flex-direction:column;
+            justify-content: center;
+            gap:25px;
+            > div{
+                margin:auto;
+                &:not(:first-child){
+                    text-align:center;
+                }
+            }
+        }
     }
     .logoBox{
         direction:ltr;
@@ -44,8 +55,16 @@ export const FooterStyled = styled.div `
             svg{
                 width:20px;
             } 
+            ${({theme:{media}})=>media.xs}{
+                a{
+                    width:35px;
+                    height:35px;                      
+                }
+                    svg{
+                        width:18px;
+                    } 
+        }}
     }
-}
     ul{
         flex: 1;
     }
@@ -67,23 +86,27 @@ export const FooterStyled = styled.div `
         display: grid;
         grid-template-columns: repeat(auto-fill,130px);
         flex-wrap: wrap;
-    }
-        ${({theme:{media}})=>`
-$ {
-    media.xs
-}
-or($ {
-        media.s.split("@media")[1]
-    }
-    and(max - width: 992 px))
-`}{ 
-        height:unset;
-        >div{
-            display: block;
-            text-align: center;
+        ${({theme:{media}})=>media.xs}{
+            gap:10px;    
         }
-        .uls{
-        grid-template-columns: repeat(2,auto);
+    }
+
+    ${({theme:{media}})=>`
+${
+    media.xs
+    }
+    or(${
+        media.s.split("@media")[1]
+        }
+        and(max - width: 992 px))
+        `}{ 
+            height:unset;
+            >div{
+                display: block;
+                text-align: center;
+            }
+            .uls{
+                grid-template-columns: repeat(2,auto);
         }
         .stores{
             display: flex;
