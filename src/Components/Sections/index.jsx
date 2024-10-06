@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { MyCart, Orders, Profile } from "../../Icons";
+import { MyCart, Order, Orders, Profile } from "../../Icons";
 import { SectionsStyle } from "./Styled";
 import { useSelector } from "react-redux";
 import { selectQuantity } from "../../redux/reducers/cart";
@@ -18,6 +18,10 @@ const Sections = () => {
           <p>الصفحة الشخصية</p>
         </Link>
       } 
+      <Link to="/home/orders" className="icon">
+        <Order />
+        <p>الطلبات</p>
+      </Link>
       <Link to="/home/saved" className="icon">
         <Orders />
         <p>المفضلة</p>

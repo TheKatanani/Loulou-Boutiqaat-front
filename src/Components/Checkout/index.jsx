@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import ErrorForm from '../ErrorForm'
 import { MainButton } from '../../Global/components'
 import { selectUser } from '../../redux/reducers/auth'
-import { selectCart } from '../../redux/reducers/cart'
+import { resetState, selectCart } from '../../redux/reducers/cart'
 import { selectProducts } from '../../redux/reducers/products'
 import { addOrder } from '../../redux/reducers/orders'
 import useAxiosPrivate from '../../Hook/useAxiosPrivet'
@@ -45,6 +45,7 @@ const Checkout = ({cancel}) => {
         paid: 0
       }
       dispatch(addOrder({ order, axiosPrivate }))
+      dispatch(resetState())
     } else {
       dispatch(setStatusFailed({ location: 'Must Add Location!' }))
     }

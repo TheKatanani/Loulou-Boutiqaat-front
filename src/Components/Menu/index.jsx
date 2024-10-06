@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-import { Categories, ContactUs, Favorites, Home, MyOrders, Profile } from "../../Icons"
+import { Categories, ContactUs, Favorites, Home, MyCart, MyOrders, Order, Profile } from "../../Icons"
 import Toggle from "../Toggle"
 import { MenuStyled } from "./styeld"
 import Logo from "../Logo"
@@ -9,16 +9,18 @@ import { SelectIsAuthenticated } from "../../redux/reducers/auth"
 import { selectSocial, selectStatus } from "../../redux/reducers/social"
 import { STATUS } from "../../Actions"
 import LogoLoading from "../common/LogoLoading"
+import { selectQuantity } from "../../redux/reducers/cart"
 
 const Menu = ({ show }) => {
+    const quantity = useSelector(selectQuantity)
     const isAuthorized = useSelector(SelectIsAuthenticated)
     const social = useSelector(selectSocial)
     const status = useSelector(selectStatus)
-    if(status !== STATUS.SUCCEEDED){
-        return <LogoLoading/>
-    } 
+    if (status !== STATUS.SUCCEEDED) {
+        return <LogoLoading />
+    }
     return (
-        <MenuStyled  {...{ show }}>
+        <MenuStyled  {...{ show }} productLength={quantity}>
             <header>
                 <Logo />
             </header>
@@ -42,8 +44,14 @@ const Menu = ({ show }) => {
                     </Link>
                 </li>
                 <li>
+                    <Link to="/home/orders">
+                        <div className="iconArea"><Order /></div>
+                        <p>الطلبات</p>
+                    </Link>
+                </li>
+                <li>
                     <Link to="/home/cart">
-                        <div className="iconArea"><MyOrders /></div>
+                        <div className="iconArea cartIcon"><MyCart /></div>
                         <p>السلة</p>
                     </Link>
                 </li>

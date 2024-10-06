@@ -62,6 +62,19 @@ const ordersSlice = createSlice({
         state.status = STATUS.FAILED;
         state.error = action.payload;
       })
+      // cancelOrder
+      .addCase(cancelOrder.pending, (state) => {
+        state.status = STATUS.LOADING;
+        state.error = null
+      })
+      .addCase(cancelOrder.fulfilled, (state, action) => {
+        state.status = STATUS.SUCCEEDED;
+        state.orders = state.orders.filter(order => order.id != action.payload)
+      })
+      .addCase(cancelOrder.rejected, (state, action) => {
+        state.status = STATUS.FAILED;
+        state.error = action.payload;
+      })
       // updateOrder
       .addCase(updateOrder.pending, (state) => {
         state.status = STATUS.LOADING;
@@ -118,6 +131,16 @@ export const removeOrder = createAsyncThunk(
     axiosPrivate
   }) => {
     const response = await axiosPrivate.delete(`/order/${orderId}`);
+    return response.data
+  }
+)
+export const cancelOrder = createAsyncThunk(
+  "order/cancelOrder",
+  async ({
+    orderId,
+    axiosPrivate
+  }) => {
+    const response = await axiosPrivate.delete(`/order/cancel/${orderId}`);
     return response.data
   }
 )

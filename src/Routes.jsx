@@ -11,12 +11,13 @@ import LogoLoading from "./Components/common/LogoLoading";
 import Layout from "./Components/Layout";
 import ErrorBoundary from "./Components/common/Errorboundary";
 // import ForgotPassword from "./Pages/ForgotPassword";
-import VerifyOTP from "./Pages/ForgotPassword/VerifyOTP"; 
+import VerifyOTP from "./Pages/ForgotPassword/VerifyOTP";
 import UpdateUserInfo from "./Pages/Profile/UpdateInfo";
 const Contactus = lazy(() => import("./Pages/ForgotPassword/Contactus"));
 const CategoryProducts = lazy(() => import("./Pages/Dashboard/AddCategory/CategoryProducts"));
 // const UpdateUserInfo = lazy(() => import("./Pages/Profile/UpdateInfo"));
 const Orders = lazy(() => import("./Pages/Dashboard/Orders"));
+const UserOrders = lazy(() => import("./Pages/Orders"));
 const Categories = lazy(() => import("./Pages/Categories"));
 const Category = lazy(() => import("./Pages/Category"));
 const Product = lazy(() => import("./Pages/Product"));
@@ -104,7 +105,7 @@ const MyRoutes = () => {
             element={
               <ErrorBoundary>
                 <AddSocial />
-              </ErrorBoundary> 
+              </ErrorBoundary>
             } />
           <Route
             path="orders"
@@ -164,9 +165,9 @@ const MyRoutes = () => {
               <ErrorBoundary>
                 <UpdateUserInfo />
               </ErrorBoundary>
-            } /> 
+            } />
             <Route path="*" element={<PageNotFound />} />
-          </Route> 
+          </Route>
           <Route path="saved" element={
             <ErrorBoundary>
               <Saved />
@@ -179,6 +180,13 @@ const MyRoutes = () => {
               </ErrorBoundary>
             } />
             <Route path="*" element={<PageNotFound />} />
+          </Route>
+          <Route path="orders" element={<PrivateRoute requireRole={[ROLES.USER, ROLES.ADMIN, ROLES.EDITOR]} />}>
+            <Route index element={
+              <ErrorBoundary>
+                <UserOrders />
+              </ErrorBoundary>
+            } />
           </Route>
         </Route>
         <Route path="/*" element={<PageNotFound />} />

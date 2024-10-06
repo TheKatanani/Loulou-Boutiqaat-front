@@ -35,6 +35,11 @@ a{
 ul{
   list-style:none;
 }
+button.disabled,button:disabled{
+  background-color: ${(props) =>  props.theme.palette.ColorApp.gray_100}!important;
+  color: ${(props) =>  props.theme.palette.ColorApp.gray_400}!important;
+  cursor: not-allowed !important;
+}
 /* Small */
 @media (max-width: 576px) {   
   html {

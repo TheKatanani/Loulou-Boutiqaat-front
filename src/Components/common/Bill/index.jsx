@@ -1,7 +1,7 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { selectProducts } from '../../../redux/reducers/products'
-import { StyledBill } from './styled'
+import { StyledBill } from '../../../Pages/Dashboard/Orders/styled'
 
 const Bill = ({ orders, paid = 0 }) => {
   const products = useSelector(selectProducts)
@@ -12,7 +12,7 @@ const Bill = ({ orders, paid = 0 }) => {
         <thead>
           <tr>
             <th className='id'>id</th>
-            <th >product</th> 
+            <th >product</th>
             <th >quantity</th>
             <th >cost</th>
             <th >total</th>

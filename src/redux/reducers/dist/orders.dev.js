@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = exports.selectOrdersStatus = exports.selectOrders = exports.setStatusIdle = exports.resetState = exports.removeOrder = exports.updateOrder = exports.addOrder = exports.setOrders = void 0;
+exports["default"] = exports.selectOrdersStatus = exports.selectOrders = exports.setStatusIdle = exports.resetState = exports.cancelOrder = exports.removeOrder = exports.updateOrder = exports.addOrder = exports.setOrders = void 0;
 
 var _toolkit = require("@reduxjs/toolkit");
 
@@ -70,6 +70,18 @@ var ordersSlice = (0, _toolkit.createSlice)({
         return order.id != action.payload;
       });
     }).addCase(removeOrder.rejected, function (state, action) {
+      state.status = _Actions.STATUS.FAILED;
+      state.error = action.payload;
+    }) // cancelOrder
+    .addCase(cancelOrder.pending, function (state) {
+      state.status = _Actions.STATUS.LOADING;
+      state.error = null;
+    }).addCase(cancelOrder.fulfilled, function (state, action) {
+      state.status = _Actions.STATUS.SUCCEEDED;
+      state.orders = state.orders.filter(function (order) {
+        return order.id != action.payload;
+      });
+    }).addCase(cancelOrder.rejected, function (state, action) {
       state.status = _Actions.STATUS.FAILED;
       state.error = action.payload;
     }) // updateOrder
@@ -175,6 +187,28 @@ var removeOrder = (0, _toolkit.createAsyncThunk)("order/removeOrder", function _
   });
 });
 exports.removeOrder = removeOrder;
+var cancelOrder = (0, _toolkit.createAsyncThunk)("order/cancelOrder", function _callee5(_ref5) {
+  var orderId, axiosPrivate, response;
+  return regeneratorRuntime.async(function _callee5$(_context5) {
+    while (1) {
+      switch (_context5.prev = _context5.next) {
+        case 0:
+          orderId = _ref5.orderId, axiosPrivate = _ref5.axiosPrivate;
+          _context5.next = 3;
+          return regeneratorRuntime.awrap(axiosPrivate["delete"]("/order/cancel/".concat(orderId)));
+
+        case 3:
+          response = _context5.sent;
+          return _context5.abrupt("return", response.data);
+
+        case 5:
+        case "end":
+          return _context5.stop();
+      }
+    }
+  });
+});
+exports.cancelOrder = cancelOrder;
 var _ordersSlice$actions = ordersSlice.actions,
     resetState = _ordersSlice$actions.resetState,
     setStatusIdle = _ordersSlice$actions.setStatusIdle;

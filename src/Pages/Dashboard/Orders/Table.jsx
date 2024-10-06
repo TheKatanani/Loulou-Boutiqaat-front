@@ -3,7 +3,7 @@ import { StyledTable } from '../sytled'
 import { removeOrder, updateOrder } from '../../../redux/reducers/orders'
 import Checkbox from '../../../Components/Checkbox'
 import PortalCard from '../../../Components/UI/PortalCard'
-import Bill from './Bill'
+import Bill from '../../../Components/common/Bill'
 import User from './User'
 import useAxiosPrivate from '../../../Hook/useAxiosPrivet'
 
@@ -81,4 +81,4 @@ const Table = ({ orders, handlePillShow, handleUserShow, bill, setBill, userStat
   )
 }
 
-export default Table
+export default Table 

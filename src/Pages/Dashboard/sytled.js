@@ -168,6 +168,7 @@ export const StyledAdd = styled.div `
   }
 `
 export const StyledTable = styled.table `
+direction: ltr;
   td .checkbox{
     justify-content:center;
   }
@@ -191,7 +192,7 @@ export const StyledTable = styled.table `
 ,.price 
 ,.category
 ,.stars{
-  display:none
+  display:none;
 }}
 ${({theme:{media}})=>media.s}{
   .id 
@@ -211,7 +212,7 @@ ${({theme:{media}})=>media.m}{
   ,.gender
   ,.description 
 ,.stars{
-display:none
+display:none;
 }}
   ${({theme:{media}})=>media.xl}{
   .id
@@ -224,7 +225,7 @@ display:none
 ,.price
 ,.category
 ,.stars{
-display:table-cell
+display:table-cell;
 }
   }
   th , td {
@@ -237,6 +238,9 @@ display:table-cell
     background-color:${({theme})=>theme.palette.ColorApp.primary_light};
   }
   td{
+    &.phone{
+      direction:ltr;
+    }
     background-color:${({theme})=>theme.palette.main}; 
     color:${({theme})=>theme.palette.font}; 
     &.images{

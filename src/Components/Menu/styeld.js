@@ -67,4 +67,17 @@ export const MenuStyled = styled.div`
     @media (max-width: 576px) {
         display: block;
     }
+    .cartIcon { 
+        position:relative;
+            ::before{
+                ${props=>props.productLength>0&&`content:'${props.productLength}';`}
+                position:absolute;
+                top:-9px;
+                right:-4px;
+                padding: 2px 5px;
+                color:${(props) =>  props.theme.palette.ColorApp.white};
+                background-color:${(props) =>  props.theme.palette.ColorApp.primary};
+                border-radius: 50%;
+            } 
+    }
 `
