@@ -21,8 +21,7 @@ const OrderList = () => {
       orders,
       show: true
     })
-  }
-  // console.log(orders)
+  } 
   // filter the list depend on userId 
   const userOrders = orders.filter(order=>order.userId === user.id) 
 
@@ -51,8 +50,7 @@ const OrderList = () => {
                   <td className='id'>{order?.id}</td>
                   <td style={{ cursor: 'pointer' }} onClick={() => handlePillShow(order?.orders)}>عرض الفاتورة</td>
                   <td className='address'>{order?.location}</td>
-                  <td >{order?.totalCost}</td>
-                  {/* <td >{order?.paid}</td> */}
+                  <td >{order?.totalCost}</td> 
                   <td >{order?.createdAt}</td>
                     <td>
                       {order?.status == true ? 'مكتمل':'تحت التجهيز...'}
