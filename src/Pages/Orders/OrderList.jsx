@@ -6,6 +6,7 @@ import { cancelOrder, selectOrders, setOrders } from '../../redux/reducers/order
 import PortalCard from '../../Components/UI/PortalCard'
 import { selectUser } from '../../redux/reducers/auth'
 import { StayledOrdersTable } from './styled'
+import dateFormater from '../../utels/dateFormater'
 
 const OrderList = () => {
   const dispatch = useDispatch()
@@ -51,7 +52,7 @@ const OrderList = () => {
                   <td style={{ cursor: 'pointer' }} onClick={() => handlePillShow(order?.orders)}>عرض الفاتورة</td>
                   <td className='address'>{order?.location}</td>
                   <td >{order?.totalCost}</td> 
-                  <td >{order?.createdAt}</td>
+                  <td >{dateFormater(order?.createdAt)}</td>
                     <td>
                       {order?.status == true ? 'مكتمل':'تحت التجهيز...'}
                     </td>

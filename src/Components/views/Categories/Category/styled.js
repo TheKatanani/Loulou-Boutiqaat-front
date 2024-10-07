@@ -111,6 +111,10 @@ export const StyeldCard = styled.div `
                 border-radius: 5px;
             }
         }
+        h3{
+            min-height:50px;
+            overflow:auto;
+        }
         .title{
             ${props=>!props.full&&`color:${(props) =>  props.theme.palette.ColorApp.gray_800}`};
         }

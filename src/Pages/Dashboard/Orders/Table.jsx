@@ -6,6 +6,7 @@ import PortalCard from '../../../Components/UI/PortalCard'
 import Bill from '../../../Components/common/Bill'
 import User from './User'
 import useAxiosPrivate from '../../../Hook/useAxiosPrivet'
+import dateFormater from '../../../utels/dateFormater'
 
 const Table = ({ orders, handlePillShow, handleUserShow, bill, setBill, userState, setUserState }) => {
   const dispatch = useDispatch()
@@ -41,7 +42,7 @@ const Table = ({ orders, handlePillShow, handleUserShow, bill, setBill, userStat
                   <td >{order?.location}</td>
                   <td >{order?.totalCost}</td>
                   <td >{order?.paid}</td>
-                  <td >{order?.createdAt}</td>
+                  <td >{dateFormater(order?.createdAt)}</td>
                   <td>
                     <button className='delete'
                       onClick={() => {
