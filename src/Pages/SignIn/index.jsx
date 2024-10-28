@@ -18,7 +18,7 @@ function SignIn() {
     const formData = useSelector(selectFormData);
     const status = useSelector(selectStatus)
     const errors = useSelector(selectError)
-    const dispatch = useDispatch() 
+    const dispatch = useDispatch()
     const { data: allowedPhones, error, isLoading } = useFetch(`${API2}/countryCode`)
     // // // // // // // // /// // // // // // // // // /// // // // // // // // // /// 
     const handleInputChangeFunc = (event) => {
@@ -58,7 +58,9 @@ function SignIn() {
                                         options={allowedPhones}
                                     />
                                     <Input
-                                        onChange={handleInputChangeFunc}
+                                        onChange={(e)=>{
+                                            dispatch(handleInputChange({ id: 'phone', value: (e.target.value?.trim()) }))
+                                        }}
                                         id="phone"
                                         type="text"
                                         placeholder="00-000-00-00"
@@ -72,7 +74,6 @@ function SignIn() {
                             {/* *********************** */}
                             {errors?.isAxiosError && <ErrorForm>{errors?.isAxiosError}</ErrorForm>}
                             {errors?.message && <ErrorForm>{errors?.message}</ErrorForm>}
-                            {/* <LogInButton type="submit">{formData.isLoading ? <ButtonAnimation /> : "Login"}</LogInButton> */}
                             <ButtonAnimation status={status}>تسجيل الدخول
                             </ButtonAnimation>
                         </form>
@@ -83,7 +84,6 @@ function SignIn() {
                     </Link>
                 </Container>
             </LoginStyle>
-            {/* <SignInFooter /> */}
             <Copy />
         </>
     );

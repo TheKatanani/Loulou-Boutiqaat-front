@@ -14,7 +14,7 @@ import PasswordInput from '../../common/PasswordInput'
 import { selectUser } from '../../../redux/reducers/auth'
 import { Link } from 'react-router-dom'
 import ButtonAnimation from '../../common/ButtonAnimation'
-import { selectSuccess } from '../../../redux/reducers/signup'
+import { handleInputChange, selectSuccess } from '../../../redux/reducers/signup'
 
 const Register = ({ setGender, isFromUserProfile, errors, status, showPasswordFunc, showPassword, formData, handleSubmit, handleInputChangeFunc, handleCheckBoxChangeFunc }) => {
   const { data: allowedPhones, isLoading, error } = useFetch(`${API2}/countryCode`)
@@ -58,7 +58,9 @@ const Register = ({ setGender, isFromUserProfile, errors, status, showPasswordFu
             options={allowedPhones}
           />
           <Input
-            onChange={handleInputChangeFunc}
+              onChange={(e)=>{
+                dispatch(handleInputChange({ id: 'phone', value: (e.target.value?.trim()) }))
+            }}
             id="phone"
             type="text"
             placeholder="00-000-00-00"

@@ -77,6 +77,12 @@ const authSlice = createSlice({
             state.isAuthenticated = true;
             state.token = action.payload;
         },
+        setAuthentecated(state, action) {
+            state.token = action.payload?.token;
+            state.isAuthenticated = true;
+            state.user = action.payload?.user
+            state.status = STATUS.SUCCEEDED; 
+        },
         setUser(state, action) {
             state.user = action.payload
         },
@@ -223,6 +229,7 @@ export const {
     setAxiosPrivate,
     handlelocalLogout,
     setUser,
-    resetUserInfo
+    resetUserInfo,
+    setAuthentecated
 } = authSlice.actions;
 export default authSlice.reducer;

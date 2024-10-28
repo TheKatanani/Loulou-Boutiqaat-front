@@ -2,13 +2,14 @@ import {
   createAsyncThunk,
   createSlice
 } from '@reduxjs/toolkit';
-import { 
+import {
   STATUS
 } from '../../Actions';
 import {
   validationSchema
 } from '../../validationSchema';
 import axios from '../../api/axios';
+import { setAuthentecated } from './auth';
 const initailState = {
   name: '',
   phone: "",
@@ -72,12 +73,17 @@ const signupSlice = createSlice({
           state.status = STATUS.FAILED;
           state.error = action.payload?.errors
         } else if (action.payload?.data) {
-          // state.token = action.payload?.data?.accessToken;
+          // // state.token = action.payload?.data?.accessToken;
+          // state.status = STATUS.SUCCEEDED; 
+          // state.formData = initailState
+          // // state.isAuthenticated = true;
+          // // state.user = action.payload?.data?.user
+
+          state.token = action.payload?.data?.accessToken;
+          state.isAuthenticated = true;
+          state.user = action.payload?.data?.user
           state.status = STATUS.SUCCEEDED;
-          state.success = action.payload.data?.success
-          state.formData = initailState
-          // state.isAuthenticated = true;
-          // state.user = action.payload?.data?.user
+
         } else {
           state.status = STATUS.FAILED;
         }
@@ -92,6 +98,8 @@ export const handleRegister = createAsyncThunk(
   "signup/handleRegister",
   async ({
     formData
+  }, {
+    dispatch
   }) => {
     try {
       await validationSchema.validate(formData, {
@@ -102,10 +110,11 @@ export const handleRegister = createAsyncThunk(
         name: formData?.name,
         password: formData?.password,
         gender: formData?.gender,
-        barthDay: formData?.barthDay, 
+        barthDay: formData?.barthDay,
       }, {
-        withCredentials: true, 
-      })
+        withCredentials: true,
+      }) 
+      dispatch(setAuthentecated({token:res.data?.accessToken,user:res.data?.user}))
       return res
     } catch (err) {
       if (err?.response?.status) { // if there status then the error from the sarver and return {message:''} in the data
