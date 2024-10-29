@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyledCheckOut } from './styled'
 import Input from '../Input'
-import { handleInputChange, selectError, selectFormData, setStatusFailed } from '../../redux/reducers/checkout'
+import { handleInputChange, selectError, selectFormData, setStatusFailed, setStatusSucceeded } from '../../redux/reducers/checkout'
 import { useDispatch, useSelector } from 'react-redux'
 import ErrorForm from '../ErrorForm'
 import { MainButton } from '../../Global/components'
@@ -46,6 +46,8 @@ const Checkout = ({cancel}) => {
       }
       dispatch(addOrder({ order, axiosPrivate }))
       dispatch(resetState())
+      // set check out status success to show it 
+      dispatch(setStatusSucceeded())
     } else {
       dispatch(setStatusFailed({ location: 'Must Add Location!' }))
     }

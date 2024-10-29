@@ -110,7 +110,7 @@ function _templateObject3() {
 }
 
 function _templateObject2() {
-  var data = _taggedTemplateLiteral(["\n    width: 100%;\n    height: 40px;\n    border-radius: 6px;\n    font-weight: 500;\n    font-size: ", "rem;\n    color: ", ";\n    line-height: 19px;\n    text-align: center;\n    cursor: pointer;\n    border: none;\n"]);
+  var data = _taggedTemplateLiteral(["\n    width: 100%;\n    height: 40px;\n    border-radius: 6px;\n    font-weight: 500;\n    font-size: ", "rem;\n    color: ", ";\n    line-height: 19px;\n    text-align: center;\n    cursor: pointer;\n    border: none;\n    &:disabled {\n        cursor:not-allowed;\n    }\n"]);
 
   _templateObject2 = function _templateObject2() {
     return data;

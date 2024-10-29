@@ -10,21 +10,22 @@ import { STATUS } from '../../Actions'
 import { useNavigate } from 'react-router-dom'
 import ErrorBoundary from '../../Components/common/Errorboundary'
 import Alert from '../../Components/common/Alert'
+import { selectStatus, setStatusIdle as setCheckoutStatusIdle} from '../../redux/reducers/checkout'
 
 const Cart = () => {
-  const [show, setShow] = useState(false)
-  const [isAlert, setIsAlert] = useState(false)
+  const [show, setShow] = useState(false) 
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const orderStatus = useSelector(selectOrdersStatus)
+  const checkOutStatus = useSelector(selectStatus)
   if (orderStatus === STATUS.SUCCEEDED) {
-    if (show || !isAlert) {
-      setShow(false)
-      setIsAlert(true)
+    if (show) {
+      setShow(false) 
     }
   }
   useEffect(() => {
     dispatch(setStatusIdle())
+    dispatch(setCheckoutStatusIdle())
   }, [dispatch])
   return (
     <PageStyled>
@@ -43,11 +44,11 @@ const Cart = () => {
             </ErrorBoundary>
           }
           {
-            isAlert &&
+            checkOutStatus === STATUS.SUCCEEDED &&
             <ErrorBoundary>
-              <Alert cancel={() => {
-                setIsAlert(false)
+              <Alert cancel={() => { 
                 dispatch(setStatusIdle())
+                dispatch(setCheckoutStatusIdle())
                 navigate('/home')
               }} link={{
                 path: `https://wa.me/00970597229340`,

@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = exports.setStatusFailed = exports.showPassword = exports.handleCheckBoxChange = exports.setError = exports.setLoading = exports.handleInputChange = exports.selectError = exports.selectStatus = exports.selectcheckout = exports.selectFormData = void 0;
+exports["default"] = exports.setStatusFailed = exports.setStatusIdle = exports.showPassword = exports.setStatusSucceeded = exports.handleCheckBoxChange = exports.setError = exports.setLoading = exports.handleInputChange = exports.selectError = exports.selectStatus = exports.selectcheckout = exports.selectFormData = void 0;
 
 var _toolkit = require("@reduxjs/toolkit");
 
@@ -26,7 +26,7 @@ var checkoutSlice = (0, _toolkit.createSlice)({
       state.formData[id] = value;
     },
     setStatusIdle: function setStatusIdle(state) {
-      state.status = 'idle';
+      state.status = _Actions.STATUS.IDLE;
     },
     setStatusLoading: function setStatusLoading(state) {
       state.status = _Actions.STATUS.LOADING;
@@ -75,10 +75,14 @@ var _checkoutSlice$action = checkoutSlice.actions,
     setLoading = _checkoutSlice$action.setLoading,
     setError = _checkoutSlice$action.setError,
     handleCheckBoxChange = _checkoutSlice$action.handleCheckBoxChange,
+    setStatusSucceeded = _checkoutSlice$action.setStatusSucceeded,
     showPassword = _checkoutSlice$action.showPassword,
+    setStatusIdle = _checkoutSlice$action.setStatusIdle,
     setStatusFailed = _checkoutSlice$action.setStatusFailed;
 exports.setStatusFailed = setStatusFailed;
+exports.setStatusIdle = setStatusIdle;
 exports.showPassword = showPassword;
+exports.setStatusSucceeded = setStatusSucceeded;
 exports.handleCheckBoxChange = handleCheckBoxChange;
 exports.setError = setError;
 exports.setLoading = setLoading;

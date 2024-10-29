@@ -17,12 +17,17 @@ const Summary = ({ setShow }) => {
         else return total
     }, 0)
     return (
-        <SummaryStyled> 
+        <SummaryStyled>
             <div className="total">
                 <p>المجموع:</p>
                 <p>{total}₪</p>
             </div>
-            <MainButton onClick={() => { setShow(true) }}>أرسل الطلب</MainButton>
+            <MainButton disabled={cartItems <= 0} onClick={() => {
+                // if there is data in the cart allow to checkout otherwise don't
+                if (cartItems.length > 0){ 
+                    setShow(true)
+                } 
+            }}>أرسل الطلب</MainButton>
             <Payments />
         </SummaryStyled>
     )

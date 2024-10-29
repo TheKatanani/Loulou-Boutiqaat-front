@@ -27,6 +27,9 @@ export const MainButton = styled.button `
     text-align: center;
     cursor: pointer;
     border: none;
+    &:disabled {
+        cursor:not-allowed;
+    }
 `
 export const ButtonUpadte = styled.button `
     padding: 5px 7px;

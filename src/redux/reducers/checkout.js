@@ -23,7 +23,7 @@ const checkoutSlice = createSlice({
       state.formData[id] =  value
     },
     setStatusIdle: (state) => {
-      state.status = 'idle';
+      state.status = STATUS.IDLE;
     },
     setStatusLoading: (state) => {
       state.status = STATUS.LOADING;
@@ -54,7 +54,9 @@ export const {
   setLoading,
   setError,
   handleCheckBoxChange,
+  setStatusSucceeded,
   showPassword,
+  setStatusIdle,
   setStatusFailed
 } = checkoutSlice.actions;
 export default checkoutSlice.reducer;
