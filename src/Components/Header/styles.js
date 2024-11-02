@@ -7,6 +7,7 @@ export const StyledHeader = styled.header `
     left: 0;
     right: 0;
     z-index: 99;
+    box-shadow: 5px 5px 10px ${props=>props.theme.palette.ColorApp.gray_100};
     .logoBox > svg{
         display: none;
     }

@@ -5,8 +5,13 @@ import TransitionOne from '../../Components/UI/TansitionOne';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectPublishedCategoryies } from '../../redux/reducers/categories';
 import { setStatusIdle } from '../../redux/reducers/orders';
+import { useRef } from 'react';
 
 const Home = () => {
+  const elementRefs = {
+    hero: useRef(null),
+    categories: useRef(null),
+  }
   const categories = useSelector(selectPublishedCategoryies)
   const dispatch = useDispatch()
   useEffect(() => {
@@ -14,11 +19,11 @@ const Home = () => {
   }, [dispatch])
   return (
     <>
-      <Hero />
+      <Hero {...{ elementRefs }} />
       {
         !!categories.length &&
         <>
-          <TransitionOne card="two" title="الأقسام" />
+          <TransitionOne {...{ elementRefs }} card="two" title="الأقسام" />
           <Categories />
         </>
       }

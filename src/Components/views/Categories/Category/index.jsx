@@ -55,7 +55,7 @@ const Category = ({ name, id }) => {
           {
             categoryProducts.length ?
               <>
-                <Link to={`/home/categories/${id}`}>
+                <Link to={`/home/الأقسام/${id}`}>
                   <TitleSections>{name}</TitleSections>
                 </Link>
                 <div className="data">

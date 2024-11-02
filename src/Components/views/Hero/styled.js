@@ -40,4 +40,24 @@ color:${({theme})=>theme.palette.ColorApp.primary};
       line-height: 35px;
     }
   }
+  .arrowDown{
+  position: absolute;
+  bottom: 25px;
+  left: 50%;
+  /* fill:${({theme})=>theme.palette.ColorApp.primary}; */
+  fill:#dab959;
+  transform: translateX(-50%);
+  z-index: 2;
+  width: 50px;
+  animation: arrowDown 1s infinite;
+  cursor: pointer;
+}
+@keyframes arrowDown{
+  0%{
+    transform: translate(-50%,0px);
+  }
+  50%{
+    transform: translate(-50%,-10px);
+  }
+}
 `

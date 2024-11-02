@@ -189,7 +189,6 @@ export const quantityCartItem = createAsyncThunk(
 export const clearCart = createAsyncThunk(
   "cart/clearCart",
   async ({
-    userId,
     axiosPrivate
   }) => {
     const response = await axiosPrivate.delete(`/cart/clearCart`);

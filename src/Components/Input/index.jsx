@@ -12,6 +12,7 @@ const Input = (props) => {
         onChange={props.onChange}
         required={!!props.required}
         value={props.value}
+        autoComplete={"new-password"} //to stop the auto complete
         maxLength={props.maxLength}
         className={props.className}
       />

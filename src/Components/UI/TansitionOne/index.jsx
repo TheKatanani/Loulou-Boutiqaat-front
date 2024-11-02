@@ -13,7 +13,7 @@ import useFetch from '../../../Hook/useFetch'
 import LogoLoading from '../../common/LogoLoading'
 import { Link } from 'react-router-dom'
 const images = Array.from([Banner, image104, image108, image92, image98]) // if there is no images in the api use it 
-const TransitionOne = ({ card, title }) => {
+const TransitionOne = ({ card, title, elementRefs }) => {
   const [active, setActive] = useState()
   const { data, isLoading } = useFetch(`${API2}/category/published`)
   useEffect(() => {
@@ -24,7 +24,7 @@ const TransitionOne = ({ card, title }) => {
     return <LogoLoading />
   } 
   return (
-    <StyledTransactionOne {...{ card }}>
+    <StyledTransactionOne {...{ card }} ref={elementRefs.categories}>
       <Container>
         <Link to={`/home/${title}`}>
           <TitleSections>{title}</TitleSections>

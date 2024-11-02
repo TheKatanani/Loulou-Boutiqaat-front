@@ -31,7 +31,7 @@ function SignIn() {
         dispatch(handleLogin({ formData }))
     };
     useEffect(() => {
-        dispatch(setStatusIdle())
+        dispatch(setStatusIdle()) 
     }, [dispatch])
     if (isLoading) {
         return <LogoLoading />
@@ -45,7 +45,7 @@ function SignIn() {
                 <Container>
                     <main>
                         <h1>تسجيل الدخول</h1>
-                        <form onSubmit={handleSubmit}>
+                        <form onSubmit={handleSubmit} autoComplete='off'>
                             {errors?.phone && <ErrorForm>{errors?.phone}</ErrorForm>}
                             <div className="phone">
                                 <label htmlFor="Phone">رقم الجوال</label>
@@ -58,7 +58,7 @@ function SignIn() {
                                         options={allowedPhones}
                                     />
                                     <Input
-                                        onChange={(e)=>{
+                                        onChange={(e) => {
                                             dispatch(handleInputChange({ id: 'phone', value: (e.target.value?.trim()) }))
                                         }}
                                         id="phone"

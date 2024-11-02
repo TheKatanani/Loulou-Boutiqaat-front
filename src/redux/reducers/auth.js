@@ -114,6 +114,7 @@ const authSlice = createSlice({
                     state.isAuthenticated = true;
                     state.user = action.payload?.data?.user
                     state.status = STATUS.SUCCEEDED; 
+                    state.formData = initailFormState
                 } else {
                     state.status = STATUS.FAILED;
                 }

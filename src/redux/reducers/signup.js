@@ -73,12 +73,7 @@ const signupSlice = createSlice({
           state.status = STATUS.FAILED;
           state.error = action.payload?.errors
         } else if (action.payload?.data) {
-          // // state.token = action.payload?.data?.accessToken;
-          // state.status = STATUS.SUCCEEDED; 
-          // state.formData = initailState
-          // // state.isAuthenticated = true;
-          // // state.user = action.payload?.data?.user
-
+          state.formData = initailState
           state.token = action.payload?.data?.accessToken;
           state.isAuthenticated = true;
           state.user = action.payload?.data?.user
@@ -146,7 +141,7 @@ export const {
   setStatusSucceeded,
   setStatusFailed,
   clearError,
-  setGender,
+  setGender, 
   handleCheckBoxChange,
 } = signupSlice.actions;
 export default signupSlice.reducer;

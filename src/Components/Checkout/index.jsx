@@ -6,13 +6,13 @@ import { useDispatch, useSelector } from 'react-redux'
 import ErrorForm from '../ErrorForm'
 import { MainButton } from '../../Global/components'
 import { selectUser } from '../../redux/reducers/auth'
-import { resetState, selectCart } from '../../redux/reducers/cart'
+import { clearCart, resetState, selectCart } from '../../redux/reducers/cart'
 import { selectProducts } from '../../redux/reducers/products'
 import { addOrder } from '../../redux/reducers/orders'
 import useAxiosPrivate from '../../Hook/useAxiosPrivet'
 import PortalCard from '../UI/PortalCard'
 
-const Checkout = ({cancel}) => {
+const Checkout = ({ cancel }) => {
   const formData = useSelector(selectFormData)
   const errors = useSelector(selectError)
   const dispatch = useDispatch()
@@ -46,6 +46,7 @@ const Checkout = ({cancel}) => {
       }
       dispatch(addOrder({ order, axiosPrivate }))
       dispatch(resetState())
+      dispatch(clearCart({ axiosPrivate }))
       // set check out status success to show it 
       dispatch(setStatusSucceeded())
     } else {
