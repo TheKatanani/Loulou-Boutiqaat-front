@@ -1,10 +1,6 @@
-import React from 'react' 
-import ErrorForm from '../../../Components/ErrorForm'
-
 const Gender = ({ setInput, input, errors }) => {
   return (
     <>
-      {errors?.gender && <ErrorForm>{errors?.gender}</ErrorForm>} 
       <div className="gender">
         <label htmlFor="male">
           <input type="radio" name="gender" id="male"

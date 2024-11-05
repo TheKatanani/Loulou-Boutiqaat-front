@@ -48,11 +48,9 @@ const UpdateInfo = () => {
         }
         )
         if (!foundedUser) {
-          await validationSchema.validate(formData, { abortEarly: false });
-          // dispatch(updateUser({ user, axiosPrivate }))
+          await validationSchema.validate(formData, { abortEarly: false }); 
           dispatch(updateUserInfo({ user, axiosPrivate }))
-          dispatch(reSetUser())
-          // dispatch(setUser(user))
+          dispatch(reSetUser()) 
         }
         else {
           dispatch(setStatusFailed({ errors: { phone: 'this phone number has an account' } }));

@@ -31,7 +31,7 @@ const Form = () => {
       gender: formData.gender,
       barthDay: formData.barthDay,
       roles: {
-        [formData?.roles]: ROLES[formData?.roles]
+        [formData?.role]: ROLES[formData?.role]
       }
     } 
     try {

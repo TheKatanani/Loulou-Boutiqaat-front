@@ -1,11 +1,8 @@
-import React from 'react'
-import Input from '../../../Components/Input'
-import ErrorForm from '../../../Components/ErrorForm'
+import Input from '../../../Components/Input' 
 
 const BarthDay = ({ setInput, input, errors }) => {
   return (
     <>
-      {errors?.barthDay && <ErrorForm>{errors?.barthDay}</ErrorForm>}
       <Input
         onChange={(e) => setInput(e.target.value)}
         id="barthDay"

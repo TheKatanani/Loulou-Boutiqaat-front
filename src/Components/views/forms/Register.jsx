@@ -14,14 +14,17 @@ import PasswordInput from '../../common/PasswordInput'
 import { selectUser } from '../../../redux/reducers/auth'
 import { Link } from 'react-router-dom'
 import ButtonAnimation from '../../common/ButtonAnimation'
-import { handleInputChange, selectSuccess } from '../../../redux/reducers/signup'
 
-const Register = ({ setGender, isFromUserProfile, errors, status, showPasswordFunc, showPassword, formData, handleSubmit, handleInputChangeFunc, handleCheckBoxChangeFunc }) => {
+const Register = ({ setGender, isFromUserProfile, errors, status, showPasswordFunc, showPassword, formData, handleSubmit, handleInputChangeFunc }) => {
   const { data: allowedPhones, isLoading, error } = useFetch(`${API2}/countryCode`)
-  const user = useSelector(selectUser) 
-  const success = useSelector(selectSuccess);
+  const user = useSelector(selectUser)  
   const mood = useSelector(selectMood)
   const dispatch = useDispatch()
+  const handleInputChange = ({id,value,event})=>{  
+    event.target.value = value
+    event.target.id = id 
+    return handleInputChangeFunc(event)
+  }
   useEffect(() => {
     if (mood === MOOD.UPDATE) {
       // to dont fill the new password input in hash password
@@ -59,7 +62,7 @@ const Register = ({ setGender, isFromUserProfile, errors, status, showPasswordFu
           />
           <Input
               onChange={(e)=>{
-                dispatch(handleInputChange({ id: 'phone', value: (e.target.value?.trim()) }))
+                dispatch(handleInputChange({ id: 'phone', value: (e.target.value?.trim()),event:e }))
             }}
             id="phone"
             type="text"
@@ -124,10 +127,10 @@ const Register = ({ setGender, isFromUserProfile, errors, status, showPasswordFu
             <>
               {errors?.role && <ErrorForm>{errors?.role}</ErrorForm>}
               <Select
-                defualt={formData.roles || Object.keys(ROLES)[0] || 'USER'}
+                defualt={formData.role || Object.keys(ROLES)[0] || 'USER'}
                 label={"User Role"}
                 id="role"
-                value={formData.roles}
+                value={formData.role}
                 onChange={handleInputChangeFunc}
                 options={
                   Object.keys(ROLES).map(key => ({ value: key, label: key.toLowerCase() }))//return the role in dynamic way
@@ -167,8 +170,7 @@ const Register = ({ setGender, isFromUserProfile, errors, status, showPasswordFu
       {errors?.isAxiosError && <ErrorForm>{errors?.isAxiosError}</ErrorForm>}
       {errors?.message && <ErrorForm>{errors?.message}</ErrorForm>}
       {/* correct these */}
-      {/* {errors?.message && <ErrorForm>{errors?.message}</ErrorForm>} */}
-      {success && <h3 style={{ color: 'green', fontWeight: 'bold' }}>{success}</h3>}
+      {/* {errors?.message && <ErrorForm>{errors?.message}</ErrorForm>} */} 
     </StyledRigisterForm>
   )
 }

@@ -84,7 +84,14 @@ const Form = () => {
 
       <div className="d-flex">
         <Select id="published"
-          value={formData.publish} onChange={handleInputChange}
+          value={formData.published} onChange={(e)=>{
+            let {
+              id,
+              value
+            } = e.target 
+            value = value === 'true' 
+            dispatch(handleInputChangeReducer({ id, value }))
+          }}
           label={'published'}
           options={[
             {

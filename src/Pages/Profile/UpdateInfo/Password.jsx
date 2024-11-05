@@ -6,7 +6,7 @@ const Password = ({ errors, newPassword, confirmPassword, setNewPassword, setCon
 
   return (
     <>
-      {errors?.password && <ErrorForm>{errors?.password}</ErrorForm>}
+        {errors?.password && <ErrorForm>{errors?.password}</ErrorForm>}
       <Input
         onChange={(e) => setNewPassword(e.target.value)}
         id="newPassword"

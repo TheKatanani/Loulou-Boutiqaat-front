@@ -15,7 +15,8 @@ export const StyledProfile = styled.div `
 `
 export const StyledUpdateUserInfo = styled.div `
 /* margin: 30px 0; */
-margin: 120px 0 30px;
+display:grid;
+place-content:center;
 min-height: 60vh;
 form{
     direction:rtl;
@@ -31,8 +32,22 @@ form{
     .phone{
       display: flex;
       text-align:end;
+      gap:10px;
       align-items:center;
       direction: ltr;
+      .input{
+        flex:1;
+      }
+    }
+
+    .passwordInput{
+      position: relative;
+      .forgotPassword{
+        position:absolute;
+        left:0;
+        top:0;
+        font-size:${(props) => props.theme.fontSizes.body2}rem;
+      }
     }
     .gender{
       margin:10px;

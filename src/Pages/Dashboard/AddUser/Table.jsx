@@ -40,7 +40,7 @@ const Table = ({ users }) => {
                 <ButtonUpadte className='update'
                   disabled={mood === MOOD.UPDATE && user.id === id}
                   onClick={() => {
-                    dispatch(setUpdateUser({ user: { ...user, roles: Object.keys(user.roles)[0] } }))
+                    dispatch(setUpdateUser({ user: { ...user, role: Object.keys(user.roles)[0] } }))
                   }}
                 >
                   update

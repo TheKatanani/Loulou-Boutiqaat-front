@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux"
 import Name from "./Name"
-import { selectError, selectStatus, setError, setStatusIdle, updateUserInfo } from "../../../redux/reducers/users"
+import { selectError, selectStatus, setError, setStatusFailed, setStatusIdle, updateUserInfo } from "../../../redux/reducers/users"
 import ErrorForm from "../../../Components/ErrorForm"
 import Phone from "./Phone"
 import Input from "../../../Components/Input"
@@ -8,7 +8,7 @@ import { StyledUpdateUserInfo } from "../styled"
 import { Container } from "../../../Global/components"
 import ButtonAnimation from "../../../Components/common/ButtonAnimation"
 import { useEffect, useState } from "react"
-import { useNavigate, useParams } from "react-router-dom"
+import { Link, useNavigate, useParams } from "react-router-dom"
 import useAxiosPrivate from "../../../Hook/useAxiosPrivet"
 import Password from "./Password"
 import BarthDay from "./BerthDay"
@@ -16,7 +16,7 @@ import Gender from "./Gender"
 import { STATUS } from "../../../Actions"
 import { selectUser, setUser } from "../../../redux/reducers/auth"
 import useRefreshToken from "../../../Hook/useRefreshToken"
-import Alert from "../../../Components/UI/Alert"
+import { validationName, validationPassword, validationPhone } from "./validatain"
 
 const UpdateUserInfo = () => {
   // for the id use paramse insted and edit the router for that
@@ -33,32 +33,51 @@ const UpdateUserInfo = () => {
   const axiosPrivate = useAxiosPrivate()
   const dispatch = useDispatch()
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     // check the password if correct here, put the better in the backend 
-    if (password.trim().length >= 6) {
-      if (id === "password") {
-        if (newPassword === confirmPassword) {
-          setInput(newPassword)
-        } else {
-          dispatch(setError({ errors: { confirmPassword: 'the confirm password does not match the new password' } }))
-          return null;
+    if (password.trim().length >= 8) {
+      try {
+        switch (id) {
+          case "password":
+            await validationPassword.validate({
+              password: newPassword, confirmPassword
+            }, { abortEarly: false });
+            break;
+          case "name":
+            await validationName.validate({
+              name: input
+            }, { abortEarly: false });
+            break;
+          case "phone":
+            await validationPhone.validate({
+              phone: input.slice(4)
+            }, { abortEarly: false });
+            break;
+          default:
+            console.log('Something is wrong!')
         }
+        dispatch(updateUserInfo({
+          user: {
+            [id]: input
+          },
+          password,
+          axiosPrivate
+        }))
+      } catch (e) {
+        const errors = e.inner?.reduce((acc, { path, message }) => {
+          acc[path] = message;
+          return acc;
+        }, {});
+        dispatch(setStatusFailed({ ...{ errors } }));
       }
-      dispatch(updateUserInfo({
-        user: {
-          [id]: input
-        },
-        password,
-        axiosPrivate
-      }))
     } else {
-      dispatch(setError({ password: 'the password must be more than 6 characters' }))
+      dispatch(setError({ errors: { thePassword: 'the password must be more than 6 characters' } }))
     }
   }
 
   useEffect(() => {
-    if (status === STATUS.SUCCEEDED) { 
+    if (status === STATUS.SUCCEEDED) {
       // set the new changes in the auth slice
       if (id !== password) {
         const newUserInfo = {
@@ -72,40 +91,42 @@ const UpdateUserInfo = () => {
   useEffect(() => {
     dispatch(setStatusIdle())
   }, [dispatch, status])
-
   return (
     <Container>
       <StyledUpdateUserInfo>
         <form onSubmit={handleSubmit}>
-          {errors?.password && <ErrorForm>{errors?.password}</ErrorForm>}
-          <Input
-            onChange={(e) => setPassword(e.target.value)}
-            id="password"
-            type="password"
-            placeholder="اكنب هنا"
-            label="كلمة المرور"
-            value={password}
-          />
-          {errors?.[id] && <ErrorForm>{errors[id]}</ErrorForm>}
+          {errors?.thePassword && <ErrorForm>{errors?.thePassword}</ErrorForm>}
+          <div className="passwordInput">
+            <Link to="/forgotPassword" className='forgotPassword'>نسيت كلمة المرور</Link>
+            <Input
+              onChange={(e) => setPassword(e.target.value)}
+              id="password"
+              type="password"
+              placeholder="اكنب هنا"
+              label="كلمة المرور"
+              value={password}
+            />
+          </div>
+          {id !== "password" && errors?.[id] && <ErrorForm>{errors?.[id]}</ErrorForm>}
           {
             id === "name" &&
-            <Name {...{ id, setInput, input, errors }} />
+            <Name {...{ id, setInput, input }} />
           }
           {
             id === "phone" &&
-            <Phone {...{ setInput, errors }} />
+            <Phone {...{ setInput }} />
           }
           {
             id === "password" &&
-            <Password {...{ confirmPassword, errors, newPassword, setConfirmPassword, setNewPassword }} />
+            <Password {...{ errors, newPassword, confirmPassword, setNewPassword, setConfirmPassword }} />
           }
           {
             id === "barthDay" &&
-            <BarthDay {...{ errors, input, setInput }} />
+            <BarthDay {...{ input, setInput }} />
           }
           {
             id === "gender" &&
-            <Gender {...{ errors, input, setInput }} />
+            <Gender {...{ input, setInput }} />
           }
           <ButtonAnimation status={status}>
             تعديل
@@ -118,6 +139,7 @@ const UpdateUserInfo = () => {
         } */}
         </form>
       </StyledUpdateUserInfo>
+
     </Container>
   )
 }
