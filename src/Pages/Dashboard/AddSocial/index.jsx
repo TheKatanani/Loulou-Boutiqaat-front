@@ -11,11 +11,11 @@ const AddSocial = () => {
   const formData = useSelector(selectFormData)
   const status = useSelector(selectStatus)
   const dispatch = useDispatch()
-  const [changed, setChaged] = useState(null)
+  const [changed, setChaged] = useState([]) 
   const axiosPrivate = useAxiosPrivate()
   const handleInputChangeFunc = (e) => {
     const { id, value } = e.target
-    setChaged({ [id]: true })
+    setChaged(prev =>([...(new Set([...prev, id]))])) 
     dispatch(handleInputChange({ id, value }))
   }
   const handelSubmit = (e, name) => {
@@ -40,7 +40,7 @@ const AddSocial = () => {
           onChange={handleInputChangeFunc}
           value={formData.find(el => el.name === social.name).value}
         />
-        <ButtonAnimation className={(!changed || !changed[social.name]) ? `disabled` : undefined} disabled={changed && !changed[social.name]} status={
+        <ButtonAnimation className={!changed?.find(el => el === social.name) ? `disabled` : undefined} disabled={!changed?.find(el => el === social.name)} status={
           () => {
             const itemStatus = status?.find(el => el.name === social.name)
             if (itemStatus) {

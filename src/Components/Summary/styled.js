@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 export const SummaryStyled = styled.div`
     height:fit-content;
+    width:200px;
     padding:20px;
     background-color:${(props) => props.theme.palette.main};
     border: 1px solid ${props=> props.theme.palette.ColorApp.gray_300};

@@ -28,7 +28,7 @@ const Summary = ({ setShow }) => {
                     setShow(true)
                 } 
             }}>أرسل الطلب</MainButton>
-            <Payments />
+            {/* <Payments /> */}
         </SummaryStyled>
     )
 }

@@ -3,15 +3,17 @@ import { useDispatch, useSelector } from 'react-redux'
 import { deleteProduct, selectAddProductsState, selectMood, setUpdateProduct } from '../../../redux/reducers/products'
 import { selectCategories } from '../../../redux/reducers/categories'
 import { StyledTable } from '../sytled'
-import { MOOD } from '../../../Actions'
+import { MOOD, ROLES } from '../../../Actions'
 import useAxiosPrivate from '../../../Hook/useAxiosPrivet'
 import { ButtonUpadte } from '../../../Global/components'
+import { selectUser } from '../../../redux/reducers/auth'
 const Table = ({ products }) => {
   const categories = useSelector(selectCategories)
   const dispatch = useDispatch()
   const axiosPrivate = useAxiosPrivate()
   const { id } = useSelector(selectAddProductsState)
   const mood = useSelector(selectMood)
+  const user = useSelector(selectUser)
   return (
     <StyledTable style={{ margin: '10px 0' }}>
       <thead>
@@ -26,7 +28,10 @@ const Table = ({ products }) => {
           <th className='category'>category</th>
           <th>visibility</th>
           <th>update</th>
-          <th>delete</th>
+          {
+            (user?.role === ROLES.ADMIN) &&
+            <th>delete</th>
+          }
         </tr>
       </thead>
       <tbody>
@@ -57,14 +62,17 @@ const Table = ({ products }) => {
                   update
                 </ButtonUpadte>
               </td>
-              <td>
-                <button className='delete' disabled={mood === MOOD.UPDATE && product.id === id}
-                  onClick={() => {
-                    dispatch(deleteProduct({ id: product.id, axiosPrivate }))
-                  }}>
-                  delete
-                </button>
-              </td>
+              {
+                (user?.role === ROLES.ADMIN) &&
+                <td>
+                  <button className='delete' disabled={mood === MOOD.UPDATE && product.id === id}
+                    onClick={() => {
+                      dispatch(deleteProduct({ id: product.id, axiosPrivate }))
+                    }}>
+                    delete
+                  </button>
+                </td>
+              }
             </tr>
           ))
         }

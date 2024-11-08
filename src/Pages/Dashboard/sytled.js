@@ -254,6 +254,7 @@ display:table-cell;
       overflow-x: auto;
     }
     button{
+      margin:auto;
       padding: 5px 7px;
       border-radius: 8px;
       cursor: pointer;
@@ -292,4 +293,12 @@ display:table-cell;
       }
     }
 }
+  .categoryProducts{
+    button{
+      color: ${({theme})=>theme.palette.ColorApp.primary};
+      border:1px solid ${({theme})=>theme.palette.ColorApp.primary};
+      width:fit-content;
+      padding:0px 15px;
+    }
+  }
 `
