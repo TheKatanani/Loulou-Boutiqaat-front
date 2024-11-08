@@ -100,7 +100,7 @@ function _templateObject4() {
 }
 
 function _templateObject3() {
-  var data = _taggedTemplateLiteral(["\n    padding: 5px 7px;\n    border-radius: 8px;\n    cursor: pointer;\n    font-weight: bold;\n    color:", ";\n    text-decoration: none!important;;\n    display:block;\n    font-size: ", "rem;\n    background-color:", ";\n    ", "{\n        font-weight: normal;\n        padding: 2px 4px;\n        font-size: 1rem;\n  }\n"]);
+  var data = _taggedTemplateLiteral(["\n    padding: 5px 7px;\n    border-radius: 8px;\n    cursor: pointer;\n    font-weight: bold;\n    color:", ";\n    text-decoration: none!important;;\n    display:block;\n    background-color:", ";\n    ", "{\n        font-weight: normal;\n        padding: 2px 4px;\n        font-size: 1rem;\n  }\n"]);
 
   _templateObject3 = function _templateObject3() {
     return data;
@@ -146,8 +146,6 @@ exports.MainButton = MainButton;
 var ButtonUpadte = _styledComponents["default"].button(_templateObject3(), function (_ref) {
   var theme = _ref.theme;
   return theme.palette.ColorApp.white;
-}, function (props) {
-  return props.theme.fontSizes.body;
 }, function (_ref2) {
   var theme = _ref2.theme;
   return theme.palette.ColorApp.primary_light;

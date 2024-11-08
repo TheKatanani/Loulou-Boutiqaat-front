@@ -6,7 +6,7 @@ import { MOOD, ROLES } from '../../../Actions'
 import useAxiosPrivate from '../../../Hook/useAxiosPrivet'
 import { selectProducts } from '../../../redux/reducers/products'
 import Alert from '../../../Components/common/Alert'
-import { ButtonUpadte, MainButton, PrimaryButton, WhitePrimaryButton } from '../../../Global/components'
+import { ButtonUpadte,WhitePrimaryButton } from '../../../Global/components'
 import { selectUser } from '../../../redux/reducers/auth'
 import { Link } from 'react-router-dom'
 const Table = () => {

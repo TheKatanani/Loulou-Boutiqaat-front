@@ -39,7 +39,6 @@ export const ButtonUpadte = styled.button `
     color:${({theme})=>theme.palette.ColorApp.white};
     text-decoration: none!important;;
     display:block;
-    font-size: ${(props) => props.theme.fontSizes.body}rem;
     background-color:${({theme})=>theme.palette.ColorApp.primary_light};
     ${({theme:{media}})=>media.xs}{
         font-weight: normal;
