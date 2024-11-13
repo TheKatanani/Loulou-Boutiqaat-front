@@ -23,7 +23,7 @@ function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(
 
 var StyledImagesSliderCard = _styledComponents["default"].div(_templateObject(), function (_ref) {
   var isImages = _ref.isImages;
-  return isImages && "\n        height:210px;\n        ";
+  return isImages && "\n        height:210px;\n        min-width: min(100%, 260px);\n        ";
 }, function (props) {
   return props.theme.palette.ColorApp.primary;
 }, function (props) {

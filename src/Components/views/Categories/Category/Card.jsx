@@ -18,7 +18,7 @@ const Card = ({ data: { id, description, stars, images, name, price, prevPrice }
                                 <span className="prevCost">{prevPrice}₪</span>
                             }
                         </p>
-                        <h3>{name}</h3>
+                        <h3 className="title">{name}</h3>
                         <Rating num={stars} />
                         <p className="description">{description.slice(0, 50)}...
                             <Link to={`/home/products/${id}`}>

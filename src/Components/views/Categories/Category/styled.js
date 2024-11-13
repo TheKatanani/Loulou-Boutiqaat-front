@@ -117,6 +117,8 @@ export const StyeldCard = styled.div `
         }
         .title{
             ${props=>!props.full&&`color:${(props) =>  props.theme.palette.ColorApp.gray_800}`};
+            font-size:${(props) => props.theme.fontSizes.body}rem;
+            height:40px;
         }
         .price{
             font-size:${(props) => props.theme.fontSizes.h6}rem;
@@ -129,6 +131,7 @@ export const StyeldCard = styled.div `
             }
         } 
         .description{
+            height:60px;
         color:${(props) =>  props.theme.palette.ColorApp.gray_600};
         span{
             color:${(props) =>  props.theme.palette.ColorApp.primary};

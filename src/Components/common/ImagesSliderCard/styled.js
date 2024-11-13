@@ -4,6 +4,7 @@ export const StyledImagesSliderCard = styled.div `
         direction: ltr;
         ${({isImages})=>isImages && `
         height:210px;
+        min-width: min(100%, 260px);
         `}
         width:100%;
         &.cart{

@@ -20,7 +20,7 @@ function _templateObject2() {
 }
 
 function _templateObject() {
-  var data = _taggedTemplateLiteral(["\n  background-color: ", ";\n  padding: 60px 0;\n  min-height: calc(100vh - 113px);\n", "\n.two{\n  display:flex;\n  justify-content: center;\n  align-items: center; \n  overflow:auto;\n}\n.one{\n  display: grid;\n  grid-template-columns: repeat(3,auto);\n}\n.one,.two{\n  gap: 10px;\n  margin: 30px;\n  padding: 30px 0;\n  ", "{\n    gap:5px;\n    } \n}\n"]);
+  var data = _taggedTemplateLiteral(["\n  background-color: ", ";\n  padding: 60px 0;\n  min-height: calc(100vh - 113px);\n", "\n.two{\n  display:flex;\n  justify-content: center;\n  align-items: center; \n  overflow:auto;\n}\n.one{\n  display: grid;\n  grid-template-columns: repeat(3,auto);\n}\n.one,.two{\n  gap: 10px;\n  margin: 30px;\n  padding: 30px 0;\n  ", "{\n    gap:5px;\n    flex-wrap: wrap;\n    } \n}\n"]);
 
   _templateObject = function _templateObject() {
     return data;

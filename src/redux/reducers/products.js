@@ -37,7 +37,8 @@ export const productsSlice = createSlice({
       } = action.payload
       state.addProductState[id] = value
     },
-    resitProduct: (state) => {
+    resitProduct: (state,{getState}) => {
+      console.log(getState())
       state.addProductState = initialAddProductState
       state.mood = MOOD.ADD
     },
@@ -115,10 +116,10 @@ export const productsSlice = createSlice({
       })
       .addCase(addNewProduct.fulfilled, (state, action) => {
         state.status = STATUS.SUCCEEDED;
-        state.products = [...state?.products, action?.payload];
+        state.products = [...state?.products, action?.payload?.data];
         if (action.payload?.published === true)
-          state.publishedProducts =[...state?.publishedProducts, action?.payload]; 
-        state.addProductState = initialAddProductState
+          state.publishedProducts =[...state?.publishedProducts, action?.payload?.data]; 
+          state.addProductState = {...initialAddProductState,categoryId:action?.payload?.categories[0]?.id}
       })
       .addCase(addNewProduct.rejected, (state, action) => {
         state.status = STATUS.FAILED;
@@ -189,14 +190,17 @@ export const addNewProduct = createAsyncThunk(
   async ({
     newProduct,
     axiosPrivate
+  },{
+    getState
   }) => {
+    const categories = getState().categories.categories
     const response = await axiosPrivate.post(`/product`, {
       ...newProduct,
       count: parseInt(newProduct?.count),
       price: parseInt(newProduct?.price),
       prevPrice: parseInt(newProduct?.prevPrice)
     });
-    return response.data
+    return {data:response.data,categories}
   }
 )
 export const updateProduct = createAsyncThunk(

@@ -30,6 +30,7 @@ background - color: $ {
   padding: 30px 0;
   ${({theme:{media}})=>media.xs}{
     gap:5px;
+    flex-wrap: wrap;
     } 
 }
 `
