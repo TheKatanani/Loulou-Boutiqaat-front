@@ -1,4 +1,4 @@
-const Gender = ({ setInput, input, errors }) => {
+const Gender = ({ setInput, input }) => {
   return (
     <>
       <div className="gender">
@@ -10,8 +10,8 @@ const Gender = ({ setInput, input, errors }) => {
           ذكر</label>
         <label htmlFor="male">
           <input type="radio" name="gender" id="female"
-              onChange={() => setInput('female')}
-              checked={input === 'female'}
+            onChange={() => setInput('female')}
+            checked={input === 'female'}
           />
           انثى</label>
       </div>

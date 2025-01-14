@@ -1,6 +1,6 @@
 import Input from '../../../Components/Input' 
 
-const BarthDay = ({ setInput, input, errors }) => {
+const BarthDay = ({ setInput, input }) => {
   return (
     <>
       <Input

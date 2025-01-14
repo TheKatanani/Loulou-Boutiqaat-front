@@ -5,7 +5,7 @@ import Rating from '../Rating'
 import AddToCartButton from '../AddToCartButton'
 import SavedButton from '../SavedButton'
 import ImagesSliderCard from '../common/ImagesSliderCard'
-const ProductCard = ({ data: { id, description, images, name, price, prevPrice }, isFull }) => {
+const ProductCard = ({ data: { id, description, images, name, price, prevPrice, stars }, isFull }) => {
     return (
         <ProductCardStyeld full={isFull} >
             <ImagesSliderCard images={images} />
@@ -17,11 +17,11 @@ const ProductCard = ({ data: { id, description, images, name, price, prevPrice }
                     }
                 </p>
                 <Info>
-                    <div className="rating"><Rating num="4" num2="7.5" /></div>
+                    <div className="rating"><Rating num={stars} /></div>
                 </Info>
-                {isFull && <p className="description">{description}</p>}
-                {isFull && <Link to={`/home/products/${id}`} className="ViewDetails">عرض التفاصيل</Link>}
                 <h3 className="title">{name}</h3>
+                {isFull && <p className="description">{description}</p>}
+                <Link to={`/home/products/${id}`} className="ViewDetails">عرض التفاصيل</Link>
                 <div className="icons">
                     <AddToCartButton  {...{ id }} />
                     <SavedButton {...{ id }} />

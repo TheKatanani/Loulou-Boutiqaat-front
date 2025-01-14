@@ -66,7 +66,7 @@ const Form = () => {
         id="name"
         type="text"
         placeholder="Type here"
-        label="User Name"
+        label="Category Name"
         value={formData.name}
       />
       {errors?.description && <ErrorForm>{errors?.description}</ErrorForm>}

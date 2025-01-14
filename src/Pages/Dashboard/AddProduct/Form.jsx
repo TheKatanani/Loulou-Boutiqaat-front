@@ -65,7 +65,7 @@ const Form = () => {
         id="name"
         type="text"
         placeholder="Type here"
-        label="User Name"
+        label="Product Name"
         required
         value={formData.name}
       />
