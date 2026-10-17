@@ -3,6 +3,7 @@ import Input from '../../Input'
 import ErrorForm from '../../ErrorForm'
 import useFetch from '../../../Hook/useFetch'
 import Select from '../../Select'
+import PhoneInputGroup from '../../common/PhoneInputGroup'
 import { useDispatch, useSelector } from 'react-redux'
 import { MainButton } from '../../../Global/components' 
 import { API2 } from '../../../API'
@@ -55,27 +56,20 @@ const Register = ({ setGender, isFromUserProfile, errors, status, showPasswordFu
       />
 
       {errors?.phone && <ErrorForm>{errors?.phone}</ErrorForm>}
-      <div className="phoneGroup">
-        <label htmlFor="phone">رقم الجوال</label>
-        <div className="phoneInputs">
-          <Select
-            defualt={defaultCountry}
-            id="selectPhone"
-            value={formData.selectPhone || defaultCountry}
-            onChange={handleInputChangeFunc}
-            options={allowedPhones}
-          />
-          <Input
-            onChange={(e)=>{
-              handleInputChange({ id: 'phone', value: (e.target.value?.trim()), event: e })
-            }}
-            id="phone"
-            type="tel"
-            placeholder="59-123-4567"
-            value={formData.phone || ''}
-          />
-        </div>
-      </div>
+      <PhoneInputGroup
+        label="رقم الجوال"
+        phoneId="phone"
+        selectId="selectPhone"
+        phoneValue={formData.phone || ''}
+        selectValue={formData.selectPhone || defaultCountry}
+        options={allowedPhones}
+        placeholder="59-123-4567"
+        required
+        onPhoneChange={(e)=>{
+          handleInputChange({ id: 'phone', value: (e.target.value?.trim()), event: e })
+        }}
+        onSelectChange={handleInputChangeFunc}
+      />
 
       {errors?.gender && <ErrorForm>{errors?.gender}</ErrorForm>}
       <div className="genderGroup">
