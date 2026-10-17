@@ -15,6 +15,8 @@ import { useEffect } from 'react';
 import useAxiosPrivate from './Hook/useAxiosPrivet';
 import ErrorBoundary from './Components/common/Errorboundary';
 import { Toaster } from 'react-hot-toast';
+import FloatingWhatsApp from './Components/common/FloatingWhatsApp';
+
 function App() {
   const [theme, setTheme] = useState(lightTheme);
   const dispatch = useDispatch()
@@ -69,6 +71,7 @@ function App() {
         <ErrorBoundary>
           <MyRoutes />
         </ErrorBoundary>
+        <FloatingWhatsApp />
       </ThemeContext.Provider>
     </ThemeProvider>
   );
