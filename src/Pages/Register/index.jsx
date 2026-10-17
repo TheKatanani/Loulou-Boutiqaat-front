@@ -12,41 +12,56 @@ function Register() {
     const formData = useSelector(selectFormData);
     const errors = useSelector(selectError);
     const status = useSelector(selectStatus);
-    const dispatch = useDispatch()
-    // // // // // // // // /// // // // // // // // // /// // // // // // // // // /// 
+    const dispatch = useDispatch();
+
     const handleInputChangeFunc = (event) => {
         const { id, value } = event.target;
         dispatch(handleInputChange({ id, value }));
     };
-    // // // // // // // // /// // // // // // // // // /// // // // // // // // // /// 
+
     const handleCheckBoxChangeFunc = (e) => dispatch(handleCheckBoxChange({ id: e.target.id, checked: e.target.checked }));
-    // // // // // // // // /// // // // // // // // // /// // // // // // // // // /// 
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         const res = await dispatch(handleRegister({ formData }));
         if (res.payload?.data?.accessToken) {
-            toast.success(`تم إنشاء حسابك بنجاح! أهلاً بك ${res.payload?.data?.user?.name || ''}`);
+            toast.success(`تم إنشاء حسابك بنجاح! أهلاً بكِ ${res.payload?.data?.user?.name || ''}`);
         } else if (res.payload?.errors?.message) {
             toast.error(res.payload?.errors?.message);
         }
     };
+
     useEffect(() => {
-        // to set idle as an initail status
-        dispatch(setStatusIdle())
-    }, [dispatch])
+        dispatch(setStatusIdle());
+    }, [dispatch]);
+
     return (
         <>
             <RegisterStyled>
                 <Container>
                     <main>
-                        <h1>انشاء حساب</h1>
-                        <Form errors={errors} status={status} {...{
-                            setGender, formData, handleSubmit, handleInputChangeFunc, handleCheckBoxChangeFunc
-                        }} />
-                        <p>هل تمتلك حساب؟ <Link to="/login">تسجيل الدخول </Link></p>
+                        <div className="brandHeader">
+                            <span className="brandIcon">👑</span>
+                            <h1>إنشاء حساب جديد</h1>
+                            <p>انضمي إلى عالم لولو بوتيكات وتسوقي براحة وتألق</p>
+                        </div>
+                        <Form 
+                            errors={errors} 
+                            status={status} 
+                            setGender={setGender} 
+                            formData={formData} 
+                            handleSubmit={handleSubmit} 
+                            handleInputChangeFunc={handleInputChangeFunc} 
+                            handleCheckBoxChangeFunc={handleCheckBoxChangeFunc} 
+                        />
+                        <div className="authFooterLinks">
+                            <span>هل تمتلكين حساباً بالفعل؟</span>
+                            <Link to="/login">تسجيل الدخول</Link>
+                        </div>
                     </main>
-                    <Link to="/home" className="icon">
-                        <p>العودة للصفحة الرئيسية</p>
+
+                    <Link to="/home" className="backHomeLink">
+                        <span>← العودة للصفحة الرئيسية للمتجر</span>
                     </Link>
                 </Container>
             </RegisterStyled>

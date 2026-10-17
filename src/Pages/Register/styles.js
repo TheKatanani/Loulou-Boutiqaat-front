@@ -1,108 +1,87 @@
 import styled from "styled-components";
 
-export const RegisterStyled = styled.div `
-margin: 20px 0;
-    display: flex;
-    align-items:center;
-    justify-content:center;
-    width:100%;
-    /* margin:30px 0; */
-    min-height:calc(100vh - 74px);
-    h1{
-        color:${(props) => props.theme.palette.font};
+export const RegisterStyled = styled.div`
+  direction: rtl;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 60px 16px;
+  min-height: calc(100vh - 85px);
+  background-color: ${(props) => props.theme.palette.page};
+
+  main {
+    width: min(480px, 100%);
+    box-shadow: 0 16px 45px rgba(0, 0, 0, 0.05);
+    background-color: ${(props) => props.theme.palette.card};
+    border: 1px solid ${(props) => props.theme.palette.border};
+    border-radius: 24px;
+    padding: 38px 32px;
+    margin: 0 auto;
+    text-align: right;
+
+    @media (max-width: 576px) {
+      padding: 28px 20px;
     }
-    main{
-        width:400px;
-        box-shadow: 0px 3px 10px rgba(32, 32, 32, 0.1);
-        background-color: ${(props) => props.theme.palette.main};
-        border-radius: 6px;
-        padding:1.5rem 1.7rem;
-        margin:0 auto;
+
+    .brandHeader {
+      text-align: center;
+      margin-bottom: 26px;
+
+      .brandIcon {
+        font-size: 2.4rem;
+        display: block;
+        margin-bottom: 8px;
+      }
+
+      h1 {
+        font-size: 1.6rem;
+        font-weight: 800;
+        color: ${(props) => props.theme.palette.font};
+        margin-bottom: 6px;
+      }
+
+      p {
+        font-size: 0.9rem;
+        color: ${(props) => props.theme.palette.font_secondary};
+      }
     }
-    .barthDay{
-        display: flex;
-        align-items:center;
-        justify-content:center;
-    }
-    p{
-    color:${(props)=>props.theme.palette.ColorApp.gray_800};
-    font-size:${(props) => props.theme.fontSizes.body};
-    text-align:center;
-    margin:20px 0 4px;
-}
-    a{
-        font-family: 'Inter';
-        font-style: normal;
-        font-weight: 400;
-        font-size: ${(props) => props.theme.fontSizes.body}rem;
-        letter-spacing: -0.2px;
-        color: ${(props)=>props.theme.palette.ColorApp.primary};
-    }
-    .logInPassword{
-    position: relative;
-}
-.logInPassword .forgotPassword{
-    position:absolute;
-    top:2px;
-    right:0;
-}
-.logInPassword span{
-    img{
-        width:22px;
-    }
-    position:absolute;
-    top:50%;
-    transform:translateY(-14%);
-    right: 12px;
-    cursor: pointer;
-}
-/* add  show class to use this code */
-.logInPassword.text span::before{
-    content: "";
-    width: 3px;
-    height: 22px;
-    font-size: 30px;
-    font-weight: bold;
-    background-color: #8692a6;
-    position: absolute;
-    border-radius: 8px;
-    top: -2px;
-    left: 50%;
-    transform: translateX(-50%) rotate(30deg);
-    opacity: 0.8;
-}
-.name{
-        display: flex;
-        align-items:center;
-    }
-.phone{
-    label{
-        color:${props=> props.theme.palette.font};      
-    }
-    >div{
-        display: flex;
-        align-items:center;
-        >*{
-            flex: 1;
+
+    .authFooterLinks {
+      margin-top: 24px;
+      text-align: center;
+      font-size: 0.92rem;
+      color: ${(props) => props.theme.palette.font_secondary};
+
+      a {
+        color: ${(props) => props.theme.palette.ColorApp.primary};
+        font-weight: 700;
+        text-decoration: none;
+        margin-right: 4px;
+        transition: color 0.2s ease;
+        &:hover {
+          color: #d4af37;
+          text-decoration: underline;
         }
+      }
     }
-   } 
-   form{
-    border-bottom: 1px solid ${props=> props.theme.palette.ColorApp.gray_300};
-   }
-   .gender{
-    margin: 10px 0;
+  }
+
+  .backHomeLink {
     display: flex;
-    gap: 20px;
     align-items: center;
-    label{
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        color:${({theme})=>theme.palette.font};
-        input{
-            margin-inline-end: 5px;
-        }    
+    justify-content: center;
+    gap: 8px;
+    margin-top: 20px;
+    text-align: center;
+    color: ${(props) => props.theme.palette.font_secondary};
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: ${(props) => props.theme.palette.ColorApp.primary};
     }
-   }
-`
+  }
+`;

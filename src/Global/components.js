@@ -16,19 +16,36 @@ export const Container = styled.div `
     width: min(100%,1170px);
 }
 `;
-export const MainButton = styled.button `
+export const MainButton = styled.button`
     width: 100%;
-    height: 40px;
-    border-radius: 6px;
-    font-weight: 500;
-    font-size: ${(props) => props.theme.fontSizes.body}rem;
-    color: ${(props) => props.theme.palette.font};
-    line-height: 19px;
+    height: 46px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    font-family: 'Cairo', 'Tajawal', sans-serif;
+    color: #ffffff;
+    background: ${(props) => props.theme.palette.ColorApp.primary_gradient};
+    box-shadow: 0 4px 14px rgba(109, 40, 217, 0.25);
     text-align: center;
     cursor: pointer;
     border: none;
+    transition: all 0.25s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    &:hover:not(:disabled) {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(109, 40, 217, 0.35);
+        background: linear-gradient(135deg, #5b21b6, #7c3aed);
+    }
+
     &:disabled {
-        cursor:not-allowed;
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
     }
 `
 export const ButtonUpadte = styled.button `

@@ -1,28 +1,41 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import logInPassword from '../../../Images/VectorpasswordIcon.png'
 import { Link } from 'react-router-dom'
-import Input from '../../Input'
+import { Input } from '../../Input/style'
 import { StyledPasswordInput } from './styled'
 
-const PasswordInput = ({ showPassword,showPasswordFunc, handleInputChange, id, value, label }) => {
+const PasswordInput = ({ showPassword, showPasswordFunc, onToggle, handleInputChange, id, value, label, hideForgot = false }) => {
   const dispatch = useDispatch() 
   return (
-    <StyledPasswordInput className={`logInPassword ${showPassword ? 'text' : 'password'}`}>
-      <span>
-        <img src={logInPassword} loading="lazy" alt="show" onClick={() => {
-          dispatch(showPasswordFunc())
-        }} />
-      </span>
-      <Link to="/forgotPassword" className='forgotPassword'>نسيت كلمة المرور</Link>
-      <Input
-        onChange={handleInputChange}
-        id={id}
-        type={showPassword ? 'text' : 'password'}
-        placeholder="اكتب هنا"
-        label={label}
-        value={value}
-      />
+    <StyledPasswordInput>
+      <div className="passwordHeader">
+        <label htmlFor={id}>{label}</label>
+        {!hideForgot && id === 'password' && (
+          <Link to="/forgotPassword" className='forgotPassword'>نسيت كلمة المرور؟</Link>
+        )}
+      </div>
+      <div className="inputWrapper">
+        <Input
+          onChange={handleInputChange}
+          id={id}
+          type={showPassword ? 'text' : 'password'}
+          placeholder="••••••••"
+          value={value || ''}
+        />
+        <span 
+          className="toggleVisibility" 
+          onClick={() => {
+            if (onToggle) {
+              onToggle()
+            } else if (showPasswordFunc) {
+              dispatch(showPasswordFunc())
+            }
+          }}
+          title={showPassword ? 'إخفاء كلمة المرور' : 'إظهار كلمة المرور'}
+        >
+          {showPassword ? '👁️' : '👁️‍🗨️'}
+        </span>
+      </div>
     </StyledPasswordInput>
   )
 }
