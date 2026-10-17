@@ -37,6 +37,24 @@ body {
 input, button, select, textarea {
   font-family: 'Cairo', 'Tajawal', sans-serif;
 }
+
+/* Universal rule: Numbers and numeric inputs are always LTR */
+input[type="tel"],
+input[type="number"],
+input[type="date"],
+input[type="time"] {
+  direction: ltr !important;
+  text-align: left;
+}
+
+td.phone,
+span.phone,
+.phone-number,
+.ltr-number {
+  direction: ltr !important;
+  display: inline-block;
+  unicode-bidi: embed;
+}
 /* Modern Luxury Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
