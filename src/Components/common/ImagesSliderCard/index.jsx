@@ -1,80 +1,150 @@
+import React, { useState, useEffect } from 'react'
 import { StyledImagesSliderCard } from './styled'
-import { useState } from 'react'
-import { useEffect } from 'react' 
+
+const ChevronLeft = () => (
+  <svg viewBox="0 0 24 24" fill="none" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+    <polyline points="15 18 9 12 15 6" />
+  </svg>
+);
+
+const ChevronRight = () => (
+  <svg viewBox="0 0 24 24" fill="none" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+    <polyline points="9 18 15 12 9 6" />
+  </svg>
+);
+
 const ImagesSliderCard = ({ images, className, handleRemoveImage }) => {
-  const [imgIndex, setImgIndex] = useState(images.length - 1)
+  const [imgIndex, setImgIndex] = useState(0)
 
-  const [disaple, setDisaple] = useState({
-    prev: true,
-    next: false
-  })
-  useEffect(() => {
-    if (imgIndex === 0) {
-      if (images?.length <= 1) {
-        setDisaple({ prev: true, next: true })
+  // Safely parse images
+  let imagesList = [];
+  try {
+    if (Array.isArray(images)) {
+      imagesList = images;
+    } else if (typeof images === 'string') {
+      if (images.startsWith('[') || images.startsWith('{')) {
+        imagesList = JSON.parse(images);
+      } else {
+        imagesList = [images];
       }
-      else {
-        setDisaple({ prev: true, next: false })
-      }
-    } else if (imgIndex + 1 >= images?.length) {
-      setDisaple({ prev: false, next: true })
-    } else {
-      setDisaple({ prev: false, next: false })
     }
-    if (images?.length <= 0) {
-      setDisaple({ prev: true, next: true })
-    }
-  }, [imgIndex, images, handleRemoveImage])
-  useEffect(() => {
-    setImgIndex(images.length - 1)
-  }, [images])
-  return ( 
-      <StyledImagesSliderCard isImages={!!images.length} className={`imagesSlider ${className || ''}`}>
-        {
-          images.length &&
-          <img src={images?.[imgIndex]} loading="lazy" className={images.length ? '' : 'defaultImage'} alt="loulou boutiqaat" />
-        }
-        <button type='button' disabled={disaple.prev} className={`prevImg ${disaple.prev && 'disabled'}`} onClick={() => {
-          setImgIndex(prev => {
-            if (prev > 0) {
-              return prev - 1
-            }
-          })
-        }}>{"<"}</button>
-        <button type='button' disabled={disaple.next} className={`nextImg ${disaple.next && 'disabled'}`} onClick={() => {
-          setImgIndex(prev => {
-            return prev + 1
-          })
-        }}>{">"}</button>
-        <div className="dots">
-          {
-            images?.map((img, i) => (
-              <span key={i} className={`imgDot ${imgIndex === i && `active`}`} onClick={() => {
-                setImgIndex(i)
-              }}></span>
-            ))
-          }
-        </div>
-        {
-          handleRemoveImage && images.length &&
-          <span className="remove" onClick={() => {
-            handleRemoveImage(imgIndex)
-            if (imgIndex === (images.length)) {
-              setImgIndex(prev => {
-                if (prev > 0) {
-                  return prev - 1
-                } else {
-                  return 0
-                }
-              }
-              )
-            }
-          }}>
-            x
-          </span>
-        }
-      </StyledImagesSliderCard> 
-  )
-}
+  } catch (e) {
+    imagesList = images ? [images] : [];
+  }
 
-export default ImagesSliderCard
+  if (!Array.isArray(imagesList)) {
+    imagesList = [];
+  }
+
+  const total = imagesList.length;
+
+  useEffect(() => {
+    setImgIndex(0);
+  }, [images]);
+
+  const handlePrev = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+    if (imgIndex > 0) {
+      setImgIndex(prev => prev - 1);
+    }
+  };
+
+  const handleNext = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+    if (imgIndex < total - 1) {
+      setImgIndex(prev => prev + 1);
+    }
+  };
+
+  const handleDotClick = (e, idx) => {
+    e.stopPropagation();
+    e.preventDefault();
+    setImgIndex(idx);
+  };
+
+  const hasMultiple = total > 1;
+
+  return (
+    <StyledImagesSliderCard 
+      className={`imagesSlider ${className || ''}`} 
+      isImages={total > 0}
+    >
+      <div 
+        className="sliderTrack"
+        style={{ transform: `translateX(-${imgIndex * 100}%)` }}
+      >
+        {total > 0 ? (
+          imagesList.map((img, idx) => (
+            <div key={idx} className="slideItem">
+              <img 
+                src={img} 
+                loading="lazy" 
+                alt={`Loulou product ${idx + 1}`} 
+              />
+            </div>
+          ))
+        ) : (
+          <div className="slideItem">
+            <div style={{ color: '#94a3b8', fontSize: '0.85rem' }}>لا توجد صورة</div>
+          </div>
+        )}
+      </div>
+
+      {hasMultiple && (
+        <>
+          <button 
+            type="button" 
+            className="sliderNavBtn prevImg"
+            disabled={imgIndex === 0}
+            onClick={handlePrev}
+            title="الصورة السابقة"
+          >
+            <ChevronLeft />
+          </button>
+
+          <button 
+            type="button" 
+            className="sliderNavBtn nextImg"
+            disabled={imgIndex >= total - 1}
+            onClick={handleNext}
+            title="الصورة التالية"
+          >
+            <ChevronRight />
+          </button>
+
+          <div className="dots">
+            {imagesList.map((_, i) => (
+              <span 
+                key={i} 
+                className={`imgDot ${imgIndex === i ? 'active' : ''}`}
+                onClick={(e) => handleDotClick(e, i)}
+                title={`صورة ${i + 1}`}
+              />
+            ))}
+          </div>
+        </>
+      )}
+
+      {handleRemoveImage && total > 0 && (
+        <span 
+          className="remove" 
+          onClick={(e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            handleRemoveImage(imgIndex);
+            if (imgIndex >= total - 1 && imgIndex > 0) {
+              setImgIndex(prev => prev - 1);
+            }
+          }}
+          title="حذف الصورة"
+        >
+          ✕
+        </span>
+      )}
+    </StyledImagesSliderCard>
+  );
+};
+
+export default ImagesSliderCard;
