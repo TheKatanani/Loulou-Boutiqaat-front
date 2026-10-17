@@ -22,12 +22,14 @@ const Orders = () => {
     userId: '',
     show: false
   })
+
   const handlePillShow = (orders) => {
     setBill({
       orders,
       show: true
     })
   }
+
   const handleUserShow = (userId) => {
     setUserState({
       userId,
@@ -39,39 +41,56 @@ const Orders = () => {
     const value = e.target.value
     setSearchTerm(value)
   }
+
   useEffect(() => {
-    if (visibleOrders.length <= 0 || searchTerm.length <= 0) {
+    if (!searchTerm) {
       setVisibleOrders(orders)
-    }
-  }, [visibleOrders, orders, searchTerm])
-  useEffect(() => {
-    if (searchTerm) {
+    } else {
       const visible = orders.filter(order => { 
         const user = users.find(u => u.id === order.userId) 
-        return user.name.includes(searchTerm) 
+        return user?.name?.toLowerCase().includes(searchTerm.toLowerCase()) || 
+               user?.phone?.includes(searchTerm)
       })
       setVisibleOrders(visible)
     }
   }, [searchTerm, orders, users])
+
   useEffect(() => {
     dispatch(setOrders({ axiosPrivate }))
     dispatch(setUsers({ axiosPrivate }))
   }, [dispatch, axiosPrivate])
+
+  const pendingOrders = visibleOrders.filter(order => !order.status);
+  const completedOrders = visibleOrders.filter(order => order.status);
+
   return (
     <StyledOrders>
-      <Input
-      label="Search By User Name"
-        type='text'
-        id='search'
-        placeholder='search term'
-        onChange={handleSearchChanged}
-        value={searchTerm}
-      />
-      <h2>Current Orders</h2>
-      <Table orders={visibleOrders.filter(order => !order.status)} {...{ handlePillShow, handleUserShow, bill, setBill, userState, setUserState }} />
-      <br />
-      <h2>Old Orders</h2>
-      <Table orders={visibleOrders.filter(order => order.status)} {...{ handlePillShow, handleUserShow, bill, setBill, userState, setUserState }} />
+      <div style={{ marginBottom: 20 }}>
+        <Input
+          label="بحث في طلبات العملاء (اسم العميل أو رقم الهاتف)"
+          type='text'
+          id='search'
+          placeholder='اكتب اسم العميل أو الهاتف...'
+          onChange={handleSearchChanged}
+          value={searchTerm}
+        />
+      </div>
+
+      <div style={{ marginBottom: 35 }}>
+        <h2 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#f59e0b', display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+          <span>⏳</span>
+          <span>الطلبات الجارية والمطلوبة ({pendingOrders.length})</span>
+        </h2>
+        <Table orders={pendingOrders} {...{ handlePillShow, handleUserShow, bill, setBill, userState, setUserState }} />
+      </div>
+
+      <div>
+        <h2 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#10b981', display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+          <span>✅</span>
+          <span>الطلبات المكتملة والمُسلَّمة ({completedOrders.length})</span>
+        </h2>
+        <Table orders={completedOrders} {...{ handlePillShow, handleUserShow, bill, setBill, userState, setUserState }} />
+      </div>
     </StyledOrders>
   )
 }

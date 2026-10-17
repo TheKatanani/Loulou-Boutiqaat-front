@@ -6,9 +6,9 @@ import { MOOD, ROLES } from '../../../Actions'
 import useAxiosPrivate from '../../../Hook/useAxiosPrivet'
 import { selectProducts } from '../../../redux/reducers/products'
 import Alert from '../../../Components/common/Alert'
-import { ButtonUpadte,WhitePrimaryButton } from '../../../Global/components'
 import { selectUser } from '../../../redux/reducers/auth'
 import { Link } from 'react-router-dom'
+
 const Table = () => {
   const [message, setMessage] = useState()
   const [isAlert, setIsAlert] = useState(false)
@@ -19,90 +19,121 @@ const Table = () => {
   const axiosPrivate = useAxiosPrivate()
   const mood = useSelector(selectMood)
   const user = useSelector(selectUser)
+
   const handleCancellation = () => {
     setIsAlert(false)
     setMessage('')
   }
-  const handelDelete = (categoryId) => {
-    const catetoryProducts = products.reduce((count, item) => {
-      if (item?.categoryId == categoryId) {
+
+  const handelDelete = (category) => {
+    const categoryProducts = products.reduce((count, item) => {
+      if (item?.categoryId === category.id) {
         return ++count
       }
       return count
     }, 0)
-    if (catetoryProducts > 0) {
-      setMessage(`you can not delete this category, there ${catetoryProducts} products in this category`)
+
+    if (categoryProducts > 0) {
+      setMessage(`لا يمكنك حذف هذا القسم لأنه يحتوي على (${categoryProducts}) من المنتجات المتاحة. يجب نقل المنتجات أو حذفها أولاً.`)
       setIsAlert(true)
     } else {
-      dispatch(deleteCategory({ id: categoryId, axiosPrivate }))
+      if (window.confirm(`هل أنت متأكد من حذف القسم: "${category.name}"؟`)) {
+        dispatch(deleteCategory({ id: category.id, axiosPrivate }))
+      }
     }
   }
+
   return (
     <StyledTable>
-      <thead>
-        <tr>
-          <th>id</th>
-          <th>name</th>
-          <th className='description'>description</th>
-          <th>background</th>
-          <th>published</th>
-          <th>products</th>
-          <th>update</th>
-          {
-            (user?.role === ROLES.ADMIN) &&
-            <th>delete</th>
-          }
-        </tr>
-      </thead>
-      <tbody>
-        {
-          categories?.map((category) => (
-            <tr key={category?.id} className={(mood === MOOD.UPDATE && category.id === id) ? `underUpdate` : undefined}>
-              <td>{category?.id}</td>
-              <td>{category?.name}</td>
-              <td className='description'>{category.description?.slice(0, 50)}...</td>
-              <td className='images'>{
-                <img loading="lazy" src={category?.background} alt="category background" />
-              }</td>
-              <td>{category?.published ? 'True' : 'False'}</td>
-              <td className='categoryProducts'>
-                <Link to={`${category.id}`}>
-                <WhitePrimaryButton>
-                  {
-                    products.reduce((prev, curre) => (curre.categoryId == category.id ? prev + 1 : prev), 0)
-                  }
-                  </WhitePrimaryButton>
-                </Link>
-              </td>
-              <td>
-                <button className='update'
-                  disabled={mood === MOOD.UPDATE && category?.id === id}
-                  onClick={() => {
-                    dispatch(setUpdateCategory({ category }))
-                  }}
-                >
-                  update
-                </button>
-              </td>
-              {
-                (user?.role === ROLES.ADMIN) &&
-                <td>
-                  <ButtonUpadte className='delete' disabled={mood === MOOD.UPDATE && category?.id === id}
-                    onClick={() => {
-                      handelDelete(category.id)
-                    }}>
-                    delete
-                  </ButtonUpadte>
+      <table>
+        <thead>
+          <tr>
+            <th className='id'>#</th>
+            <th>اسم القسم</th>
+            <th className='description'>الوصف</th>
+            <th>غلاف القسم</th>
+            <th>الحالة</th>
+            <th>المنتجات التابعة</th>
+            <th>تعديل</th>
+            {user?.role === ROLES.ADMIN && <th>حذف</th>}
+          </tr>
+        </thead>
+        <tbody>
+          {categories?.map((category) => {
+            const productCount = products.reduce((prev, curre) => (curre.categoryId === category.id ? prev + 1 : prev), 0);
+            return (
+              <tr 
+                key={category?.id} 
+                className={(mood === MOOD.UPDATE && category.id === id) ? `underUpdate` : undefined}
+              >
+                <td className='id'><strong>#{category?.id}</strong></td>
+                <td><strong>{category?.name}</strong></td>
+                <td className='description' style={{ maxWidth: 200, overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                  {category.description ? `${category.description.slice(0, 45)}...` : '-'}
                 </td>
-              }
-              {
-                isAlert &&
-                <Alert {...{ message }} link={{ path: `/dashboard/addcategory/${category.id}`, message: 'view the products' }} cancel={handleCancellation} />
-              }
-            </tr>
-          ))
-        }
-      </tbody>
+                <td className='images'>
+                  {category?.background && (
+                    <img loading="lazy" src={category.background} alt={category.name} />
+                  )}
+                </td>
+                <td>
+                  <span className={`statusBadge ${category?.published ? 'published' : 'unpublished'}`}>
+                    {category?.published ? '● منشور' : '○ مخفي'}
+                  </span>
+                </td>
+                <td>
+                  <Link 
+                    to={`${category.id}`} 
+                    style={{ 
+                      padding: '4px 12px', 
+                      borderRadius: 12, 
+                      background: 'rgba(109, 40, 217, 0.08)', 
+                      color: '#6d28d9', 
+                      fontWeight: 700, 
+                      fontSize: '0.84rem',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: 4
+                    }}
+                  >
+                    <span>📦</span>
+                    <span>{productCount} منتج</span>
+                  </Link>
+                </td>
+                <td>
+                  <button 
+                    type="button"
+                    className='update'
+                    disabled={mood === MOOD.UPDATE && category?.id === id}
+                    onClick={() => dispatch(setUpdateCategory({ category }))}
+                  >
+                    ✏️ تعديل
+                  </button>
+                </td>
+                {user?.role === ROLES.ADMIN && (
+                  <td>
+                    <button 
+                      type="button"
+                      className='delete' 
+                      disabled={mood === MOOD.UPDATE && category?.id === id}
+                      onClick={() => handelDelete(category)}
+                    >
+                      🗑️ حذف
+                    </button>
+                  </td>
+                )}
+                {isAlert && (
+                  <Alert 
+                    message={message} 
+                    link={{ path: `/dashboard/addcategory/${category.id}`, message: 'عرض المنتجات التابعة' }} 
+                    cancel={handleCancellation} 
+                  />
+                )}
+              </tr>
+            )
+          })}
+        </tbody>
+      </table>
     </StyledTable>
   )
 }

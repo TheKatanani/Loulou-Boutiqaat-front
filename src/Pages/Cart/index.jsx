@@ -51,8 +51,8 @@ const Cart = () => {
                 dispatch(setCheckoutStatusIdle())
                 navigate('/home')
               }} link={{
-                path: `https://wa.me/00970597229340`,
-                message: 'تواصل معنا لاستلام طلبك',
+                path: `https://wa.me/972597229340`,
+                message: 'تواصل معنا لاستلام طلبك عبر واتساب',
                 target: '_blank'
               }}
                 message={`تهانينا🌸، تم إرسال الطلب بنجاح 🚀`} />

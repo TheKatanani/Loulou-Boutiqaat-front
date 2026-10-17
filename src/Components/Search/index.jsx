@@ -67,7 +67,7 @@ function SearchComponent({ isOnChangeRequest = false }) {
         }}
       />
       <select value={categoryId} onChange={(e) => handleSelectChange(e.target.value)}>
-        <option defaultValue="" value="">كل الأقسام</option>
+        <option defaultValue="" value="">جميع الأقسام</option>
         {
           categories?.map((catig) => (
             <option key={catig.id} value={catig?.id}>{catig?.name}</option>

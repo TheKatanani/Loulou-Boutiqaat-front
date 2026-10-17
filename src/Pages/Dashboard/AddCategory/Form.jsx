@@ -12,6 +12,7 @@ import ErrorForm from '../../../Components/ErrorForm/index.jsx'
 import { validationSchema } from './validation.js'
 import useAxiosPrivate from '../../../Hook/useAxiosPrivet.js'
 import { MainButton } from '../../../Global/components.js'
+
 const Form = () => {
   const dispatch = useDispatch()
   const catitories = useSelector(selectPublishedCategoryies)
@@ -20,20 +21,20 @@ const Form = () => {
   const errors = useSelector(selectError);
   const mood = useSelector(selectMood)
   const axiosPrivate = useAxiosPrivate()
+
   const handleInputChange = (e) => {
-    const {
-      id,
-      value
-    } = e.target
+    const { id, value } = e.target
     dispatch(handleInputChangeReducer({ id, value }))
   }
+
   const setImage = (value) => { 
     if (Array.isArray(value) && value.length) { 
       dispatch(handleInputChangeReducer({ id: 'background', value: value[0] }))
-    } else{ 
+    } else { 
       dispatch(handleInputChangeReducer({ id: 'background', value }))
     }
   }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
@@ -51,80 +52,82 @@ const Form = () => {
       dispatch(setStatusFailed({ ...{ errors } }));
     }
   }
+
   useEffect(() => {
     dispatch(setCategories())
   }, [dispatch])
+
   useEffect(() => {
-    dispatch(handleInputChangeReducer({ id: 'categoryId', value: catitories?.[0]?.id }))
-  }, [catitories, dispatch])
+    if (catitories?.length && !formData.categoryId) {
+      dispatch(handleInputChangeReducer({ id: 'categoryId', value: catitories[0].id }))
+    }
+  }, [catitories, dispatch, formData.categoryId])
+
   return (
     <StyledForm onSubmit={handleSubmit}>
-      {errors?.name && <ErrorForm>{errors?.name}</ErrorForm>}
+      <h3 className="formTitle">
+        {mood === MOOD.ADD ? '📂 إضافة قسم جديد' : '✏️ تعديل بيانات القسم'}
+      </h3>
 
+      {errors?.name && <ErrorForm>{errors?.name}</ErrorForm>}
       <Input
         onChange={handleInputChange}
         id="name"
         type="text"
-        placeholder="Type here"
-        label="Category Name"
-        value={formData.name}
+        placeholder="مثال: عطور شرقية وفاخرة"
+        label="اسم القسم"
+        value={formData.name || ''}
       />
+
       {errors?.description && <ErrorForm>{errors?.description}</ErrorForm>}
-      <div className="input">
-        <Label htmlFor='description'>description</Label>
+      <div className="input" style={{ marginTop: 14 }}>
+        <Label htmlFor='description'>وصف القسم</Label>
         <InputStyle
           as='textarea'
           onChange={handleInputChange}
           id="description"
-          type="text"
-          placeholder="Type here"
-          value={formData.description}
+          placeholder="اكتبي نبذة عن المنتجات التي تندرج تحت هذا القسم..."
+          value={formData.description || ''}
         />
       </div>
 
-      <div className="d-flex">
-        <Select id="published"
-          value={formData.published} onChange={(e)=>{
-            let {
-              id,
-              value
-            } = e.target 
+      <div className="d-flex" style={{ marginTop: 14 }}>
+        <Select 
+          id="published"
+          value={formData.published} 
+          onChange={(e) => {
+            let { id, value } = e.target 
             value = value === 'true' 
             dispatch(handleInputChangeReducer({ id, value }))
           }}
-          label={'published'}
+          label={'حالة ظهور القسم في المتجر'}
           options={[
-            {
-              value: true,
-              label: 'publish'
-            },
-            {
-              value: false,
-              label: 'unpublish'
-            }
+            { value: true, label: 'منشور وظاهر للعملاء' },
+            { value: false, label: 'مخفي مؤقتاً' }
           ]}
           defualt
         />
       </div>
-      {errors?.background && <ErrorForm>{errors?.background}</ErrorForm>}
-      <FileHandler image={formData.background} setImage={setImage} />
-      <ButtonAnimation status={status}>
-        {
-          mood === MOOD.ADD ? 'ADD' : 'UPDATE'
-        }
-      </ButtonAnimation>
-      {
-        mood === MOOD.UPDATE &&
-        <MainButton className="cansel" onClick={() => {
-          dispatch(cancelUpdate())
-        }}>
-          cancel
-        </MainButton>
-      }
-      {errors?.isAxiosError &&
-        <ErrorForm>{errors?.isAxiosError}</ErrorForm>
-      }
 
+      {errors?.background && <ErrorForm>{errors?.background}</ErrorForm>}
+      <div style={{ marginTop: 16 }}>
+        <Label>صورة غلاف القسم</Label>
+        <FileHandler image={formData.background} setImage={setImage} />
+      </div>
+
+      <div style={{ display: 'flex', gap: 12, alignItems: 'center', marginTop: 10 }}>
+        <ButtonAnimation status={status}>
+          {mood === MOOD.ADD ? 'حفظ وإضافة القسم' : 'تحديث بيانات القسم'}
+        </ButtonAnimation>
+
+        {mood === MOOD.UPDATE && (
+          <MainButton type="button" className="cansel" onClick={() => dispatch(cancelUpdate())}>
+            إلغاء التعديل
+          </MainButton>
+        )}
+      </div>
+
+      {errors?.isAxiosError && <ErrorForm>{errors?.isAxiosError}</ErrorForm>}
     </StyledForm>
   )
 }

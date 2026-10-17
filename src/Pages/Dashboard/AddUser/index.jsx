@@ -13,35 +13,41 @@ const AddUser = () => {
   const axiosPrivate = useAxiosPrivate()
   const [visibleUsers, setVisibleUsers] = useState(users)
   const [searchTerm, setSearchTerm] = useState('')
+
   const handleSearchChanged = (e) => {
     const value = e.target.value
     setSearchTerm(value)
   }
+
   useEffect(() => {
-    if (visibleUsers.length <= 0 || searchTerm.length <= 0) {
+    if (!searchTerm) {
       setVisibleUsers(users)
-    }
-  }, [visibleUsers, users, searchTerm])
-  useEffect(() => {
-    if (searchTerm) {
-      const visible = users.filter(product => product.name.includes(searchTerm))
+    } else {
+      const visible = users.filter(user => 
+        user.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+        user.phone.includes(searchTerm)
+      )
       setVisibleUsers(visible)
     }
   }, [searchTerm, users])
+
   useEffect(() => {
     dispatch(setUsers({ axiosPrivate }))
   }, [dispatch, axiosPrivate])
+
   return (
     <StyledAdd>
       <Form />
-      <Input
-        label="Search By User Name"
-        type='text'
-        id='search'
-        placeholder='search term'
-        onChange={handleSearchChanged}
-        value={searchTerm}
-      />
+      <div className="searchContainer">
+        <Input
+          label="بحث في قائمة المستخدمين (بالاسم أو رقم الهاتف)"
+          type='text'
+          id='search'
+          placeholder='اكتب اسم المستخدم أو رقم الهاتف للبحث...'
+          onChange={handleSearchChanged}
+          value={searchTerm}
+        />
+      </div>
       <Table users={visibleUsers} />
     </StyledAdd>
   )

@@ -6,32 +6,36 @@ import useAxiosPrivate from '../../../Hook/useAxiosPrivet'
 
 const User = ({ userId }) => {
   const users = useSelector(selectUsers)
-  const user = users.find(_user => _user.id == userId)
+  const user = users?.find(_user => _user.id === Number(userId) || _user.id === userId)
   const dispatch = useDispatch()
   const axiosPrivate = useAxiosPrivate()
 
   useEffect(() => {
     dispatch(setUsers(axiosPrivate))
   }, [axiosPrivate, dispatch])
+
   return (
     <StyleUser>
-      <table>
+      <h3 style={{ marginBottom: 14, fontSize: '1.1rem', fontWeight: 800, color: '#6d28d9' }}>
+        👤 بيانات العميل صاحب الطلب
+      </h3>
+      <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'right' }}>
         <thead>
-          <tr>
-            <th className='id'>id</th>
-            <th >name</th>
-            <th >phone</th>
-            <th className='gender'>gender</th>
-            <th className='barthDay'>barthDay</th>
+          <tr style={{ background: 'rgba(109, 40, 217, 0.08)' }}>
+            <th style={{ padding: '8px 12px' }}>#</th>
+            <th style={{ padding: '8px 12px' }}>اسم العميل</th>
+            <th style={{ padding: '8px 12px' }}>رقم الهاتف</th>
+            <th style={{ padding: '8px 12px' }}>الجنس</th>
+            <th style={{ padding: '8px 12px' }}>تاريخ الميلاد</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td className='id'>{user?.id}</td>
-            <td >{user?.name}</td>
-            <td >{user?.phone}</td>
-            <td className='gender'>{user?.gender}</td>
-            <td className='barthDay'>{user?.barthDay}</td>
+            <td style={{ padding: '10px 12px' }}><strong>#{user?.id || userId}</strong></td>
+            <td style={{ padding: '10px 12px' }}><strong>{user?.name || 'غير معروف'}</strong></td>
+            <td style={{ padding: '10px 12px', direction: 'ltr', textAlign: 'right' }}>{user?.phone || '-'}</td>
+            <td style={{ padding: '10px 12px' }}>{user?.gender === 'female' ? 'أنثى' : user?.gender === 'male' ? 'ذكر' : '-'}</td>
+            <td style={{ padding: '10px 12px' }}>{user?.barthDay || '-'}</td>
           </tr>
         </tbody>
       </table>

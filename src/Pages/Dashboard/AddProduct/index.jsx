@@ -10,18 +10,19 @@ const AddProduct = () => {
   const products = useSelector(selectProducts)
   const [visibleProducts, setVisibleProducts] = useState(products)
   const [searchTerm, setSearchTerm] = useState('')
+
   const handleSearchChanged = (e) => {
     const value = e.target.value
     setSearchTerm(value)
   }
+
   useEffect(() => {
-    if (visibleProducts.length <= 0 || searchTerm.length <= 0) {
+    if (!searchTerm) {
       setVisibleProducts(products)
-    }
-  }, [visibleProducts, products , searchTerm])
-  useEffect(() => {
-    if (searchTerm) {
-      const visible = products.filter(product => product.name.includes(searchTerm))
+    } else {
+      const visible = products.filter(product => 
+        product.name.toLowerCase().includes(searchTerm.toLowerCase())
+      )
       setVisibleProducts(visible)
     }
   }, [searchTerm, products])
@@ -29,14 +30,16 @@ const AddProduct = () => {
   return (
     <StyledAdd>
       <Form /> 
-      <Input
-        label="Search By Product Name"
-        type='text'
-        id='search'
-        placeholder='search term'
-        onChange={handleSearchChanged}
-        value={searchTerm}
-      />
+      <div className="searchContainer">
+        <Input
+          label="بحث سريع في قائمة المنتجات"
+          type='text'
+          id='search'
+          placeholder='اكتبي اسم المنتج للبحث...'
+          onChange={handleSearchChanged}
+          value={searchTerm}
+        />
+      </div>
       <Table products={visibleProducts} />
     </StyledAdd>
   )

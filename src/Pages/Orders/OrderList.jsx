@@ -17,73 +17,91 @@ const OrderList = () => {
     orders: '',
     show: false
   })
+
   const handlePillShow = (orders) => {
     setBill({
       orders,
       show: true
     })
   } 
-  // filter the list depend on userId 
-  const userOrders = orders.filter(order=>order.userId === user.id) 
+
+  const userOrders = orders.filter(order => order.userId === user?.id) 
 
   useEffect(() => {
     dispatch(setOrders({ axiosPrivate })) 
   }, [dispatch, axiosPrivate])
+
   return (
-    <StayledOrdersTable >
-      <thead>
-        <tr>
-          <th className='id'>المعرف</th>
-          <th >الطلبات</th>
-          <th className='address'>العنوان</th>
-          <th >السعر</th> 
-          <th >التاريخ</th>
-          <th >الحالة</th>
-          <th>الغاء</th>
-        </tr>
-      </thead>
-      {
-        orders.length ?
-          <tbody>
-            {
-              userOrders?.map(order => (
-                <tr key={order.id}>
-                  <td className='id'>{order?.id}</td>
-                  <td style={{ cursor: 'pointer' }} onClick={() => handlePillShow(order?.orders)}>عرض الفاتورة</td>
-                  <td className='address'>{order?.location}</td>
-                  <td >{order?.totalCost}</td> 
-                  <td >{dateFormater(order?.createdAt)}</td>
-                    <td>
-                      {order?.status == true ? 'مكتمل':'تحت التجهيز...'}
-                    </td>
-                  <td>
-                    <button className={`delete ${order?.status == true ? 'disabled' : ''}`}
-                      disabled={order?.status == true}
-                      onClick={() => {  
+    <StayledOrdersTable>
+      <table>
+        <thead>
+          <tr>
+            <th className='id'>رقم الطلب</th>
+            <th>تفاصيل المنتجات</th>
+            <th className='address'>عنوان التوصيل</th>
+            <th>إجمالي التكلفة</th> 
+            <th>تاريخ الطلب</th>
+            <th>حالة الطلب</th>
+            <th>إلغاء الطلب</th>
+          </tr>
+        </thead>
+        <tbody>
+          {userOrders?.length ? (
+            userOrders.map(order => (
+              <tr key={order.id}>
+                <td className='id'><strong>#{order?.id}</strong></td>
+                <td>
+                  <button 
+                    type="button" 
+                    className="update"
+                    onClick={() => handlePillShow(order?.orders)}
+                  >
+                    🧾 عرض الفاتورة
+                  </button>
+                </td>
+                <td className='address'>{order?.location || 'قطاع غزة'}</td>
+                <td><strong style={{ color: '#059669' }}>{order?.totalCost} ₪</strong></td> 
+                <td style={{ fontSize: '0.82rem', direction: 'ltr', textAlign: 'right' }}>
+                  {dateFormater(order?.createdAt)}
+                </td>
+                <td>
+                  <span className={`statusBadge ${order?.status ? 'published' : 'unpublished'}`}>
+                    {order?.status ? '● مكتمل ومسلّم' : '○ قيد التجهيز'}
+                  </span>
+                </td>
+                <td>
+                  <button 
+                    type="button"
+                    className={`delete ${order?.status ? 'disabled' : ''}`}
+                    disabled={order?.status}
+                    onClick={() => {  
+                      if (window.confirm('هل أنتِ متأكدة من إلغاء هذا الطلب؟')) {
                         dispatch(cancelOrder({ orderId: order.id, axiosPrivate }))
-                      }}>
-                      الغاء
-                    </button>
-                  </td> 
-                </tr>
-              ))
-            }
-          </tbody>
-          :
-          <tbody>
+                      }
+                    }}
+                  >
+                    {order?.status ? 'لا يمكن الإلغاء' : 'إلغاء الطلب'}
+                  </button>
+                </td> 
+              </tr>
+            ))
+          ) : (
             <tr>
-              لا يوجد طلبات
+              <td colSpan="7" style={{ textAlign: 'center', padding: '30px', color: '#94a3b8' }}>
+                لا توجد طلبات سابقة لكِ حتى الآن
+              </td>
             </tr>
-          </tbody>
-      }
-      {
-        bill.show &&
+          )}
+        </tbody>
+      </table>
+
+      {bill.show && (
         <PortalCard onClick={() => setBill(prev => ({ ...prev, show: !bill.show }))}>
           <Bill orders={bill?.orders} />
         </PortalCard>
-      }
+      )}
     </StayledOrdersTable>
   )
 }
 
-export default OrderList 
+export default OrderList
