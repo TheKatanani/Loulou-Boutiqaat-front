@@ -5,6 +5,7 @@ import { addNewUser, handleInputChangeReducer, selectAddUserState, selectError, 
 import { MOOD, ROLES } from '../../../Actions/index.js'
 import { handleCheckBoxChange } from '../../../redux/reducers/users.js'
 import useAxiosPrivate from '../../../Hook/useAxiosPrivet.js'
+import toast from 'react-hot-toast'
 
 const Form = () => {
   const formData = useSelector(selectAddUserState);
@@ -13,21 +14,21 @@ const Form = () => {
   const axiosPrivate = useAxiosPrivate()
   const mood = useSelector(selectMood);
   const dispatch = useDispatch()
-  // // // // // // // // /// // // // // // // // // /// // // // // // // // // /// 
+
   const handleInputChangeFunc = (event) => {
     const { id, value } = event.target;
     dispatch(handleInputChangeReducer({ id, value }));
   };
-  // // // // // // // // /// // // // // // // // // /// // // // // // // // // /// 
+
   const handleCheckBoxChangeFunc = (e) => dispatch(handleCheckBoxChange({ id: e.target.id, checked: e.target.checked }));
-  // // // // // // // // /// // // // // // // // // /// // // // // // // // // /// 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     dispatch(setStatusLoading());
     dispatch(setError({ errors: {} }));
     const user = {
       name: formData.name,
-      phone: formData.selectPhone + formData.phone,
+      phone: (formData.selectPhone || '+972') + (formData.phone || ''),
       gender: formData.gender,
       barthDay: formData.barthDay,
       roles: {
@@ -37,15 +38,23 @@ const Form = () => {
     try {
       if (mood === MOOD.ADD) {
         await validationSchema.validate(formData, { abortEarly: false });
-        dispatch(addNewUser({ user: { ...user, password: formData.password }, axiosPrivate }))
+        const res = await dispatch(addNewUser({ user: { ...user, password: formData.password }, axiosPrivate }));
+        if (res.meta.requestStatus === 'fulfilled') {
+          toast.success(`تمت إضافة المستخدم ${user.name} بنجاح! 🎉`);
+        } else if (res.payload?.message) {
+          toast.error(res.payload.message);
+        }
       } else {
-        // check if user have a new pass must validate the password inputs
         if (formData.password) {
           await validationSchema.validate(formData, { abortEarly: false });
           user.password = formData.password
-        } else
+        } else {
           await validationSchemaUpdateAdmain.validate(formData, { abortEarly: false });
-        dispatch(updateUser({ user: { ...user, id: formData.id }, axiosPrivate }))
+        }
+        const res = await dispatch(updateUser({ user: { ...user, id: formData.id }, axiosPrivate }));
+        if (res.meta.requestStatus === 'fulfilled') {
+          toast.success(`تم تحديث بيانات المستخدم ${user.name} بنجاح! ✨`);
+        }
       }
     } catch (e) {
       const errors = e.inner?.reduce((acc, { path, message }) => {

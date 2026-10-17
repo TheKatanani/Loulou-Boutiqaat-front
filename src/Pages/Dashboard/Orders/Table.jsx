@@ -66,7 +66,7 @@ const Table = ({ orders, handlePillShow, handleUserShow, bill, setBill, userStat
                   </span>
                 </td>
                 <td style={{ fontSize: '0.82rem', direction: 'ltr', textAlign: 'right' }}>
-                  {dateFormater(order?.createdAt)}
+                  {order?.createdAt ? dateFormater(order.createdAt) : '-'}
                 </td>
                 <td>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 6, justifyContent: 'center' }}>

@@ -11,7 +11,7 @@ const User = ({ userId }) => {
   const axiosPrivate = useAxiosPrivate()
 
   useEffect(() => {
-    dispatch(setUsers(axiosPrivate))
+    dispatch(setUsers({ axiosPrivate }))
   }, [axiosPrivate, dispatch])
 
   return (
