@@ -11,6 +11,7 @@ import { resetState } from '../../redux/reducers/cart';
 import { resetState as resetSavedState } from '../../redux/reducers/saved';
 import { ROLES } from '../../Actions';
 import { Link } from 'react-router-dom';
+import toast from 'react-hot-toast';
 const Toggle = () => {
   const [theme, setTheme] = useContext(ThemeContext);
   const isAuthenticated = useSelector(SelectIsAuthenticated)
@@ -29,6 +30,7 @@ const Toggle = () => {
         // to delete all user date from cart and saved
         dispath(resetState())
         dispath(resetSavedState())
+        toast.success('تم تسجيل الخروج بنجاح')
       }}>تسجيل خروج</MainButton>}
       {
         (user?.role === ROLES.EDITOR || user?.role === ROLES.ADMIN) &&

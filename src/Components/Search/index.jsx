@@ -53,7 +53,7 @@ function SearchComponent({ isOnChangeRequest = false }) {
     <StyleSearch className="searchBox"{...{ isOnChangeRequest }} onSubmit={handelSubmit}>
       <input
         type="text"
-        placeholder="بحث"
+        placeholder="ابحثي عن العطور، مستحضرات التجميل، العناية بالبشرة..."
         value={searchTerm}
         onChange={(e) => handleSearch(e.target.value)}
         onKeyDown={handleEnterKeyDown}

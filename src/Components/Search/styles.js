@@ -20,64 +20,80 @@ export const StyleSearch = styled.form `
     left:0;
     right: 0;
     height: auto;
-    background-color:${props=>props.theme.palette.page} ;
-    border: 2px solid ${props=>props.theme.palette.ColorApp.primary};
-    border-radius: 6px;
+    background-color:${props=>props.theme.palette.main} ;
+    border: 1px solid ${props=>props.theme.palette.ColorApp.primary_light};
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
     li{
-      padding:10px;
+      padding:12px 16px;
       color: ${props=>props.theme.palette.font};
       cursor: pointer;
-      transition-property: background-color;
-      transition-timing-function: 0.3s;
+      transition: background-color 0.2s ease;
+      font-weight: 500;
       :hover{
-        background-color:${props=>props.theme.palette.ColorApp.primary_light} ;
+        background-color:${props=>props.theme.palette.ColorApp.primary_light}33 ;
+        color: ${props=>props.theme.palette.ColorApp.primary};
       }
     }
   }
 input[type="text"] {
-  width:421px;
-  padding: 0.5em;
-  border-top-right-radius: 4px;
-  border-bottom-right-radius: 4px;
-  border: 2px solid ${props=>props.theme.palette.ColorApp.primary};
+  width: 420px;
+  padding: 0.6em 1.2em;
+  border-top-right-radius: 25px;
+  border-bottom-right-radius: 25px;
+  border: 1.5px solid ${props=>props.theme.palette.ColorApp.gray_300};
   @media (min-width: 576px) {
     border-left: none;
   }
-  color:${props=>props.theme.palette.ColorApp.gray_800};
-  background-color:${props=>props.theme.palette.page};
+  color: ${props=>props.theme.palette.font};
+  background-color: ${props=>props.theme.palette.main};
+  transition: all 0.25s ease;
+  font-size: 0.95rem;
+  &:focus {
+    border-color: ${props=>props.theme.palette.ColorApp.primary};
+  }
 }
 
 select {
-  padding: 0.5em;
-  border: 2px solid ${props=>props.theme.palette.ColorApp.primary};
-  color:  ${props=>props.theme.palette.ColorApp.gray_800};
-  background-color:${props=>props.theme.palette.page};
-  border-top-left-radius: 4px;
-  border-bottom-left-radius: 4px;
+  padding: 0.6em 1em;
+  border: 1.5px solid ${props=>props.theme.palette.ColorApp.gray_300};
+  color: ${props=>props.theme.palette.ColorApp.gray_600};
+  background-color: ${props=>props.theme.palette.main};
+  border-top-left-radius: 25px;
+  border-bottom-left-radius: 25px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  &:focus {
+    border-color: ${props=>props.theme.palette.ColorApp.primary};
+  }
 }
 
 button {
-  padding: 0.5em 1em;
-  border-top-left-radius: 4px;
-  border-bottom-left-radius: 4px;
-  background:${props=>props.theme.palette.ColorApp.primary};
-  border: 2px solid ${props=>props.theme.palette.ColorApp.primary};
+  padding: 0.6em 1.4em;
+  border-top-left-radius: 25px;
+  border-bottom-left-radius: 25px;
+  background: ${props=>props.theme.palette.ColorApp.primary};
+  border: 1.5px solid ${props=>props.theme.palette.ColorApp.primary};
   color: ${props=>props.theme.palette.ColorApp.white};
   cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
 }
 
 button:hover {
-  opacity:0.8;
+  background: ${props=>props.theme.palette.ColorApp.primary_light};
 }
 
 ${({theme})=>theme.media.xs}{
   input[type="text"] {
-    width:92vw;
-    border-radius:4px;
-    border-color:${props=>props.theme.palette.ColorApp.gray_500};
+    width: 90vw;
+    border-radius: 25px;
+    border-color: ${props=>props.theme.palette.ColorApp.gray_300};
   }
   select{
-    display:none;
+    display: none;
   }
 }
 button {

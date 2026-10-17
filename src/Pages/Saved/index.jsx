@@ -18,8 +18,8 @@ const Saved = () => {
   )
     :
     <>
-      <p className="noItems">لا يوجدعناصر مفضلة :)</p>
-      <Link to={'/home/الاقسام'}>عرض المنتجات👀</Link>
+      <p className="noItems">لا توجد عناصر في قائمة المفضلة حالياً</p>
+      <Link to={'/home/categories'}>تصفح المنتجات الآن ✨</Link>
     </>
 
   return (

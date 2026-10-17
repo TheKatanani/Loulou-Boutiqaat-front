@@ -52,11 +52,10 @@ const Cart = () => {
                 navigate('/home')
               }} link={{
                 path: `https://wa.me/00970597229340`,
-                message: 'تواصل معنا لاستلم طلبك',
+                message: 'تواصل معنا لاستلام طلبك',
                 target: '_blank'
-                // message: 'click here to contact us on whats app to give you your order'
               }}
-                message={`تهانيتا🌸, الطلب ارسل بنجاح  🚀`} />
+                message={`تهانينا🌸، تم إرسال الطلب بنجاح 🚀`} />
             </ErrorBoundary>
           }
         </div>

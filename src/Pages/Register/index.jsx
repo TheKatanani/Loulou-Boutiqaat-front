@@ -6,6 +6,7 @@ import { handleCheckBoxChange, handleInputChange, handleRegister, selectError, s
 import Form from '../../Components/views/forms/Register';
 import { useEffect } from 'react';
 import Copy from '../../Components/UI/Copy';
+import toast from 'react-hot-toast';
 
 function Register() {
     const formData = useSelector(selectFormData);
@@ -22,7 +23,12 @@ function Register() {
     // // // // // // // // /// // // // // // // // // /// // // // // // // // // /// 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        dispatch(handleRegister({ formData })) 
+        const res = await dispatch(handleRegister({ formData }));
+        if (res.payload?.data?.accessToken) {
+            toast.success(`تم إنشاء حسابك بنجاح! أهلاً بك ${res.payload?.data?.user?.name || ''}`);
+        } else if (res.payload?.errors?.message) {
+            toast.error(res.payload?.errors?.message);
+        }
     };
     useEffect(() => {
         // to set idle as an initail status

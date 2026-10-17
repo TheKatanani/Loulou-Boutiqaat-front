@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-import { Categories, ContactUs, Favorites, Home, MyCart, MyOrders, Order, Profile } from "../../Icons"
+import { Categories, ContactUs, Favorites, Home, MyCart, Order, Profile } from "../../Icons"
 import Toggle from "../Toggle"
 import { MenuStyled } from "./styeld"
 import Logo from "../Logo"
@@ -19,6 +19,9 @@ const Menu = ({ show }) => {
     if (status !== STATUS.SUCCEEDED) {
         return <LogoLoading />
     }
+    const rawWa = Array.isArray(social) ? social.find(el => el?.name?.toLowerCase() === 'whatsapp')?.value : '972597229340';
+    const waLink = rawWa && rawWa.startsWith('http') ? rawWa : `https://wa.me/${(rawWa || '972597229340').replace(/[^0-9]/g, '')}`;
+
     return (
         <MenuStyled  {...{ show }} productLength={quantity}>
             <header>
@@ -63,7 +66,7 @@ const Menu = ({ show }) => {
                 </li>
                 <li>
                     {/* contact us WhatsApp */}
-                    <Link to={`https://wa.me/${social?.find(el => el?.name === 'whatsApp')?.value || ''}`} target="_blank">
+                    <Link to={waLink} target="_blank" rel="noopener noreferrer">
                         <div className="iconArea"><ContactUs /></div>
                         <p>تواصل معنا</p>
                     </Link>

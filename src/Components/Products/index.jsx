@@ -1,24 +1,18 @@
 import { useSelector } from 'react-redux'
 import { STATUS } from '../../Actions'  
 // import SliderControl from '../SliderControl'
-import LogoLoading from '../common/LogoLoading'
+import ProductSkeleton from '../common/ProductSkeleton'
 import { ProductsStyled } from './styled'
 import  { selectSearchResults, selectStatus } from '../../redux/reducers/search'
 import ProductCard from '../ProductCard'
 
 const Products = ({isFull}) => {
     const { data } = useSelector(selectSearchResults) 
-  const   status   = useSelector(selectStatus) 
-    // try to make it work with the slider control
-    // const myData=()=>{
-    //     if(isFull){
-    //         return products.slice(0,6);
-    //     }
-    //     return products.slice(0,9);
-    // }
+    const status = useSelector(selectStatus) 
+    
     if (status === STATUS.LOADING) {
-        return <LogoLoading />
-      } 
+        return <ProductSkeleton count={isFull ? 6 : 9} />
+    } 
   return (
     <ProductsStyled full={isFull}>
         <div className="content2">

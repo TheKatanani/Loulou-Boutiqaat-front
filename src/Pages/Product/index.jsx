@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import ImageSlider from '../../Components/ImageSlider'
 import { images as localImages } from '../../Mock/sliderImages'
-import { Container, Info } from '../../Global/components'
+import { Container } from '../../Global/components'
 import Rating from '../../Components/Rating'
 import AddToCartButton from '../../Components/AddToCartButton'
 import SavedButton from '../../Components/SavedButton'
@@ -17,48 +17,91 @@ const Product = () => {
   const dispatch = useDispatch()
   const products = useSelector(selectPublishedProducts)
   const status = useSelector(selectStatus)
-  const isFull = true;
-  const currentProduct = products?.find((el) => el.id == productId)
-  const { id, description, stars = '4', name, price, prevPrice, images } = currentProduct
 
   useEffect(() => {
-    !products.length &&
+    if (!products.length) {
       dispatch(setProducts())
+    }
   }, [dispatch, products])
-  if (status === STATUS.LOADING) {
-    return <LogoLoading />
+
+  const currentProduct = products?.find((el) => el.id == productId)
+
+  if (status === STATUS.LOADING || !currentProduct) {
+    return (
+      <Container>
+        <div style={{ padding: '160px 0', textAlign: 'center' }}>
+          <LogoLoading />
+        </div>
+      </Container>
+    )
   }
+
+  const { id, description, stars = '5', name, price, prevPrice, images } = currentProduct
+  const hasDiscount = prevPrice > price
+  const discount = hasDiscount ? Math.round(((prevPrice - price) / prevPrice) * 100) : 0
+
   return (
-    <>
-      {
-        <Container>
-          <StyledProductPage >
-            <div className="card">
-              <div className="img">
-                <ImageSlider images={!!images.length ? images : localImages} />
+    <Container>
+      <StyledProductPage>
+        <div className="breadcrumb">
+          <Link to="/home">الرئيسية</Link>
+          <span>/</span>
+          <Link to="/home/categories">الأقسام</Link>
+          <span>/</span>
+          <span className="activeItem">{name}</span>
+        </div>
+
+        <div className="card">
+          <div className="img">
+            {discount > 0 && <span className="discountTag">خصم {discount}%</span>}
+            <ImageSlider images={images?.length ? images : localImages} />
+          </div>
+          <div className="content">
+            <h1 className="title">{name}</h1>
+            <div className="ratingSection">
+              <Rating num={stars} />
+              <span className="ratingText">تقييم ممتاز (5/5)</span>
+            </div>
+
+            <div className="priceContainer">
+              <span className="mainPrice">{price} ₪</span>
+              {prevPrice > 0 && <span className="prevCost">{prevPrice} ₪</span>}
+              {discount > 0 && <span className="savingText">وفرتِ {prevPrice - price} ₪</span>}
+            </div>
+
+            <div className="descriptionBox">
+              <h4>وصف المنتج:</h4>
+              <p className="description">{description}</p>
+            </div>
+
+            <div className="actionsRow">
+              <div className="cartBtnWrapper">
+                <AddToCartButton id={id} />
+                <span className="btnLabel">إضافة إلى سلة المشتريات</span>
               </div>
-              <div className="content">
-                <h2 className="title">{name}</h2>
-                <p className="price">{price}₪
-                  {
-                    prevPrice > 0 &&
-                    <span className="prevCost">{prevPrice}₪</span>
-                  }
-                </p>
-                <Info>
-                  <div className="rating"><Rating num={stars} /></div>
-                </Info>
-                {isFull && <pre className="description">{description}</pre>}
-                <div className="icons">
-                  <AddToCartButton  {...{ id }} />
-                  <SavedButton {...{ id }} />
-                </div>
+              <div className="saveBtnWrapper">
+                <SavedButton id={id} />
               </div>
             </div>
-          </StyledProductPage>
-        </Container>
-      }
-    </>
+
+            <div className="trustPerks">
+              <div className="perk">
+                <span>💎</span>
+                <p>منتج أصلي 100% ومضمون</p>
+              </div>
+              <div className="perk">
+                <span>🚚</span>
+                <p>توصيل فوري وتغليف آمن</p>
+              </div>
+              <div className="perk">
+                <span>🛡️</span>
+                <p>ضمان الجودة وخدمة عملاء 24/7</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </StyledProductPage>
+    </Container>
   )
 }
 

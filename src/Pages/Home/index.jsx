@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import Hero from '../../Components/views/Hero';
+import Features from '../../Components/views/Features';
 import Categories from '../../Components/views/Categories';
 import TransitionOne from '../../Components/UI/TansitionOne';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectPublishedCategoryies } from '../../redux/reducers/categories';
 import { setStatusIdle } from '../../redux/reducers/orders';
-import { useRef } from 'react';
 
 const Home = () => {
   const elementRefs = {
@@ -20,10 +20,11 @@ const Home = () => {
   return (
     <>
       <Hero {...{ elementRefs }} />
+      <Features />
       {
         !!categories.length &&
         <>
-          <TransitionOne {...{ elementRefs }} card="two" title="الأقسام" />
+          <TransitionOne {...{ elementRefs }} title="تسوقي حسب الأقسام" />
           <Categories />
         </>
       }

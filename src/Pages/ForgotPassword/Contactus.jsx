@@ -16,7 +16,8 @@ const Contactus = () => {
   if (status !== STATUS.SUCCEEDED || !social) {
     return <LogoLoading />
   }
-  const phone = social?.find(el => el?.name === 'whatsApp')?.value || ''
+  const rawPhone = Array.isArray(social) ? (social.find(el => el?.name?.toLowerCase() === 'whatsapp')?.value || '972597229340') : '972597229340';
+  const phone = rawPhone.replace(/[^0-9]/g, '');
   return (
     <StyledContactus>
       <Container className='container'>

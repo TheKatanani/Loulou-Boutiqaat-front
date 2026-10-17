@@ -8,12 +8,13 @@ export const MyCartStyled =styled.div`
         margin:10px 0;
     }
     .container{
-        padding:20px;
-        background-color:${props=>props.theme.palette.main};
-        border: 1px solid ${props=> props.theme.palette.ColorApp.gray_300};
-        border-radius: 6px;
+        padding: 24px;
+        background-color: ${props=>props.theme.palette.main};
+        border: 1px solid ${props=> props.theme.palette.ColorApp.gray_200};
+        border-radius: 20px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
         .items> div:not(:last-child){
-            border-bottom: 1px solid ${props=> props.theme.palette.ColorApp.gray_300};
+            border-bottom: 1px solid ${props=> props.theme.palette.ColorApp.gray_200};
     }
     .items{
         height:490px;

@@ -40,7 +40,7 @@ export const MenuStyled = styled.div`
             >div{
                 position:unset;
                 background-color:${(props) => props.theme.palette.ColorApp.gray_200}; 
-                display: flex;
+                display: flex !important;
                 width:100%;
                 justify-content:space-between;
                 align-items: center;

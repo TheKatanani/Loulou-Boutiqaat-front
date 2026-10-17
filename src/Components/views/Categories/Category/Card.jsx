@@ -6,10 +6,13 @@ import ImagesSliderCard from "../../../common/ImagesSliderCard"
 import Rating from "../../../Rating"
 
 const Card = ({ data: { id, description, stars, images, name, price, prevPrice }, display, index }) => {
+    const hasDiscount = prevPrice > price;
+    const discount = hasDiscount ? Math.round(((prevPrice - price) / prevPrice) * 100) : 0;
     return (
         <>
             {
                 <StyeldCard {...{ display, index }}>
+                    {discount > 0 && <span className="discountBadge">خصم {discount}%</span>}
                     <ImagesSliderCard images={images} />
                     <div className="content">
                         <p className="price">{price}₪

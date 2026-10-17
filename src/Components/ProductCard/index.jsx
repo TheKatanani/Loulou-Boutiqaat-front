@@ -6,8 +6,12 @@ import AddToCartButton from '../AddToCartButton'
 import SavedButton from '../SavedButton'
 import ImagesSliderCard from '../common/ImagesSliderCard'
 const ProductCard = ({ data: { id, description, images, name, price, prevPrice, stars }, isFull }) => {
+    const hasDiscount = prevPrice > price;
+    const discount = hasDiscount ? Math.round(((prevPrice - price) / prevPrice) * 100) : 0;
+
     return (
         <ProductCardStyeld full={isFull} >
+            {discount > 0 && <span className="discountBadge">خصم {discount}%</span>}
             <ImagesSliderCard images={images} />
             <div className="content">
                 <p className="price">{price}₪

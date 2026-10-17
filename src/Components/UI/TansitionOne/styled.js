@@ -1,165 +1,159 @@
 import styled from "styled-components";
 
-export const StyledTransactionOne = styled.div `
-  background-color: ${props=>props.theme.palette.main};
-  padding: 60px 0;
-  min-height: calc(100vh - 113px);
-${({card,theme})=>(
-  card==='one'?`
-`:`
-background - color: $ {
-  $ {
-    theme.palette.main
-  }
-};
-`
-)}
-.two{
-  display:flex;
-  justify-content: center;
-  align-items: center; 
-  overflow:auto;
-}
-.one{
-  display: grid;
-  grid-template-columns: repeat(3,auto);
-}
-.one,.two{
-  gap: 10px;
-  margin: 30px;
-  padding: 30px 0;
-  ${({theme:{media}})=>media.xs}{
-    gap:5px;
+export const StyledTransactionOne = styled.section`
+  padding: 50px 0 20px 0;
+  direction: rtl;
+
+  .sectionHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 28px;
     flex-wrap: wrap;
-    } 
-}
-`
-export const StyledCard = styled.a `
-  text-decoration: none;
-  color: #fff; 
-  overflow: hidden;
-  position:relative;
-  padding: 20px; 
-  border-radius: 8px;
-  border:1px solid;
-  cursor: pointer;
-  transition: 0.4s;
-  box-shadow: 5px 5px 10px   ${props=>props.theme.palette.ColorApp.gray_300};
-  header{
-    margin-top: 20px;
-    padding: 15px;
-    transform: translateY(-1rem);
-    h3{
-      padding: 10px 0;
+    gap: 16px;
+
+    .titleBox {
+      .badge {
+        display: inline-block;
+        font-size: 0.8rem;
+        font-weight: 700;
+        color: ${({ theme }) => theme.palette.ColorApp.primary};
+        background: ${({ theme }) => theme.palette.ColorApp.primary_soft};
+        padding: 4px 12px;
+        border-radius: 20px;
+        margin-bottom: 8px;
+        border: 1px solid ${({ theme }) => theme.palette.ColorApp.primary_light}33;
+      }
+
+      h2 {
+        font-size: 2rem;
+        font-weight: 800;
+        color: ${({ theme }) => theme.palette.font};
+        margin: 0;
+      }
     }
-  } 
-footer{
-  padding: 20px;
-  margin-top: 30px;
-  display: flex;
-  justify-content: space-between;
-  transform: translateY(1rem);
-  width: 100%;
-    a{
-      color:${props=>props.theme.palette.ColorApp.primary_light}; 
-    }
-    .arrow{
-      background-color: #00a6ed; 
-      border:1px solid  #00a6ed;
-      transform: translatex(-3rem)  rotate(180deg);
-      transition: .4s ease-in-out 0.4s;
-      border-radius: 50%;
-      width: 20px;
-      height: 20px;
-      cursor: pointer;
-      animation: arrow 1s infinite ease-in-out .4s forwards;
-    }
-    @keyframes arrow {
-      0%{
-      transform:translateX(0rem)
-    }
-      50%{
-      transform:translateX(.8rem)
-    }
-      80%{
-      transform:translateX(1rem)
-    }
+
+    .allCategoriesLink {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: ${({ theme }) => theme.palette.ColorApp.primary};
+      transition: all 0.2s ease;
+
+      &:hover {
+        transform: translateX(-4px);
+        color: ${({ theme }) => theme.palette.ColorApp.primary_light};
+      }
     }
   }
-  img{
-    z-index: 1;
-    object-fit: cover;
+
+  .categoryShowcaseGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+
+    @media (max-width: 576px) {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+  }
+`;
+
+export const StyledCard = styled.div`
+  position: relative;
+  height: 270px;
+  border-radius: 20px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 22px;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  border: 1px solid ${({ theme }) => theme.palette.ColorApp.gray_200};
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+
+  img {
     position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
-    inset: 0;
-    transform: scale(1.2);
-    transition:transform 0.4s ease-out;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
   }
-  >div{
-      position: relative;
-      z-index: 3;
-    }
-  header,footer{
-    opacity: 0;
-    visibility: hidden;
-    transition: .4s ease-in-out ;
-  }
-  ::before{
-    content:'';
+
+  .cardOverlay {
     position: absolute;
-    inset:0;
-    background: linear-gradient(360deg,#000,#555);
-    opacity:0;
-    transition: 0.4s ease-in-out;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.1) 0%, rgba(15, 23, 42, 0.88) 100%);
+    transition: opacity 0.3s ease;
+  }
+
+  .cardContent {
+    position: relative;
     z-index: 2;
-  } 
-    
-  width:100px;
-  height:300px;
+    direction: rtl;
 
-  &.active{
-    min-width: 220px;
-  }  
-  &.active , :hover{
-    width: 300px;
-  }  
-  &.active , :hover{
-  .arrow {
-    transform: translatex(0rem);
-  }
-  } 
-  &.active , :hover{
-    ::before {
-      opacity: 0.75;
-    }
-  } >
-  div { 
+    .categoryPill {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      padding: 3px 10px;
+      border-radius: 20px;
+      margin-bottom: 8px;
     }
 
-  header,footer{
+    h3 {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 4px;
+    }
 
-    opacity: 0;
+    p {
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.8);
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
 
-    visibility: hidden;
-
-    transition: .4s ease-in-out ;
-
+    .discoverLink {
+      font-size: 0.86rem;
+      font-weight: 700;
+      color: #facc15;
+      transition: transform 0.2s ease;
+      display: inline-block;
+    }
   }
 
-  &.active , :hover{
+  &:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.16);
 
-    header,
+    img {
+      transform: scale(1.08);
+    }
 
-  footer{
-
-    transform: translateY(0);
-
-    opacity: 1;
-
-    visibility: visible;
-
+    .discoverLink {
+      transform: translateX(-4px);
+    }
   }
 
-  }   
-`
+  @media (max-width: 576px) {
+    height: 220px;
+    padding: 14px;
+
+    .cardContent {
+      h3 {
+        font-size: 1.05rem;
+      }
+      p {
+        display: none;
+      }
+    }
+  }
+`;

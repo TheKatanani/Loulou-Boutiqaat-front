@@ -1,70 +1,108 @@
-# Getting Started with Create React App
+# 🛍️ Loulou Boutiqaat - Frontend (متجر لولو بوتيكات)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+[![React](https://img.shields.io/badge/React-18.2.0-61DAFB?logo=react&logoColor=black)](https://react.js.org/)
+[![Redux Toolkit](https://img.shields.io/badge/Redux%20Toolkit-1.9.3-764ABC?logo=redux&logoColor=white)](https://redux-toolkit.js.org/)
+[![Styled Components](https://img.shields.io/badge/Styled--Components-5.3.6-DB7093?logo=styled-components&logoColor=white)](https://styled-components.com/)
+[![React Router](https://img.shields.io/badge/React%20Router-v6.8.0-CA4245?logo=react-router&logoColor=white)](https://reactrouter.com/)
+[![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?logo=docker&logoColor=white)](https://www.docker.com/)
 
-## Available Scripts
+منصة تجارة إلكترونية عصرية وفاخرة متخصصة في مستحضرات التجميل، العطور، الأزياء، والإكسسوارات. تم بناء واجهة المستخدم باستخدام **React 18** و **Redux Toolkit** مع تصميم تفاعلي يدعم اللغة العربية (RTL) والوضع الليلي/النهاري، ومجهزة بنظام حماية الصلاحيات وسلة مشتريات ذكية للمستخدمين والزوار.
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## ✨ المميزات الرئيسية (Key Features)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- 🎨 **تصميم عصري متجاوب (Responsive & RTL-first)**: تجربة مستخدم سلسة على جميع الأجهزة (موبايل، تابلت، حاسوب).
+- 🌓 **دعم الوضع الليلي والنهاري (Dark / Light Theme)**: إمكانية التبديل مع حفظ التفضيل محلياً.
+- 🔐 **نظام تسجيل دخول ومصادقة متقدم (Authentication & RBAC)**:
+  - دعم التحقق عبر الهاتف و OTP باستخدام Firebase.
+  - إدارة الجلسات عبر JWT Access Tokens و Refresh Tokens في ملفات تعريف ارتباط آمنة (HttpOnly Cookies).
+  - توجيه محمي بالصلاحيات (Admin, Editor, Customer).
+- 🛒 **سلة مشتريات ذكية (Guest Cart & DB Sync)**:
+  - إمكانية إضافة المنتجات للسلة والعمل كزائر دون تسجيل دخول.
+  - مزامنة تلقائية فورية لسلة الزائر مع قاعدة البيانات بمجرد تسجيل الدخول.
+- 💖 **قائمة المفضلة (Wishlist / Saved Items)**: حفظ المنتجات المفضلة مع مزامنة سحابية.
+- 🔍 **بحث وفلترة فورية**: استعراض المنتجات وتصنيفها حسب الأقسام، السعر، والتطابق النصي.
+- 📊 **لوحة تحكم إدارية متكاملة (Admin & Editor Dashboard)**:
+  - إضافة وتعديل وحذف المنتجات والأقسام.
+  - متابعة وإدارة الطلبات وتحديث حالتها.
+  - إدارة المستخدمين وتعديل الصلاحيات (خاص بالمدير).
+  - تحديث روابط التواصل الاجتماعي ومعلومات التواصل.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+---
 
-### `npm test`
+## 🛠️ التقنيات المستخدمة (Tech Stack)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+| المجال | التقنية |
+| :--- | :--- |
+| **المكتبة الأساسية** | React 18 |
+| **إدارة الحالة العامة** | Redux Toolkit & React-Redux |
+| **التنسيق والتصميم** | Styled-Components, CSS3, Modern Theme Provider |
+| **التوجيه (Routing)** | React Router DOM v6 |
+| **التعامل مع الـ API** | Axios (مع Interceptors لتجديد الـ Token تلقائياً) |
+| **التحقق من المدخلات** | Yup Validation Schema |
+| **المصادقة و OTP** | Firebase Authentication |
+| **الحاويات** | Docker & Nginx |
 
-### `npm run build`
+---
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 🚀 التشغيل والتثبيت (Getting Started)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### المتطلبات الأساسية
+- **Node.js** (إصدار 18 فما فوق)
+- **npm** أو **pnpm**
+- تشغيل خادم الباك إند [Loulou-Boutiqaat-backend](../Loulou-Boutiqaat-backend) على المنفذ `3500`.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### 1. إعداد المتغيرات البيئية
+أنشئ ملف `.env` في المسار الرئيسي للواجهة بالاعتماد على `.env.example`:
+```env
+REACT_APP_API=http://localhost:3500
+REACT_APP_API2=http://localhost:3500
 
-### `npm run eject`
+REACT_APP_FIREBASE_API_KEY=your_firebase_api_key
+REACT_APP_FIREBASE_AUTH_DOMAIN=your_firebase_auth_domain
+REACT_APP_FIREBASE_PROJECT_ID=your_firebase_project_id
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### 2. تثبيت الحزم
+```bash
+npm install
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### 3. تشغيل وضع التطوير
+```bash
+npm start
+```
+يفتح التطبيق تلقائياً على [http://localhost:3000](http://localhost:3000).
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### 4. بناء نسخة الإنتاج
+```bash
+npm run build
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+---
 
-## Learn More
+## 🐳 التشغيل باستخدام Docker
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+يمكنك بناء وتشغيل الواجهة عبر حاوية Nginx جاهزة:
+```bash
+docker build -t loulou-front .
+docker run -p 3000:80 loulou-front
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+---
 
-### Code Splitting
+## 🔑 حسابات تجريبية للاختبار (Demo Accounts)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+| الدور (Role) | رقم الهاتف | كلمة المرور | الصلاحيات |
+| :--- | :--- | :--- | :--- |
+| **مدير (Admin)** | `+970590000001` | `Password123!` | وصول كامل للوحة التحكم والمستخدمين |
+| **محرر (Editor)** | `+970590000002` | `Password123!` | إضافة وتعديل المنتجات والأقسام والطلبات |
+| **زبونة (Customer)**| `+970590000003` | `Password123!` | تصفح، سلة الشراء، المفضلة، الطلبات |
 
-### Analyzing the Bundle Size
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## 👨‍💻 المطور (Developer)
 
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- **محمد قطناني (Mohammed Katanani)**
+- GitHub: [@TheKatanani](https://github.com/TheKatanani)

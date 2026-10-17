@@ -1,122 +1,116 @@
 import styled from "styled-components";
 
-export const FooterStyled = styled.div `
-    background-color:${(props) => props.theme.palette.main};
-    color:${(props) => props.theme.palette.font};
-    border-top: 1px solid ${(props) => props.theme.palette.ColorApp.primary_light};
-    a{
-        color:${(props) => props.theme.palette.ColorApp.gray_800};
+export const FooterStyled = styled.footer`
+  background-color: ${({ theme }) => theme.palette.main};
+  color: ${({ theme }) => theme.palette.font};
+  border-top: 1px solid ${({ theme }) => theme.palette.ColorApp.gray_200};
+  padding-top: 40px;
+  direction: rtl;
+
+  .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 40px;
+    padding-bottom: 40px;
+
+    @media (max-width: 992px) {
+      flex-direction: column;
+      gap: 32px;
     }
-    .container{
-        padding: 30px 0;
-        min-height:256px;
-        display: flex;
-        flex-wrap: wrap;
-        align-items:flex-start; 
-        ${({theme:{media}})=>media.xs}{
-            flex-direction:column;
-            justify-content: center;
-            gap:25px;
-            > div{
-                margin:auto;
-                &:not(:first-child){
-                    text-align:center;
-                }
-            }
-        }
-    }
-    .logoBox{
-        direction:ltr;
-        flex: 1;
-        max-width:276px;
-        p{
-            direction:ltr;
-            margin:17px 0;
-            color:${(props) => props.theme.palette.ColorApp.gray_600};
-            font-size:${(props) => props.theme.fontSizes.body}rem;
-        }
-        .icons{
-            display: flex;
-            justify-content:flex-start;
-            align-items:center;
-            gap:7px;
-            a{
-                display: grid;
-                place-content: center;
-                width:40px;
-                height:40px;  
-                border-radius: 50%;
-                background-color:${(props) => props.theme.palette.ColorApp.gray_300};
-                transition: .3s;
-                :hover{
-                    background-color:${(props) => props.theme.palette.ColorApp.gray_400};
-                }
-            }
-            svg{
-                width:20px;
-            } 
-            ${({theme:{media}})=>media.xs}{
-                a{
-                    width:35px;
-                    height:35px;                      
-                }
-                    svg{
-                        width:18px;
-                    } 
-        }}
-    }
-    ul{
-        flex: 1;
-    }
-    >div{
-        display: flex;
-        justify-content:space-between;
-        flex-wrap: wrap;
-    }
-    .store{
-        flex: 1;
-        background-color:${(props) => props.theme.palette.ColorApp.dark};
-        border: 1px solid ${(props) => props.theme.palette.ColorApp.white};
-        border-radius: 6px;
-        margin:8px 0 0;
-        padding:8px 7px;
-    }
-    .uls{
-        flex:0.5;
-        display: grid;
-        grid-template-columns: repeat(auto-fill,130px);
-        flex-wrap: wrap;
-        ${({theme:{media}})=>media.xs}{
-            gap:10px;    
-        }
+  }
+
+  .logoBox {
+    flex: 1.2;
+    max-width: 340px;
+
+    .brandDesc {
+      margin: 14px 0 20px 0;
+      color: ${({ theme }) => theme.palette.ColorApp.gray_600};
+      font-size: 0.92rem;
+      line-height: 1.7;
     }
 
-    ${({theme:{media}})=>`
-${
-    media.xs
+    .icons {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        background-color: ${({ theme }) => theme.palette.page};
+        border: 1px solid ${({ theme }) => theme.palette.ColorApp.gray_200};
+        transition: all 0.25s ease;
+
+        svg {
+          width: 18px;
+          height: 18px;
+        }
+
+        &:hover {
+          background-color: ${({ theme }) => theme.palette.ColorApp.primary};
+          border-color: ${({ theme }) => theme.palette.ColorApp.primary};
+          transform: translateY(-3px);
+          svg path, svg {
+            fill: #ffffff;
+          }
+        }
+      }
     }
-    or(${
-        media.s.split("@media")[1]
-        }
-        and(max - width: 992 px))
-        `}{ 
-            height:unset;
-            >div{
-                display: block;
-                text-align: center;
-            }
-            .uls{
-                grid-template-columns: repeat(2,auto);
-        }
-        .stores{
-            display: flex;
-            .store{
-                padding: 0;
-            }
-        }
-        *{
-            margin:10px auto 0;
-        }
+  }
+
+  .uls {
+    flex: 1.5;
+    display: flex;
+    justify-content: space-around;
+    gap: 30px;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      gap: 20px;
     }
-    
-`
+  }
+
+  .contactColumn {
+    flex: 1;
+    max-width: 300px;
+
+    h4 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: ${({ theme }) => theme.palette.font};
+      margin-bottom: 10px;
+    }
+
+    .contactText {
+      font-size: 0.88rem;
+      color: ${({ theme }) => theme.palette.ColorApp.gray_500};
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+
+    .whatsAppButton {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border-radius: 30px;
+      background: #25d366;
+      color: #ffffff !important;
+      font-weight: 700;
+      font-size: 0.92rem;
+      box-shadow: 0 4px 14px rgba(37, 211, 102, 0.3);
+      transition: all 0.25s ease;
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 22px rgba(37, 211, 102, 0.45);
+      }
+    }
+  }
+`;

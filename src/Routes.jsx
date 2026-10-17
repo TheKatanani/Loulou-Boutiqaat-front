@@ -138,6 +138,18 @@ const MyRoutes = () => {
               </ErrorBoundary>
             } />
           </Route>
+          <Route path="categories">
+            <Route index element={
+              <ErrorBoundary>
+                <Categories />
+              </ErrorBoundary>
+            } />
+            <Route path=":categoryId" element={
+              <ErrorBoundary>
+                <Category />
+              </ErrorBoundary>
+            } />
+          </Route>
           <Route path="products">
             <Route index element={
               <ErrorBoundary>

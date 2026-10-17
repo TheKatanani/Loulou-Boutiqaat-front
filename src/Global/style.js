@@ -3,6 +3,9 @@ import {
 } from 'styled-components';
 
 export const GlobalStyle = createGlobalStyle`
+html {
+  scroll-behavior: smooth;
+}
 * {
   margin: 0;
   padding: 0;
@@ -12,9 +15,11 @@ td {
     overflow: auto;
 }
 body {
-  background: linear-gradient(80deg,${(props) =>  props.theme.palette.main},#843abc);
-  color: ${(props) => props.theme.palette.main};
-  font-family: 'Inter', sans-serif;
+  background-color: ${(props) => props.theme.palette.page};
+  color: ${(props) => props.theme.palette.font};
+  font-family: 'Cairo', 'Tajawal', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   h1,
   h2,
   h3,
@@ -25,25 +30,45 @@ body {
   span,
   li,
   ul,
-  a{
-    direction:rtl;
+  a {
+    direction: rtl;
   }
 }
-a{
-    text-decoration:none;
+input, button, select, textarea {
+  font-family: 'Cairo', 'Tajawal', sans-serif;
 }
-ul{
-  list-style:none;
+/* Modern Luxury Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
 }
-button.disabled,button:disabled{
-  background-color: ${(props) =>  props.theme.palette.ColorApp.gray_100}!important;
-  color: ${(props) =>  props.theme.palette.ColorApp.gray_400}!important;
+::-webkit-scrollbar-track {
+  background: ${(props) => props.theme.palette.main};
+}
+::-webkit-scrollbar-thumb {
+  background: ${(props) => props.theme.palette.ColorApp.primary_light};
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: ${(props) => props.theme.palette.ColorApp.primary};
+}
+
+a {
+    text-decoration: none;
+    transition: all 0.2s ease-in-out;
+}
+ul {
+  list-style: none;
+}
+button.disabled, button:disabled {
+  background-color: ${(props) => props.theme.palette.ColorApp.gray_100}!important;
+  color: ${(props) => props.theme.palette.ColorApp.gray_400}!important;
   cursor: not-allowed !important;
 }
 /* Small */
 @media (max-width: 576px) {   
   html {
-    font-size: 72.5%; /* 62.5% of 16px = 10px */
+    font-size: 72.5%;
   }
 }
 `;

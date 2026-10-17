@@ -17,10 +17,10 @@ import {
   selectsaved
 } from '../../redux/reducers/saved';
 import {
-  SelectIsAuthenticated,
-  selectUser
+  SelectIsAuthenticated
 } from '../../redux/reducers/auth';
 import useAxiosPrivate from '../../Hook/useAxiosPrivet';
+import toast from 'react-hot-toast';
 const SavedButton = ({
   id
 }) => {
@@ -37,21 +37,25 @@ const SavedButton = ({
           productId: id,
           axiosPrivate
         }))
+        toast.success('تمت إضافة المنتج إلى المفضلة ❤️')
       } else {
         dispatch(removeFromSaved({
           productId: id,
           axiosPrivate
         }))
+        toast('تمت إزالة المنتج من المفضلة', { icon: '🤍' })
       }
     } else {
       if (!isInSaved) {
         dispatch(addTosavedLocal({
           productId: id
         }))
+        toast.success('تمت إضافة المنتج إلى المفضلة ❤️')
       } else {
         dispatch(removeFromsavedLocal({
           productId: id
         }))
+        toast('تمت إزالة المنتج من المفضلة', { icon: '🤍' })
       }
     }
   }

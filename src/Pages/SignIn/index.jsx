@@ -14,6 +14,7 @@ import PasswordInput from '../../Components/common/PasswordInput/index.jsx';
 import Copy from '../../Components/UI/Copy/index.jsx';
 import ButtonAnimation from '../../Components/common/ButtonAnimation/index.jsx';
 import { useEffect } from 'react';
+import toast from 'react-hot-toast';
 function SignIn() {
     const formData = useSelector(selectFormData);
     const status = useSelector(selectStatus)
@@ -28,7 +29,12 @@ function SignIn() {
     // // // // // // // // /// // // // // // // // // /// // // // // // // // // ///     // // // // // // // // /// // // // // // // // // /// // // // // // // // // /// 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        dispatch(handleLogin({ formData }))
+        const resultAction = await dispatch(handleLogin({ formData }));
+        if (resultAction.payload?.data?.accessToken) {
+            toast.success(`أهلاً بك مجدداً ${resultAction.payload?.data?.user?.name || ''}!`);
+        } else if (resultAction.payload?.errors?.message) {
+            toast.error(resultAction.payload?.errors?.message);
+        }
     };
     useEffect(() => {
         dispatch(setStatusIdle()) 

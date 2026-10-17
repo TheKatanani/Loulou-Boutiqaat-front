@@ -3,22 +3,21 @@ import { useState } from 'react';
 import { darkTheme, lightTheme } from './Global/theme'
 import { GlobalStyle } from './Global/style';
 import { ThemeContext } from './Context';
-import Toggle from './Components/Toggle';
 import MyRoutes from './Routes'
 import { useDispatch, useSelector } from 'react-redux';
 import { setProducts, setPublishedProducts } from './redux/reducers/products';
 import { setCategories, setPublishedCategories } from './redux/reducers/categories';
-import { SelectIsAuthenticated, handleRefresh, selectUser } from './redux/reducers/auth';
+import { SelectIsAuthenticated, handleRefresh } from './redux/reducers/auth';
 import { setCart, setCartLocal, uploadLocalCart } from './redux/reducers/cart';
 import { setSaved, setSavedLocal, uploadLocalSaved } from './redux/reducers/saved';
 import { setSocial } from './redux/reducers/social';
 import { useEffect } from 'react';
 import useAxiosPrivate from './Hook/useAxiosPrivet';
 import ErrorBoundary from './Components/common/Errorboundary';
+import { Toaster } from 'react-hot-toast';
 function App() {
   const [theme, setTheme] = useState(lightTheme);
   const dispatch = useDispatch()
-  const user = useSelector(selectUser)
   const axiosPrivate = useAxiosPrivate()
   const isAuthenticated = useSelector(SelectIsAuthenticated)
 
@@ -26,14 +25,11 @@ function App() {
     if (isAuthenticated) {
       dispatch(uploadLocalCart({ axiosPrivate }))
       dispatch(uploadLocalSaved({ axiosPrivate }))
-      setTimeout(() => {
-        // this for finish the last requiest then stay up to date with the new data
-      }, 2000);
       dispatch(setCart({ axiosPrivate }))
       dispatch(setSaved({ axiosPrivate }))
     } else {
       dispatch(handleRefresh())
-      // this is for guest user before registeration
+      // this is for guest user before registration
       dispatch(setCartLocal())
       dispatch(setSavedLocal())
     }
@@ -42,13 +38,34 @@ function App() {
     dispatch(setCategories())
     dispatch(setPublishedCategories())
     dispatch(setSocial())
-    setTheme(localStorage.getItem('theme') === 'light' ? darkTheme : lightTheme);//change this fucken line and dont put static values
-  }, [dispatch, user, isAuthenticated, axiosPrivate]);
+    const savedTheme = localStorage.getItem('theme');
+    setTheme(savedTheme === 'dark' ? darkTheme : lightTheme);
+  }, [dispatch, isAuthenticated]);
   return (
     <ThemeProvider theme={theme} page="page4">
       <ThemeContext.Provider value={[theme, setTheme]}>
         <GlobalStyle /> {/* replace it into a css index file */}
-        <Toggle />
+        <Toaster
+          position="bottom-left"
+          toastOptions={{
+            style: {
+              background: theme.palette.main,
+              color: theme.palette.font,
+              fontFamily: "'Cairo', 'Tajawal', sans-serif",
+              fontSize: '14px',
+              borderRadius: '10px',
+              boxShadow: '0 8px 24px rgba(0, 0, 0, 0.12)',
+              border: `1px solid ${theme.palette.ColorApp.gray_300}`,
+              direction: 'rtl',
+            },
+            success: {
+              iconTheme: {
+                primary: theme.palette.ColorApp.primary,
+                secondary: '#fff',
+              },
+            },
+          }}
+        />
         <ErrorBoundary>
           <MyRoutes />
         </ErrorBoundary>
