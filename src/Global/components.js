@@ -3,17 +3,28 @@ import styled from 'styled-components';
 export const Container = styled.div `
     padding: 0;
     margin: 0 auto;
+
+    /* Mobile screens: Global 10px margin for main UI */
+    @media (max-width: 767.9px) {
+        width: calc(100% - 20px);
+        margin: 0 10px;
+        box-sizing: border-box;
+    }
+
 /* Small */
 @media (min-width: 768px) {
     width: min(100%,750px);
+    margin: 0 auto;
 }
 /* Medium */
 @media (min-width: 992px) {
     width: min(100%,970px);
+    margin: 0 auto;
 }
 /* Large */
 @media (min-width: 1200px) {
     width: min(100%,1170px);
+    margin: 0 auto;
 }
 `;
 export const MainButton = styled.button`

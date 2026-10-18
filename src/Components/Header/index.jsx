@@ -49,7 +49,7 @@ const Header = () => {
         <span>✨ توصيل فوري لكافة مناطق قطاع غزة | منتجات أصلية ومضمونة 100% | للطلب والاستفسار عبر واتساب: 0597229340 🛍️</span>
       </div>
       <Container>
-        <div className="mainRow" style={{ padding: "0 15px" }}>
+        <div className="mainRow">
           <div className='logoBox'>
             <div className="menu" onClick={() => setShow(true)}>
               <Menu3 color={theme.palette.font} />
