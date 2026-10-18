@@ -92,7 +92,7 @@ const Menu = ({ show }) => {
                         </Link>
                     </li>
                 }
-                <li><Toggle /></li>
+                <li className="themeToggleWrapper"><Toggle /></li>
             </ul>
         </MenuStyled>
     )

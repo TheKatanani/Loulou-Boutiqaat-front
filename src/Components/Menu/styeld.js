@@ -35,24 +35,17 @@ export const MenuStyled = styled.div`
         ,li:nth-child(7){
             border-bottom: 1px solid ${props=>props.theme.palette.ColorApp.gray_300};
         }
-        li:last-child{
-            padding:15px 5px;
-            >div{
-                position:unset;
-                background-color:${(props) => props.theme.palette.ColorApp.gray_200}; 
-                display: flex !important;
-                width:100%;
-                justify-content:space-between;
-                align-items: center;
-                gap:3px;
-                padding:0;
-                button{ 
-                    border: 1px solid ${props=>props.theme.palette.ColorApp.gray_500};
-                    font-size:12px;
-                    :last-child{
-                        padding:3px 5px;
-                    }
-                }
+        li.themeToggleWrapper {
+            padding: 16px 15px;
+            display: flex;
+            justify-content: center;
+            border-top: 1px solid ${props => props.theme.palette.border};
+            .themeToggleBtn {
+                width: 100%;
+                justify-content: center;
+                padding: 10px 16px;
+                background-color: ${props => props.theme.palette.card};
+                border: 1px solid ${props => props.theme.palette.border};
             }
         }
     }

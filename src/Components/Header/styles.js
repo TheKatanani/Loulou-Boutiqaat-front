@@ -146,14 +146,46 @@ export const StyledHeader = styled.header `
         padding: 4px 0;
     }
 
+    .mobileThemeToggle {
+        display: none;
+        align-items: center;
+        justify-content: center;
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        background: ${(props) => props.theme.palette.card};
+        border: 1px solid ${(props) => props.theme.palette.border};
+        color: ${(props) => props.theme.palette.font};
+        font-size: 1.15rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        outline: none;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+
+        &:active {
+            transform: scale(0.92);
+        }
+    }
+
     /* Small screens / Mobile */
     ${({theme})=>theme.media.xs}{
         .menu {
             display: block;
         }
+        .mobileThemeToggle {
+            display: flex;
+        }
         .mainRow {
-            flex-wrap: wrap;
-            justify-content: space-between;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px !important;
+        }
+        .categoriesPart {
+            padding: 8px 12px 10px 12px;
+            margin: 0 auto;
+            width: 100%;
+            box-sizing: border-box;
         }
         .headerActions {
             .authZone {

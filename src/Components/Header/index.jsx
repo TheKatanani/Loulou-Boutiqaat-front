@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useContext } from 'react'
 import { ThemeContext } from '../../Context'
+import { darkTheme, lightTheme } from '../../Global/theme'
 import { Container } from '../../Global/components'
 import { Menu3 } from '../../Icons'
 import Category from '../Category'
@@ -21,8 +22,19 @@ const Header = () => {
   const [show, setShow] = useState(false)
   const isAuthorized = useSelector(SelectIsAuthenticated)
   const user = useSelector(selectUser)
-  const [theme] = useContext(ThemeContext)
+  const [theme, setTheme] = useContext(ThemeContext)
   const dispatch = useDispatch()
+
+  const toggleTheme = () => {
+    const isLight = theme.theme === 'light';
+    const nextTheme = isLight ? darkTheme : lightTheme;
+    setTheme(nextTheme);
+    try {
+      localStorage.setItem('theme', nextTheme.theme);
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   const onLogout = () => {
     dispatch(handleLogout())
@@ -47,6 +59,15 @@ const Header = () => {
             </Link>
           </div>
           <Search isOnChangeRequest={true} />
+          <button
+            type="button"
+            className="mobileThemeToggle"
+            onClick={toggleTheme}
+            aria-label="تبديل الوضع"
+            title={theme.theme === 'light' ? 'الوضع الليلي' : 'الوضع النهاري'}
+          >
+            <span>{theme.theme === 'light' ? '🌙' : '☀️'}</span>
+          </button>
           <div className="headerActions">
             <Sections />
             <div className="authZone">

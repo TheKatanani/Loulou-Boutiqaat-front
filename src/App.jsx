@@ -18,7 +18,13 @@ import { Toaster } from 'react-hot-toast';
 import FloatingWhatsApp from './Components/common/FloatingWhatsApp';
 
 function App() {
-  const [theme, setTheme] = useState(lightTheme);
+  const [theme, setTheme] = useState(() => {
+    try {
+      return localStorage.getItem('theme') === 'dark' ? darkTheme : lightTheme;
+    } catch (e) {
+      return lightTheme;
+    }
+  });
   const dispatch = useDispatch()
   const axiosPrivate = useAxiosPrivate()
   const isAuthenticated = useSelector(SelectIsAuthenticated)

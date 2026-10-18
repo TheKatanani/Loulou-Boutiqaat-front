@@ -11,6 +11,10 @@ export const StyledImagesSliderCard = styled.div`
   justify-content: center;
   border-radius: 14px 14px 0 0;
   background-color: ${({theme}) => theme.palette.main};
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: ${({ hasMultiple, isDragging }) => hasMultiple ? (isDragging ? 'grabbing' : 'grab') : 'default'};
 
   &.cart {
     height: 110px;
@@ -41,6 +45,10 @@ export const StyledImagesSliderCard = styled.div`
       object-fit: contain;
       border-radius: 8px;
       transition: transform 0.35s ease;
+      pointer-events: none;
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-user-drag: none;
 
       &.defaultImage {
         width: 100%;
