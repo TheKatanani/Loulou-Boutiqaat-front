@@ -23,7 +23,7 @@ const Categories = () => {
       {
         categories?.map((category) => {
           return products.find(product => {
-            if (product.categoryId == category.id) 
+            if (String(product.categoryId) === String(category.id)) 
                 return product 
             return undefined
           })  &&

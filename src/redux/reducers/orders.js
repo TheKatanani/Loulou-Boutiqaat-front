@@ -56,7 +56,7 @@ const ordersSlice = createSlice({
       })
       .addCase(removeOrder.fulfilled, (state, action) => {
         state.status = STATUS.SUCCEEDED;
-        state.orders = state.orders.filter(order => order.id != action.payload)
+        state.orders = state.orders.filter(order => String(order.id) !== String(action.payload))
       })
       .addCase(removeOrder.rejected, (state, action) => {
         state.status = STATUS.FAILED;
@@ -69,7 +69,7 @@ const ordersSlice = createSlice({
       })
       .addCase(cancelOrder.fulfilled, (state, action) => {
         state.status = STATUS.SUCCEEDED;
-        state.orders = state.orders.filter(order => order.id != action.payload)
+        state.orders = state.orders.filter(order => String(order.id) !== String(action.payload))
       })
       .addCase(cancelOrder.rejected, (state, action) => {
         state.status = STATUS.FAILED;
@@ -82,7 +82,7 @@ const ordersSlice = createSlice({
       })
       .addCase(updateOrder.fulfilled, (state, action) => {
         state.status = STATUS.SUCCEEDED;
-        state.orders = state.orders.map(order => order.id == action.payload.id ? {
+        state.orders = state.orders.map(order => String(order.id) === String(action.payload.id) ? {
           ...order,
           ...action.payload
         } : order)

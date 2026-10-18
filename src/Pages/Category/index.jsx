@@ -14,7 +14,7 @@ const Category = () => {
   if (status === STATUS.LOADING) {
     return <LogoLoading />
   }
-  const category = categories?.find((category) => category.id == categoryId)
+  const category = categories?.find((category) => String(category.id) === String(categoryId))
 
   return (
     <div style={{ minHeight: '100dvh' }}>

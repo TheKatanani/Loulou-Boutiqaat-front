@@ -109,7 +109,6 @@ import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { StyledVerifyOTP } from "./styled";
-import { PrimaryButton } from "../../Global/components";
 import ErrorForm from "../../Components/ErrorForm";
 import ButtonAnimation from "../../Components/common/ButtonAnimation";
 import { selectError, selectOTPData, selectStatus, verifyOTP, handleInputOTPChange } from "../../redux/reducers/OTP";

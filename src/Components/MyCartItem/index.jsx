@@ -12,7 +12,7 @@ const MyCartItem = ({ itemQuantity, data: { images, name, price = 0, description
   const dispatch = useDispatch()
   const saved = useSelector(selectsaved)
   const axiosPrivate = useAxiosPrivate()
-  const foundedCart = saved?.find(el => el == id)
+  const foundedCart = saved?.find(el => String(el) === String(id))
   const isInSaved = !!foundedCart;
   return (
     <MyCartItemStyled {...{ isInSaved }}>

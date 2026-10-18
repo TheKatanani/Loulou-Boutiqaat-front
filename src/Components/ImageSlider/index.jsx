@@ -5,11 +5,11 @@ const ImageSlider = ({images}) => {
   return (
     <ImageSliderStyled selected={main}>
         <div className="imageArea">
-            <img src={images[main]} loading="lazy" alt="Main image slider" />
+            <img src={images[main]} loading="lazy" alt="Product preview" />
         </div>
         <div className="images">
             {images.map((img,i)=>(
-                <img src={img} loading="lazy" id={i} key={i} onClick={()=>setMain(i)} alt={`img slider ${i}`} />
+                <img src={img} loading="lazy" id={i} key={i} onClick={()=>setMain(i)} alt={`Thumbnail ${i + 1}`} />
             ))}
         </div>
     </ImageSliderStyled>

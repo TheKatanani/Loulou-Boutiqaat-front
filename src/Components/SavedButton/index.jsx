@@ -28,7 +28,7 @@ const SavedButton = ({
   const saved = useSelector(selectsaved)
   const isAuthenticated = useSelector(SelectIsAuthenticated)
   const axiosPrivate = useAxiosPrivate()
-  const foundedSaved = saved?.find(el => el == id)
+  const foundedSaved = saved?.find(el => String(el) === String(id))
   const isInSaved = !!foundedSaved;
   const handleSaveForLater = () => {
     if (isAuthenticated) {

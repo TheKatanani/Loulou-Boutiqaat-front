@@ -42,7 +42,7 @@ function App() {
     dispatch(setSocial())
     const savedTheme = localStorage.getItem('theme');
     setTheme(savedTheme === 'dark' ? darkTheme : lightTheme);
-  }, [dispatch, isAuthenticated]);
+  }, [dispatch, isAuthenticated, axiosPrivate]);
   return (
     <ThemeProvider theme={theme} page="page4">
       <ThemeContext.Provider value={[theme, setTheme]}>

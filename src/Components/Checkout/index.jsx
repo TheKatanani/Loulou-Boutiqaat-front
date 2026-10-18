@@ -21,7 +21,7 @@ const Checkout = ({ cancel }) => {
   const products = useSelector(selectProducts)
   const axiosPrivate = useAxiosPrivate()
   const total = cart?.reduce((total, cartItem) => {
-    const foundedItem = products?.find(product => product.id == cartItem.productId)
+    const foundedItem = products?.find(product => String(product.id) === String(cartItem.productId))
     if (foundedItem) {
       return total + foundedItem?.price * cartItem?.quantity
     }

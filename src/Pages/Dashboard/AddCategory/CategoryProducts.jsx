@@ -7,7 +7,7 @@ import Form from '../AddProduct/Form'
 const CategoryProducts = () => {
   const { categoryId } = useParams()
   const products = useSelector(selectProducts)
-  const categoryProducts = products.filter(product => product.categoryId == categoryId)
+  const categoryProducts = products.filter(product => String(product.categoryId) === String(categoryId))
   return (
     <div>
       <Form />

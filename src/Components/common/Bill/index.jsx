@@ -26,7 +26,7 @@ const Bill = ({ orders, paid = 0 }) => {
         <tbody>
           {orderItems.length > 0 ? (
             orderItems.map(order => {
-              const currentProduct = products?.find(pro => pro.id == order.productId)
+              const currentProduct = products?.find(pro => String(pro.id) === String(order.productId))
               const price = currentProduct?.price || 0
               const total = price * (order.quantity || 1)
               billTotal += total

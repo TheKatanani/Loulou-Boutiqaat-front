@@ -1,6 +1,5 @@
 import React from 'react'
 import { MainButton } from '../../Global/components'
-import Payments from '../Payments'
 import { SummaryStyled } from './styled'
 import { useSelector } from 'react-redux'
 import { selectCart } from '../../redux/reducers/cart'
@@ -10,7 +9,7 @@ const Summary = ({ setShow }) => {
     const cartItems = useSelector(selectCart)
     const products = useSelector(selectProducts)
     const total = cartItems?.reduce((total, cartItem) => {
-        const foundedItem = products?.find(product => product.id == cartItem.productId)
+        const foundedItem = products?.find(product => String(product.id) === String(cartItem.productId))
         if (foundedItem) {
             return total + foundedItem?.price * cartItem?.quantity
         }

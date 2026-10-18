@@ -24,7 +24,7 @@ const Product = () => {
     }
   }, [dispatch, products])
 
-  const currentProduct = products?.find((el) => el.id == productId)
+  const currentProduct = products?.find((el) => String(el.id) === String(productId))
 
   if (status === STATUS.LOADING || !currentProduct) {
     return (

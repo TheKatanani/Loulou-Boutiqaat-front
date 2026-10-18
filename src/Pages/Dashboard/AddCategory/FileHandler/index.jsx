@@ -14,7 +14,7 @@ const FileHandler = ({ image, setImage }) => {
           image &&
           <>
             <span className="remove" onClick={handleRemoveImage}>X</span>
-            <img loading="lazy" src={image} alt="file handler image" />
+            <img loading="lazy" src={image} alt="category-preview" />
           </>
         }
       </div>

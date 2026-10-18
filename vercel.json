@@ -1,4 +1,5 @@
 {
+  "buildCommand": "CI=false react-scripts build",
   "rewrites": [
     {
       "source": "/(.*)",

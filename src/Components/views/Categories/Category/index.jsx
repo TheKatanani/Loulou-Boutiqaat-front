@@ -41,7 +41,7 @@ const Category = ({ name, id }) => {
 
   useEffect(() => {
     if (status === STATUS.SUCCEEDED || status === STATUS.IDLE) { 
-      const initCategoryProducts = products.filter((product) => product.categoryId == id)
+      const initCategoryProducts = products.filter((product) => String(product.categoryId) === String(id))
       setCategoryProducts(initCategoryProducts)
     }
   }, [products, id, status])
