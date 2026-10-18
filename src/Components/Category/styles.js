@@ -3,100 +3,79 @@ import styled from "styled-components";
 export const CategoryStyled = styled.div`
   display: flex;
   flex: 1;
-  gap: 20px;
-  justify-content: space-between;
-  align-items: center;
-  padding: 6px 0;
   width: 100%;
+  overflow: hidden;
+  position: relative;
 
   ul {
     display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
     gap: 10px;
-    justify-content: center;
     align-items: center;
-    flex-wrap: wrap;
     width: 100%;
-
-    a {
-      display: inline-block;
-      padding: 6px 16px;
-      border-radius: 20px;
-      font-weight: 600;
-      font-size: 0.92rem;
-      color: ${props => props.theme.palette.ColorApp.gray_600};
-      transition: all 0.2s ease;
-
-      &:hover {
-        color: ${props => props.theme.palette.ColorApp.primary};
-        background: ${props => props.theme.palette.ColorApp.primary_soft};
-      }
-
-      &.active {
-        color: #ffffff;
-        background: ${props => props.theme.palette.ColorApp.primary};
-        box-shadow: 0 2px 8px rgba(109, 40, 217, 0.25);
-      }
-    }
-  }
-
-  ${({ theme: { media } }) => media.xs} {
-    width: 100%;
-    padding: 0;
     margin: 0;
+    padding: 6px 16px;
+    box-sizing: border-box;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    cursor: grab;
 
-    ul {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-      width: 100%;
-      padding: 0;
-      margin: 0;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    &:active {
+      cursor: grabbing;
     }
 
     li {
-      width: 100%;
-      min-height: 52px;
-      border-radius: 12px;
-      text-align: center;
-      background-color: ${props => props.theme.theme === 'dark' ? props.theme.palette.card : props.theme.palette.ColorApp.gray_100};
-      border: 1px solid ${props => props.theme.palette.border};
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      transition: transform 0.15s ease, background-color 0.2s ease, border-color 0.2s ease;
+      flex-shrink: 0;
+      white-space: nowrap;
+      border-radius: 20px;
+      transition: transform 0.2s ease;
 
       &:active {
         transform: scale(0.96);
       }
 
       a {
-        display: flex;
+        display: inline-flex;
         align-items: center;
         justify-content: center;
-        width: 100%;
-        height: 100%;
-        padding: 8px 6px;
-        color: ${props => props.theme.palette.font};
-        font-size: 0.82rem;
+        padding: 8px 18px;
+        border-radius: 20px;
         font-weight: 700;
-        line-height: 1.25;
-        text-align: center;
-        border-radius: 12px;
+        font-size: 0.88rem;
+        white-space: nowrap;
+        color: ${props => props.theme.palette.ColorApp.gray_600};
+        background-color: ${props => props.theme.theme === 'dark' ? props.theme.palette.card : props.theme.palette.ColorApp.gray_100};
+        border: 1px solid ${props => props.theme.palette.border};
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
         transition: all 0.2s ease;
 
+        &:hover {
+          color: ${props => props.theme.palette.ColorApp.primary};
+          background: ${props => props.theme.palette.ColorApp.primary_soft};
+          border-color: ${props => props.theme.palette.ColorApp.primary_light};
+        }
+
         &.active {
-          background: ${props => props.theme.palette.ColorApp.primary};
           color: #ffffff;
-          box-shadow: 0 3px 10px rgba(109, 40, 217, 0.35);
+          background: ${props => props.theme.palette.ColorApp.primary};
+          border-color: ${props => props.theme.palette.ColorApp.primary};
+          box-shadow: 0 2px 8px rgba(109, 40, 217, 0.3);
         }
       }
     }
   }
 
-  ${({ theme: { media } }) => media.s} {
-    flex-wrap: wrap;
-    justify-content: space-around;
+  @media (min-width: 992px) {
+    ul {
+      justify-content: center;
+      flex-wrap: wrap;
+    }
   }
 `;

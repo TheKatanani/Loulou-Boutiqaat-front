@@ -182,10 +182,11 @@ export const StyledHeader = styled.header `
             padding: 8px 12px !important;
         }
         .categoriesPart {
-            padding: 8px 12px 10px 12px;
+            padding: 4px 0 8px 0;
             margin: 0 auto;
             width: 100%;
             box-sizing: border-box;
+            overflow: hidden;
         }
         .headerActions {
             .authZone {
