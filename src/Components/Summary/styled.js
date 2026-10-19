@@ -49,4 +49,36 @@ export const SummaryStyled = styled.div`
             box-shadow: 0 8px 20px rgba(109, 40, 217, 0.45);
         }
     }
-`
+
+    .quickWaSummaryBtn {
+        width: 100%;
+        height: 42px;
+        margin-top: 10px;
+        border-radius: 30px;
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+        color: #ffffff !important;
+        font-weight: 700;
+        font-size: 0.92rem;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25) !important;
+        transition: all 0.25s ease;
+
+        &:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(16, 185, 129, 0.35) !important;
+            background: linear-gradient(135deg, #059669 0%, #047857 100%) !important;
+        }
+
+        &:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+    }
+`;
