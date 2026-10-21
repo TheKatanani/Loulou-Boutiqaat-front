@@ -72,8 +72,17 @@ span.phone,
 }
 
 a {
-    text-decoration: none;
-    transition: all 0.2s ease-in-out;
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.2s ease-in-out;
+
+  &:visited {
+    color: inherit;
+  }
+
+  &:hover {
+    color: ${(props) => props.theme.palette.ColorApp.primary};
+  }
 }
 ul {
   list-style: none;
