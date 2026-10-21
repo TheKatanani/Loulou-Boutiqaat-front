@@ -36,9 +36,10 @@ const Product = () => {
     )
   }
 
-  const { id, description, stars = '5', name, price, prevPrice, images } = currentProduct
+  const { id, description, stars = '5', name, price, prevPrice, images, stock = 25 } = currentProduct
   const hasDiscount = prevPrice > price
   const discount = hasDiscount ? Math.round(((prevPrice - price) / prevPrice) * 100) : 0
+  const isAvailable = Number(stock) > 0
 
   return (
     <Container>
@@ -72,6 +73,23 @@ const Product = () => {
             <div className="descriptionBox">
               <h4>وصف المنتج:</h4>
               <p className="description">{description}</p>
+            </div>
+
+            <div className="stockStatus" style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 8,
+              padding: '6px 14px',
+              borderRadius: 20,
+              fontSize: '0.88rem',
+              fontWeight: 600,
+              marginBottom: 16,
+              background: isAvailable ? 'rgba(34, 197, 94, 0.1)' : 'rgba(239, 68, 68, 0.1)',
+              color: isAvailable ? '#15803d' : '#b91c1c',
+              border: `1px solid ${isAvailable ? 'rgba(34, 197, 94, 0.25)' : 'rgba(239, 68, 68, 0.25)'}`
+            }}>
+              <span>{isAvailable ? '✅' : '❌'}</span>
+              <span>{isAvailable ? `متوفر في المخزون (${stock} قطعة)` : 'نفد من المخزون حالياً'}</span>
             </div>
 
             <div className="actionsRow">

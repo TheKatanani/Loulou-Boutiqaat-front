@@ -32,6 +32,7 @@ const Checkout = ({ cancel }) => {
   // Authenticated user location
   const [userLocation, setUserLocation] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const total = cart?.reduce((acc, cartItem) => {
     const foundedItem = products?.find(product => String(product.id) === String(cartItem.productId))
@@ -42,7 +43,7 @@ const Checkout = ({ cancel }) => {
   }, 0)
 
   // 1. WhatsApp Checkout Handler (Works for both Guests and Logged-In Users)
-  const handleWhatsAppCheckout = (e) => {
+  const handleWhatsAppCheckout = async (e) => {
     if (e) e.preventDefault();
 
     if (!cart || cart.length === 0) {
@@ -50,34 +51,48 @@ const Checkout = ({ cancel }) => {
       return;
     }
 
+    setIsSubmitting(true);
+    const toastId = toast.loading('جارٍ حجز المنتجات في المخزون وتجهيز الفاتورة... ⏳');
+
     const customerName = isAuthenticated ? user?.name : guestName;
     const location = isAuthenticated ? userLocation : guestLocation;
     const phone = isAuthenticated ? user?.phone : guestPhone;
 
-    openWhatsAppOrder({
+    const result = await openWhatsAppOrder({
       cart,
       products,
       customerName,
       location,
       phone,
       total,
-      social
+      social,
+      userId: user?.id || null
     });
 
-    // Clear cart after sending to WhatsApp
-    if (isAuthenticated) {
-      dispatch(clearCart({ axiosPrivate }));
-    } else {
-      localStorage.removeItem('cart');
+    toast.dismiss(toastId);
+    setIsSubmitting(false);
+
+    if (result && result.success) {
+      // Clear cart after sending to WhatsApp
+      if (isAuthenticated) {
+        dispatch(clearCart({ axiosPrivate }));
+      } else {
+        localStorage.removeItem('cart');
+      }
+      dispatch(resetState());
+      dispatch(setStatusSucceeded());
+
+      if (result.orderCode) {
+        toast.success(`تم حجز طلبك ${result.orderCode} لمدة 60 دقيقة في المخزون! 🌸`);
+      } else {
+        toast.success('تم تحويل طلبك بنجاح إلى واتساب! 🌸 شكراً لتسوقك من لولو بوتيكات');
+      }
+      if (cancel) cancel();
     }
-    dispatch(resetState());
-    dispatch(setStatusSucceeded());
-    toast.success('تم تحويل طلبك بنجاح إلى واتساب! 🌸 شكراً لتسوقك من لولو بوتيكات');
-    if (cancel) cancel();
   };
 
   // 2. In-App Backend Order Handler (For Logged-In Users)
-  const handleSendOrderInApp = () => {
+  const handleSendOrderInApp = async () => {
     if (!userLocation || userLocation.trim().length < 5) {
       setErrorMessage('يرجى كتابة عنوان التوصيل بالتفصيل (5 أحرف على الأقل)');
       dispatch(setStatusFailed({ location: 'Must Add Location!' }));
@@ -89,15 +104,31 @@ const Checkout = ({ cancel }) => {
       orders: cart,
       location: userLocation.trim(),
       totalCost: total,
-      paid: 0
+      paid: 0,
+      customerName: user?.name || '',
+      customerPhone: user?.phone || ''
     };
 
-    dispatch(addOrder({ order, axiosPrivate }));
-    dispatch(resetState());
-    dispatch(clearCart({ axiosPrivate }));
-    dispatch(setStatusSucceeded());
-    toast.success('تهانينا 🌸 تم تسجيل طلبك بنجاح وسيتم التواصل معك للتوصيل!');
-    if (cancel) cancel();
+    setIsSubmitting(true);
+    const toastId = toast.loading('جارٍ تأكيد الطلب وخصم المخزون... ⏳');
+
+    try {
+      const res = await dispatch(addOrder({ order, axiosPrivate })).unwrap();
+      toast.dismiss(toastId);
+      setIsSubmitting(false);
+
+      dispatch(resetState());
+      dispatch(clearCart({ axiosPrivate }));
+      dispatch(setStatusSucceeded());
+      toast.success(`تهانينا 🌸 تم تسجيل طلبك ${res.orderCode || ''} بنجاح وسيتم التواصل معك للتوصيل!`);
+      if (cancel) cancel();
+    } catch (err) {
+      toast.dismiss(toastId);
+      setIsSubmitting(false);
+      const msg = err?.message || 'تعذر إتمام الطلب، قد تكون بعض المنتجات غير متوفرة بالكمية المطلوبة';
+      setErrorMessage(msg);
+      toast.error(msg, { duration: 6000 });
+    }
   };
 
   return (
@@ -135,7 +166,7 @@ const Checkout = ({ cancel }) => {
                 <span className="recommendTag">الموصى به ⚡</span>
               </div>
               <p className="cardDesc">
-                أكمل طلبك بنقرة واحدة مباشرة لمحادثة واتساب الرسمية للمتجر، وسيقوم فريقنا بتجهيز وتوصيل طلبك فوراً.
+                حجز فوري للكمية من المخزون لمدة 60 دقيقة وإرسال الفاتورة الرسمية عبر واتساب، وسيقوم فريقنا بتجهيز وتوصيل طلبك فوراً.
               </p>
 
               <div className="inputsGroup">
@@ -144,6 +175,7 @@ const Checkout = ({ cancel }) => {
                   placeholder="الاسم الكريم (اختياري)"
                   value={guestName}
                   onChange={(e) => setGuestName(e.target.value)}
+                  disabled={isSubmitting}
                 />
                 <input
                   type="tel"
@@ -151,12 +183,14 @@ const Checkout = ({ cancel }) => {
                   value={guestPhone}
                   onChange={(e) => setGuestPhone(e.target.value)}
                   dir="ltr"
+                  disabled={isSubmitting}
                 />
                 <input
                   type="text"
                   placeholder="المنطقة أو عنوان التوصيل في غزة (اختياري)"
                   value={guestLocation}
                   onChange={(e) => setGuestLocation(e.target.value)}
+                  disabled={isSubmitting}
                 />
               </div>
 
@@ -164,8 +198,10 @@ const Checkout = ({ cancel }) => {
                 type="button"
                 className="whatsappSubmitBtn"
                 onClick={handleWhatsAppCheckout}
+                disabled={isSubmitting}
+                style={{ opacity: isSubmitting ? 0.7 : 1 }}
               >
-                <span>💬 إرسال الطلب عبر واتساب ({total} ₪)</span>
+                <span>{isSubmitting ? 'جارٍ الحجز والتجهيز... ⏳' : `💬 إرسال وحجز الطلب عبر واتساب (${total} ₪)`}</span>
               </button>
             </div>
 
@@ -223,11 +259,12 @@ const Checkout = ({ cancel }) => {
                     setUserLocation(e.target.value);
                     setErrorMessage('');
                   }}
+                  disabled={isSubmitting}
                 />
               </div>
 
-              <MainButton onClick={handleSendOrderInApp}>
-                <span>تأكيد الطلب وحفظه في حسابي 🚀</span>
+              <MainButton onClick={handleSendOrderInApp} disabled={isSubmitting}>
+                <span>{isSubmitting ? 'جارٍ تأكيد الطلب... ⏳' : 'تأكيد الطلب وحفظه في حسابي 🚀'}</span>
               </MainButton>
             </div>
 
@@ -239,8 +276,10 @@ const Checkout = ({ cancel }) => {
               type="button"
               className="whatsappSubmitBtn"
               onClick={handleWhatsAppCheckout}
+              disabled={isSubmitting}
+              style={{ opacity: isSubmitting ? 0.7 : 1 }}
             >
-              <span>💬 تأكيد الطلب فوراً عبر واتساب ({total} ₪)</span>
+              <span>{isSubmitting ? 'جارٍ الحجز والتجهيز... ⏳' : `💬 حجز وتأكيد فوراً عبر واتساب (${total} ₪)`}</span>
             </button>
           </div>
         )}

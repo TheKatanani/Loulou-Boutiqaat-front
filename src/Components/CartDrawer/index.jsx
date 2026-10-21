@@ -1,12 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
+  clearCart,
   closeCartDrawer,
   quantityCartItem,
   quantityCartItemLocal,
   removeFromCart,
   removeFromCartLocal,
+  resetState,
   selectCart,
   selectIsDrawerOpen,
   selectQuantity,
@@ -18,6 +20,7 @@ import { openWhatsAppOrder } from '../../utils/whatsappOrder';
 import useAxiosPrivate from '../../Hook/useAxiosPrivet';
 import { DrawerContainer, DrawerOverlay } from './styled';
 import { OPERATOR } from '../../Actions';
+import toast from 'react-hot-toast';
 
 const CartDrawer = () => {
   const dispatch = useDispatch();
@@ -30,6 +33,7 @@ const CartDrawer = () => {
   const user = useSelector(selectUser);
   const social = useSelector(selectSocial);
   const axiosPrivate = useAxiosPrivate();
+  const [isReserving, setIsReserving] = useState(false);
 
   // Close on Escape key and lock body scroll
   useEffect(() => {
@@ -73,8 +77,12 @@ const CartDrawer = () => {
     }
   };
 
-  const handleQuickWhatsApp = () => {
-    openWhatsAppOrder({
+  const handleQuickWhatsApp = async () => {
+    if (!cart || cart.length === 0) return;
+    setIsReserving(true);
+    const toastId = toast.loading('جارٍ حجز المنتجات وتجهيز واتساب... ⏳');
+
+    const result = await openWhatsAppOrder({
       cart,
       products,
       customerName: isAuthenticated ? user?.name : '',
@@ -82,8 +90,27 @@ const CartDrawer = () => {
       phone: isAuthenticated ? user?.phone : '',
       total,
       social,
+      userId: user?.id || null,
     });
-    dispatch(closeCartDrawer());
+
+    toast.dismiss(toastId);
+    setIsReserving(false);
+
+    if (result && result.success) {
+      if (isAuthenticated) {
+        dispatch(clearCart({ axiosPrivate }));
+      } else {
+        localStorage.removeItem('cart');
+      }
+      dispatch(resetState());
+      dispatch(closeCartDrawer());
+
+      if (result.orderCode) {
+        toast.success(`تم حجز طلبك ${result.orderCode} لمدة 60 دقيقة في المخزون! 🌸`);
+      } else {
+        toast.success('تم تحويل طلبك بنجاح إلى واتساب! 🌸');
+      }
+    }
   };
 
   const handleViewFullCart = () => {
@@ -201,10 +228,12 @@ const CartDrawer = () => {
                 type="button"
                 className="waQuickBtn"
                 onClick={handleQuickWhatsApp}
-                title="طلب مباشر عبر محادثة واتساب بدون تسجيل"
+                disabled={isReserving}
+                style={{ opacity: isReserving ? 0.7 : 1 }}
+                title="حجز المنتجات والطلب المباشر عبر واتساب"
               >
                 <span>💬</span>
-                <span>طلب سريع عبر واتساب</span>
+                <span>{isReserving ? 'جارٍ الحجز والتجهيز... ⏳' : 'طلب سريع عبر واتساب'}</span>
               </button>
 
               <button

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { SummaryStyled } from './styled';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearCart, resetState, selectCart } from '../../redux/reducers/cart';
@@ -17,6 +17,7 @@ const Summary = ({ setShow }) => {
   const isAuthenticated = useSelector(SelectIsAuthenticated);
   const user = useSelector(selectUser);
   const axiosPrivate = useAxiosPrivate();
+  const [isReserving, setIsReserving] = useState(false);
 
   const total = cartItems.reduce((acc, cartItem) => {
     const foundedItem = products.find((product) => String(product.id) === String(cartItem.productId));
@@ -28,10 +29,12 @@ const Summary = ({ setShow }) => {
 
   const hasItems = cartItems && cartItems.length > 0;
 
-  const handleQuickWhatsApp = () => {
+  const handleQuickWhatsApp = async () => {
     if (!hasItems) return;
+    setIsReserving(true);
+    const toastId = toast.loading('جارٍ حجز المنتجات وتجهيز واتساب... ⏳');
 
-    openWhatsAppOrder({
+    const result = await openWhatsAppOrder({
       cart: cartItems,
       products,
       customerName: user?.name || '',
@@ -39,15 +42,26 @@ const Summary = ({ setShow }) => {
       location: user?.location || '',
       total,
       social,
+      userId: user?.id || null,
     });
 
-    if (isAuthenticated) {
-      dispatch(clearCart({ axiosPrivate }));
-    } else {
-      localStorage.removeItem('cart');
+    toast.dismiss(toastId);
+    setIsReserving(false);
+
+    if (result && result.success) {
+      if (isAuthenticated) {
+        dispatch(clearCart({ axiosPrivate }));
+      } else {
+        localStorage.removeItem('cart');
+      }
+      dispatch(resetState());
+
+      if (result.orderCode) {
+        toast.success(`تم حجز طلبك ${result.orderCode} بنجاح لمدة 60 دقيقة في المخزون! 🌸`);
+      } else {
+        toast.success('تم تحويل طلبك بنجاح إلى واتساب! 🌸 شكراً لتسوقك من لولو بوتيكات');
+      }
     }
-    dispatch(resetState());
-    toast.success('تم تحويل طلبك بنجاح إلى واتساب! 🌸 شكراً لتسوقك من لولو بوتيكات');
   };
 
   return (
@@ -96,11 +110,12 @@ const Summary = ({ setShow }) => {
         <button
           type="button"
           className="quickWaSummaryBtn"
-          disabled={!hasItems}
+          disabled={!hasItems || isReserving}
           onClick={handleQuickWhatsApp}
-          title="طلب فوري ومباشر عبر واتساب بدون تسجيل"
+          style={{ opacity: isReserving ? 0.7 : 1 }}
+          title="طلب وحجز فوري ومباشر عبر واتساب بدون تسجيل"
         >
-          <span>💬 طلب سريع عبر واتساب</span>
+          <span>💬 {isReserving ? 'جارٍ الحجز والتجهيز... ⏳' : 'طلب سريع عبر واتساب'}</span>
         </button>
       </div>
 
