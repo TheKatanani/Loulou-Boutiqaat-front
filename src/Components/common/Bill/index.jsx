@@ -25,20 +25,22 @@ const Bill = ({ orders, paid = 0 }) => {
         </thead>
         <tbody>
           {orderItems.length > 0 ? (
-            orderItems.map(order => {
-              const currentProduct = products?.find(pro => String(pro.id) === String(order.productId))
-              const price = currentProduct?.price || 0
-              const total = price * (order.quantity || 1)
-              billTotal += total
+            orderItems.map((order, idx) => {
+              const currentProduct = products?.find(pro => String(pro.id) === String(order.productId));
+              const price = typeof order.price === 'number' ? order.price : (currentProduct?.price || 0);
+              const name = order.name || currentProduct?.name || `منتج رقم #${order.productId}`;
+              const qty = Number(order.quantity) || 1;
+              const total = typeof order.subtotal === 'number' ? order.subtotal : (price * qty);
+              billTotal += total;
               return (
-                <tr key={order.productId}>
+                <tr key={`${order.productId}-${idx}`}>
                   <td className='id'>#{order?.productId}</td>
-                  <td><strong>{currentProduct?.name || `منتج رقم ${order.productId}`}</strong></td>
-                  <td>{order?.quantity || 1}</td>
+                  <td><strong>{name}</strong></td>
+                  <td>{qty}</td>
                   <td>{price} ₪</td>
                   <td><strong style={{ color: '#059669' }}>{total} ₪</strong></td>
                 </tr>
-              )
+              );
             })
           ) : (
             <tr>

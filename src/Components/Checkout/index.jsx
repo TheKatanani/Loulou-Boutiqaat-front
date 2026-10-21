@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { StyledCheckOut } from './styled'
 import { useDispatch, useSelector } from 'react-redux'
 import { MainButton } from '../../Global/components'
@@ -11,7 +11,7 @@ import { setStatusFailed, setStatusSucceeded } from '../../redux/reducers/checko
 import useAxiosPrivate from '../../Hook/useAxiosPrivet'
 import PortalCard from '../UI/PortalCard'
 import { useNavigate } from 'react-router-dom'
-import { openWhatsAppOrder } from '../../utils/whatsappOrder'
+import { openWhatsAppOrder, cancelActiveReservation } from '../../utils/whatsappOrder'
 import toast from 'react-hot-toast'
 
 const Checkout = ({ cancel }) => {
@@ -29,10 +29,27 @@ const Checkout = ({ cancel }) => {
   const [guestPhone, setGuestPhone] = useState('')
   const [guestLocation, setGuestLocation] = useState('')
 
-  // Authenticated user location
-  const [userLocation, setUserLocation] = useState('')
+  // Authenticated user location & phone
+  const [userLocation, setUserLocation] = useState(user?.location || '')
+  const [userPhone, setUserPhone] = useState(user?.phone || '')
   const [errorMessage, setErrorMessage] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [blockedWaUrl, setBlockedWaUrl] = useState('')
+  const [activeReservation, setActiveReservation] = useState(null)
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem('lb_active_reservation');
+      if (raw) {
+        const res = JSON.parse(raw);
+        if (res?.expiresAt && new Date(res.expiresAt) > new Date()) {
+          setActiveReservation(res);
+        } else {
+          localStorage.removeItem('lb_active_reservation');
+        }
+      }
+    } catch (e) {}
+  }, []);
 
   const total = cart?.reduce((acc, cartItem) => {
     const foundedItem = products?.find(product => String(product.id) === String(cartItem.productId))
@@ -41,6 +58,16 @@ const Checkout = ({ cancel }) => {
     }
     return acc
   }, 0)
+
+  const handleCancelActiveReservation = async () => {
+    setIsSubmitting(true);
+    const toastId = toast.loading('جارٍ إلغاء الحجز وإعادة الكميات للمخزون...');
+    await cancelActiveReservation();
+    setActiveReservation(null);
+    setIsSubmitting(false);
+    toast.dismiss(toastId);
+    toast.success('تم إلغاء الحجز بنجاح وأعيدت الكميات للمخزون');
+  };
 
   // 1. WhatsApp Checkout Handler (Works for both Guests and Logged-In Users)
   const handleWhatsAppCheckout = async (e) => {
@@ -51,12 +78,27 @@ const Checkout = ({ cancel }) => {
       return;
     }
 
-    setIsSubmitting(true);
-    const toastId = toast.loading('جارٍ حجز المنتجات في المخزون وتجهيز الفاتورة... ⏳');
-
     const customerName = isAuthenticated ? user?.name : guestName;
     const location = isAuthenticated ? userLocation : guestLocation;
-    const phone = isAuthenticated ? user?.phone : guestPhone;
+    const phone = isAuthenticated ? (userPhone || user?.phone) : guestPhone;
+
+    // Strict validation
+    if (!customerName || customerName.trim().length < 2) {
+      setErrorMessage('يرجى كتابة الاسم الكريم (حرفان على الأقل)');
+      return;
+    }
+    if (!phone || phone.trim().length < 9) {
+      setErrorMessage('يرجى إدخال رقم هاتف صالح للتواصل والتوصيل');
+      return;
+    }
+    if (!location || location.trim().length < 5) {
+      setErrorMessage('يرجى كتابة عنوان التوصيل بالتفصيل (المدينة، الحي، الشارع)');
+      return;
+    }
+
+    setErrorMessage('');
+    setIsSubmitting(true);
+    const toastId = toast.loading('جارٍ حجز المنتجات في المخزون وتجهيز الفاتورة... ⏳');
 
     const result = await openWhatsAppOrder({
       cart,
@@ -73,7 +115,7 @@ const Checkout = ({ cancel }) => {
     setIsSubmitting(false);
 
     if (result && result.success) {
-      // Clear cart after sending to WhatsApp
+      // Clear cart only on verified reservation
       if (isAuthenticated) {
         dispatch(clearCart({ axiosPrivate }));
       } else {
@@ -82,12 +124,13 @@ const Checkout = ({ cancel }) => {
       dispatch(resetState());
       dispatch(setStatusSucceeded());
 
-      if (result.orderCode) {
-        toast.success(`تم حجز طلبك ${result.orderCode} لمدة 60 دقيقة في المخزون! 🌸`);
+      if (result.popupBlocked && result.waUrl) {
+        setBlockedWaUrl(result.waUrl);
+        toast('تم حجز طلبك بنجاح! يرجى النقر على الزر لفتح واتساب', { icon: '💬' });
       } else {
-        toast.success('تم تحويل طلبك بنجاح إلى واتساب! 🌸 شكراً لتسوقك من لولو بوتيكات');
+        toast.success(`تم حجز طلبك ${result.orderCode} لمدة 60 دقيقة في المخزون! 🌸`);
+        if (cancel) cancel();
       }
-      if (cancel) cancel();
     }
   };
 
@@ -106,7 +149,7 @@ const Checkout = ({ cancel }) => {
       totalCost: total,
       paid: 0,
       customerName: user?.name || '',
-      customerPhone: user?.phone || ''
+      customerPhone: userPhone || user?.phone || ''
     };
 
     setIsSubmitting(true);
@@ -145,6 +188,99 @@ const Checkout = ({ cancel }) => {
           </button>
         </div>
 
+        {/* Active Reservation Banner (If customer already has an active draft) */}
+        {activeReservation && (
+          <div style={{
+            background: 'linear-gradient(135deg, #fdf4ff 0%, #fae8ff 100%)',
+            border: '1px solid #d946ef',
+            borderRadius: 12,
+            padding: '12px 16px',
+            marginBottom: 16,
+            direction: 'rtl'
+          }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+              <span style={{ fontWeight: 800, color: '#86198f', fontSize: '0.9rem' }}>
+                ⏳ لديك حجز نشط حالياً ({activeReservation.orderCode})
+              </span>
+              <span style={{ fontSize: '0.8rem', color: '#a21caf' }}>
+                المجموع: {activeReservation.totalCost} ₪
+              </span>
+            </div>
+            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+              {activeReservation.waUrl && (
+                <a
+                  href={activeReservation.waUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    background: '#25D366',
+                    color: '#fff',
+                    padding: '6px 14px',
+                    borderRadius: 8,
+                    fontSize: '0.82rem',
+                    fontWeight: 700,
+                    textDecoration: 'none'
+                  }}
+                >
+                  💬 فتح واتساب للطلب
+                </a>
+              )}
+              <button
+                type="button"
+                onClick={handleCancelActiveReservation}
+                disabled={isSubmitting}
+                style={{
+                  background: '#ef4444',
+                  color: '#fff',
+                  border: 'none',
+                  padding: '6px 14px',
+                  borderRadius: 8,
+                  fontSize: '0.82rem',
+                  fontWeight: 700,
+                  cursor: 'pointer'
+                }}
+              >
+                إلغاء هذا الحجز
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Popup Blocked Fallback */}
+        {blockedWaUrl && (
+          <div style={{
+            background: '#ecfdf5',
+            border: '1px solid #10b981',
+            borderRadius: 12,
+            padding: '14px',
+            marginBottom: 16,
+            textAlign: 'center',
+            direction: 'rtl'
+          }}>
+            <p style={{ fontWeight: 800, color: '#065f46', marginBottom: 8 }}>
+              ✅ تم حجز المنتجات بنجاح في المخزون!
+            </p>
+            <a
+              href={blockedWaUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => { if (cancel) cancel(); }}
+              style={{
+                display: 'inline-block',
+                background: '#25D366',
+                color: '#fff',
+                padding: '10px 20px',
+                borderRadius: 8,
+                fontSize: '0.92rem',
+                fontWeight: 700,
+                textDecoration: 'none'
+              }}
+            >
+              💬 اضغط هنا لفتح محادثة واتساب الرسمية
+            </a>
+          </div>
+        )}
+
         {/* Order Summary Pill */}
         <div className="orderSummaryPill">
           <span className="summaryCount">
@@ -155,6 +291,12 @@ const Checkout = ({ cancel }) => {
           </span>
         </div>
 
+        {errorMessage && (
+          <div style={{ color: '#ef4444', fontSize: '0.85rem', marginBottom: 12, fontWeight: 700, direction: 'rtl' }}>
+            ⚠️ {errorMessage}
+          </div>
+        )}
+
         {!isAuthenticated ? (
           // ================= Guest Checkout Flow =================
           <div>
@@ -162,7 +304,7 @@ const Checkout = ({ cancel }) => {
             <div className="checkoutOptionCard featured">
               <div className="cardHeader">
                 <span className="badgeIcon">💬</span>
-                <span className="cardTitle">الطلب السريع عبر واتساب (بدون تسجيل)</span>
+                <span className="cardTitle">الطلب السريع عبر واتساب (حجز فوري 60 دقيقة)</span>
                 <span className="recommendTag">الموصى به ⚡</span>
               </div>
               <p className="cardDesc">
@@ -172,25 +314,28 @@ const Checkout = ({ cancel }) => {
               <div className="inputsGroup">
                 <input
                   type="text"
-                  placeholder="الاسم الكريم (اختياري)"
+                  placeholder="الاسم الكريم (مطلوب) *"
                   value={guestName}
-                  onChange={(e) => setGuestName(e.target.value)}
+                  onChange={(e) => { setGuestName(e.target.value); setErrorMessage(''); }}
                   disabled={isSubmitting}
+                  required
                 />
                 <input
                   type="tel"
-                  placeholder="رقم الهاتف للتواصل (اختياري)"
+                  placeholder="رقم الهاتف للتواصل (مطلوب) *"
                   value={guestPhone}
-                  onChange={(e) => setGuestPhone(e.target.value)}
+                  onChange={(e) => { setGuestPhone(e.target.value); setErrorMessage(''); }}
                   dir="ltr"
                   disabled={isSubmitting}
+                  required
                 />
                 <input
                   type="text"
-                  placeholder="المنطقة أو عنوان التوصيل في غزة (اختياري)"
+                  placeholder="المنطقة أو عنوان التوصيل في غزة (مطلوب) *"
                   value={guestLocation}
-                  onChange={(e) => setGuestLocation(e.target.value)}
+                  onChange={(e) => { setGuestLocation(e.target.value); setErrorMessage(''); }}
                   disabled={isSubmitting}
+                  required
                 />
               </div>
 
@@ -239,27 +384,31 @@ const Checkout = ({ cancel }) => {
               <span>مرحباً بك، <strong>{user?.name || 'عميلنا العزيز'}</strong></span>
             </div>
 
-            {errorMessage && (
-              <div style={{ color: '#ef4444', fontSize: '0.84rem', marginBottom: 10, fontWeight: 700 }}>
-                ⚠️ {errorMessage}
-              </div>
-            )}
-
             <div className="checkoutOptionCard" style={{ marginBottom: 16 }}>
               <div className="cardHeader">
                 <span className="badgeIcon">📍</span>
-                <span className="cardTitle">عنوان التوصيل</span>
+                <span className="cardTitle">بيانات التوصيل والتأكيد</span>
               </div>
               <div className="inputsGroup" style={{ marginBottom: 14 }}>
                 <input
+                  type="tel"
+                  placeholder="رقم الهاتف للتواصل للتوصيل *"
+                  value={userPhone}
+                  onChange={(e) => { setUserPhone(e.target.value); setErrorMessage(''); }}
+                  dir="ltr"
+                  disabled={isSubmitting}
+                  required
+                />
+                <input
                   type="text"
-                  placeholder="اكتب العنوان بالتفصيل (المدينة، الحي، الشارع، علامة مميزة)"
+                  placeholder="اكتب العنوان بالتفصيل (المدينة، الحي، الشارع، علامة مميزة) *"
                   value={userLocation}
                   onChange={(e) => {
                     setUserLocation(e.target.value);
                     setErrorMessage('');
                   }}
                   disabled={isSubmitting}
+                  required
                 />
               </div>
 

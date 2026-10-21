@@ -1,4 +1,5 @@
 import { object, number, string, array } from 'yup';
+
 export const validationSchema = object().shape({
   name: string()
     .min(6, "يجب أن يكون الاسم أكثر من 6 أحرف")
@@ -12,6 +13,10 @@ export const validationSchema = object().shape({
     .required('يجب إضافة سعر'),
   prevPrice: number()
     .min(0, 'السعر يجب أن يكون قيمة موجبة أو صفر'),
+  stock: number()
+    .min(0, 'المخزون يجب أن يكون صفر أو أكثر')
+    .integer('المخزون يجب أن يكون رقماً صحيحاً')
+    .nullable(),
   images: array()
     .min(1, "يجب إضافة صورة واحدة على الأقل")
 });

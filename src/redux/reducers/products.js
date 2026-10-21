@@ -14,7 +14,7 @@ const initialAddProductState = {
   price: 0,
   prevPrice: 0,
   images: [],
-  count: 0,
+  stock: 25,
   stars: 1,
   published: false,
   categoryId: ''

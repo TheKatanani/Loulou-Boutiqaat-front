@@ -79,36 +79,37 @@ const CartDrawer = () => {
 
   const handleQuickWhatsApp = async () => {
     if (!cart || cart.length === 0) return;
+
+    if (!isAuthenticated || !user?.phone || !user?.location) {
+      dispatch(closeCartDrawer());
+      navigate('/home/cart?checkout=1');
+      return;
+    }
+
     setIsReserving(true);
     const toastId = toast.loading('جارٍ حجز المنتجات وتجهيز واتساب... ⏳');
 
     const result = await openWhatsAppOrder({
       cart,
       products,
-      customerName: isAuthenticated ? user?.name : '',
-      location: '',
-      phone: isAuthenticated ? user?.phone : '',
+      customerName: user.name,
+      location: user.location,
+      phone: user.phone,
       total,
       social,
-      userId: user?.id || null,
+      userId: user.id,
     });
 
     toast.dismiss(toastId);
     setIsReserving(false);
 
     if (result && result.success) {
-      if (isAuthenticated) {
-        dispatch(clearCart({ axiosPrivate }));
-      } else {
-        localStorage.removeItem('cart');
-      }
+      dispatch(clearCart({ axiosPrivate }));
       dispatch(resetState());
       dispatch(closeCartDrawer());
 
       if (result.orderCode) {
         toast.success(`تم حجز طلبك ${result.orderCode} لمدة 60 دقيقة في المخزون! 🌸`);
-      } else {
-        toast.success('تم تحويل طلبك بنجاح إلى واتساب! 🌸');
       }
     }
   };

@@ -25,7 +25,11 @@ export const generateWhatsAppOrderMessage = ({
     message += `📍 *عنوان التوصيل:* ${location.trim()}\n`;
   }
 
-  message += `⏳ *حالة الحجز:* تم حجز الكمية لمدة 60 دقيقة في المخزون\n`;
+  if (orderCode) {
+    message += `⏳ *حالة الحجز:* تم حجز الكمية لمدة 60 دقيقة في المخزون\n`;
+  } else {
+    message += `💬 *نوع الطلب:* استفسار وطلب يدوي مباشر\n`;
+  }
   message += `━━━━━━━━━━━━━━━━━━━━\n`;
   message += `🛍️ *تفاصيل الفاتورة:* \n`;
 
@@ -59,11 +63,30 @@ export const getWhatsAppNumber = (social) => {
 };
 
 /**
+ * Cancels active reservation and releases reserved stock on server
+ */
+export const cancelActiveReservation = async () => {
+  try {
+    const raw = localStorage.getItem('lb_active_reservation');
+    if (!raw) return null;
+    const reservation = JSON.parse(raw);
+    if (reservation?.id && reservation?.secretToken) {
+      await axios.delete(`/order/whatsapp-draft/${reservation.id}?token=${reservation.secretToken}`);
+    }
+  } catch (err) {
+    console.warn('Error releasing active reservation:', err.message);
+  } finally {
+    localStorage.removeItem('lb_active_reservation');
+  }
+};
+
+/**
  * Single Source of Truth WhatsApp Checkout:
  * 1. Calls backend POST /order/whatsapp-draft to reserve stock for 60 minutes
  * 2. Receives unique #LB-<id>, waUrl, expiresAt, secretToken
  * 3. Saves reservation state locally
  * 4. Opens WhatsApp with the official reserved invoice
+ * 5. Strictly fails if server encounters error (NEVER fakes reservation on failure)
  */
 export const openWhatsAppOrder = async ({
   cart = [],
@@ -80,24 +103,57 @@ export const openWhatsAppOrder = async ({
     return { success: false, reason: 'empty_cart' };
   }
 
+  // Enforce customer info requirements
+  if (!customerName || customerName.trim().length < 2) {
+    toast.error('يرجى كتابة الاسم الكريم (حرفان على الأقل)');
+    return { success: false, reason: 'missing_name' };
+  }
+
+  if (!phone || phone.trim().length < 9) {
+    toast.error('يرجى إدخال رقم هاتف صالح للتواصل (9 أرقام على الأقل)');
+    return { success: false, reason: 'missing_phone' };
+  }
+
+  if (!location || location.trim().length < 5) {
+    toast.error('يرجى كتابة عنوان التوصيل بالتفصيل (5 أحرف على الأقل)');
+    return { success: false, reason: 'missing_location' };
+  }
+
+  // Clean items array
   const items = cart.map((i) => ({
-    productId: i.productId,
-    quantity: i.quantity || 1,
+    productId: Number(i.productId || i.id),
+    quantity: Math.max(1, Number(i.quantity) || 1),
   }));
+
+  // Unique idempotency key per checkout attempt
+  const idempotencyKey = `wa-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
 
   try {
     // 1. Reserve stock with backend
     const response = await axios.post('/order/whatsapp-draft', {
       items,
-      customerName,
-      customerPhone: phone,
-      location,
+      customerName: customerName.trim(),
+      customerPhone: phone.trim(),
+      location: location.trim(),
       userId,
+      idempotencyKey,
     });
 
     const data = response.data;
     if (data && data.orderCode) {
-      // Store draft reservation info locally
+      // Store draft reservation info locally with waUrl so user can resume anytime
+      const waUrl = data.waUrl || `https://wa.me/${getWhatsAppNumber(social)}?text=${encodeURIComponent(
+        generateWhatsAppOrderMessage({
+          orderCode: data.orderCode,
+          cart,
+          products,
+          customerName: customerName.trim(),
+          location: location.trim(),
+          phone: phone.trim(),
+          total: data.totalCost || total,
+        })
+      )}`;
+
       localStorage.setItem(
         'lb_active_reservation',
         JSON.stringify({
@@ -106,35 +162,33 @@ export const openWhatsAppOrder = async ({
           expiresAt: data.expiresAt,
           secretToken: data.secretToken,
           totalCost: data.totalCost,
+          waUrl,
+          customerName: customerName.trim(),
+          customerPhone: phone.trim(),
+          location: location.trim(),
           createdAt: new Date().toISOString(),
         })
       );
 
-      // Open server-generated invoice URL or build with confirmed order code
-      const waUrl = data.waUrl || `https://wa.me/${getWhatsAppNumber(social)}?text=${encodeURIComponent(
-        generateWhatsAppOrderMessage({
-          orderCode: data.orderCode,
-          cart,
-          products,
-          customerName,
-          location,
-          phone,
-          total: data.totalCost || total,
-        })
-      )}`;
+      // Attempt to open WhatsApp in new tab
+      const win = window.open(waUrl, '_blank', 'noopener,noreferrer');
+      const popupBlocked = !win || win.closed || typeof win.closed === 'undefined';
 
-      window.open(waUrl, '_blank', 'noopener,noreferrer');
       return {
         success: true,
         orderCode: data.orderCode,
         expiresAt: data.expiresAt,
         secretToken: data.secretToken,
+        waUrl,
+        popupBlocked,
       };
     }
-  } catch (err) {
-    console.warn('Backend stock reservation notice:', err);
 
-    // If 409 Insufficient Stock: halt and inform user
+    throw new Error('لم يتم استلام رقم الطلب من الخادم');
+  } catch (err) {
+    console.error('Backend stock reservation error:', err);
+
+    // If 409 Insufficient Stock: inform user clearly
     if (err.response?.status === 409) {
       const msg = err.response.data?.message || 'عذراً، بعض المنتجات المطلوبة نفدت من المخزون أو الكمية غير كافية!';
       toast.error(msg, { duration: 6000 });
@@ -146,23 +200,16 @@ export const openWhatsAppOrder = async ({
       };
     }
 
-    // Graceful Fallback if server is asleep / network error:
-    // Open client WhatsApp anyway so user order is never dropped
-    const fallbackMessage = generateWhatsAppOrderMessage({
-      cart,
-      products,
-      customerName,
-      location,
-      phone,
-      total,
-    });
-    const waNumber = getWhatsAppNumber(social);
-    const fallbackUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent(fallbackMessage)}`;
-    window.open(fallbackUrl, '_blank', 'noopener,noreferrer');
+    // Server or network error: DO NOT fake success. Keep cart intact and inform user.
+    const errorMsg =
+      err.response?.data?.message ||
+      'تعذر حجز المخزون وتأكيد الطلب على الخادم حالياً. يرجى التحقق من اتصالك وإعادة المحاولة.';
+    toast.error(errorMsg, { duration: 6000 });
 
     return {
-      success: true,
-      fallback: true,
+      success: false,
+      reason: 'server_error',
+      message: errorMsg,
     };
   }
 };

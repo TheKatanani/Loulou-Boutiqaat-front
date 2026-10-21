@@ -31,35 +31,35 @@ const Summary = ({ setShow }) => {
 
   const handleQuickWhatsApp = async () => {
     if (!hasItems) return;
+
+    // If user lacks phone or address, open Checkout modal to complete details
+    if (!isAuthenticated || !user?.phone || !user?.location) {
+      setShow(true);
+      return;
+    }
+
     setIsReserving(true);
     const toastId = toast.loading('جارٍ حجز المنتجات وتجهيز واتساب... ⏳');
 
     const result = await openWhatsAppOrder({
       cart: cartItems,
       products,
-      customerName: user?.name || '',
-      phone: user?.phone || '',
-      location: user?.location || '',
+      customerName: user.name,
+      phone: user.phone,
+      location: user.location,
       total,
       social,
-      userId: user?.id || null,
+      userId: user.id,
     });
 
     toast.dismiss(toastId);
     setIsReserving(false);
 
     if (result && result.success) {
-      if (isAuthenticated) {
-        dispatch(clearCart({ axiosPrivate }));
-      } else {
-        localStorage.removeItem('cart');
-      }
+      dispatch(clearCart({ axiosPrivate }));
       dispatch(resetState());
-
       if (result.orderCode) {
         toast.success(`تم حجز طلبك ${result.orderCode} بنجاح لمدة 60 دقيقة في المخزون! 🌸`);
-      } else {
-        toast.success('تم تحويل طلبك بنجاح إلى واتساب! 🌸 شكراً لتسوقك من لولو بوتيكات');
       }
     }
   };
