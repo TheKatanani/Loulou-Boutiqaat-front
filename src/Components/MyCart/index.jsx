@@ -5,9 +5,9 @@ import { Arrow } from '../../Icons'
 import MyCartItem from '../MyCartItem'
 import { MyCartStyled } from './styled'
 import { useDispatch, useSelector } from 'react-redux'
-import { clearCart, selectCart, selectQuantity } from '../../redux/reducers/cart'
+import { clearCart, resetState as resetCartState, selectCart, selectQuantity } from '../../redux/reducers/cart'
 import { selectPublishedProducts } from '../../redux/reducers/products'
-import { selectUser } from '../../redux/reducers/auth'
+import { SelectIsAuthenticated, selectUser } from '../../redux/reducers/auth'
 import useAxiosPrivate from '../../Hook/useAxiosPrivet'
 
 const MyCart = () => {
@@ -16,8 +16,20 @@ const MyCart = () => {
   const quantity = useSelector(selectQuantity)
   const cart = useSelector(selectCart)
   const products = useSelector(selectPublishedProducts)
-  const { id: userId } = useSelector(selectUser)
+  const user = useSelector(selectUser)
+  const userId = user?.id
+  const isAuthenticated = useSelector(SelectIsAuthenticated)
   const axiosPrivate = useAxiosPrivate()
+
+  const handleClearCart = () => {
+    if (isAuthenticated && userId) {
+      dispatch(clearCart({ userId, axiosPrivate }))
+    } else {
+      localStorage.removeItem('cart')
+      dispatch(resetCartState())
+    }
+  }
+
   const dataCart = cart?.map(cartItem => {
     const foundedItem = products?.find(product => +product?.id === +cartItem?.productId)
     if (foundedItem) {
@@ -25,6 +37,7 @@ const MyCart = () => {
     }
     return undefined
   })
+
   return (
     <MyCartStyled>
       <h6>سلتي ({quantity})</h6>
@@ -38,7 +51,7 @@ const MyCart = () => {
         </div>
         <div className="myButtons">
           <PrimaryButton onClick={() => navigate("/home")}><Arrow />عد للمتجر</PrimaryButton>
-          <WhitePrimaryButton onClick={() => dispatch(clearCart({ userId, axiosPrivate }))}>افرغ السلة</WhitePrimaryButton>
+          <WhitePrimaryButton onClick={handleClearCart}>افرغ السلة</WhitePrimaryButton>
         </div>
       </div>
     </MyCartStyled>

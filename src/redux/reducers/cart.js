@@ -46,8 +46,26 @@ const cartSlice = createSlice({
       const {
         productId
       } = action.payload
-      state.cart = state.cart.filter(el => el.productId !== productId)
+      state.cart = state.cart.filter(el => +el.productId !== +productId)
+      localStorage.setItem('cart', JSON.stringify(state.cart))
       state.quantity = state.cart.reduce((_quantity, item) => item.quantity + _quantity, 0)
+    },
+    quantityCartItemLocal: (state, action) => {
+      const { productId, operator } = action.payload
+      const index = state.cart.findIndex(el => +el.productId === +productId)
+      if (index !== -1) {
+        if (operator === 'increase' || operator === 'INCREASE' || operator === 1) {
+          state.cart[index].quantity = (state.cart[index].quantity || 1) + 1
+        } else {
+          if (state.cart[index].quantity > 1) {
+            state.cart[index].quantity -= 1
+          } else {
+            state.cart.splice(index, 1)
+          }
+        }
+        localStorage.setItem('cart', JSON.stringify(state.cart))
+        state.quantity = state.cart.reduce((_quantity, item) => item.quantity + _quantity, 0)
+      }
     }
   },
   extraReducers: (builder) => {
@@ -210,6 +228,7 @@ export const {
   getItemsQuantity,
   addToCartLocal,
   removeFromCartLocal,
+  quantityCartItemLocal,
   resetState,
   setCartLocal
 } = cartSlice.actions

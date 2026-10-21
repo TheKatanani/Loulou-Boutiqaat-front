@@ -185,7 +185,7 @@ const MyRoutes = () => {
               <Saved />
             </ErrorBoundary>
           } />
-          <Route path="cart" element={<PrivateRoute requireRole={[ROLES.USER, ROLES.ADMIN, ROLES.EDITOR]} />}>
+          <Route path="cart">
             <Route index element={
               <ErrorBoundary>
                 <Cart />
