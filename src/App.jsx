@@ -16,6 +16,8 @@ import useAxiosPrivate from './Hook/useAxiosPrivet';
 import ErrorBoundary from './Components/common/Errorboundary';
 import { Toaster } from 'react-hot-toast';
 import FloatingWhatsApp from './Components/common/FloatingWhatsApp';
+import CartDrawer from './Components/CartDrawer';
+import ScrollToTop from './Components/common/ScrollToTop';
 
 function App() {
   const [theme, setTheme] = useState(() => {
@@ -77,6 +79,8 @@ function App() {
         <ErrorBoundary>
           <MyRoutes />
         </ErrorBoundary>
+        <ScrollToTop />
+        <CartDrawer />
         <FloatingWhatsApp />
       </ThemeContext.Provider>
     </ThemeProvider>

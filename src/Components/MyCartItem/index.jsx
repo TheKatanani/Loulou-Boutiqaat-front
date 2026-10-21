@@ -1,82 +1,114 @@
-import React from 'react'
-import { WhitePrimaryButton } from '../../Global/components'
-import { MyCartItemStyled } from './styled'
+import React from 'react';
+import { MyCartItemStyled } from './styled';
 import { Link } from 'react-router-dom';
 import { quantityCartItem, quantityCartItemLocal, removeFromCart, removeFromCartLocal } from '../../redux/reducers/cart';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToSaved, addTosavedLocal, removeFromSaved, removeFromsavedLocal, selectsaved } from '../../redux/reducers/saved';
 import { SelectIsAuthenticated } from '../../redux/reducers/auth';
-import ImagesSliderCard from '../common/ImagesSliderCard';
 import { OPERATOR } from '../../Actions';
 import useAxiosPrivate from '../../Hook/useAxiosPrivet';
+import toast from 'react-hot-toast';
 
-const MyCartItem = ({ itemQuantity, data: { images, name, price = 0, description, id } }) => {
-  const dispatch = useDispatch()
-  const saved = useSelector(selectsaved)
-  const isAuthenticated = useSelector(SelectIsAuthenticated)
-  const axiosPrivate = useAxiosPrivate()
-  const foundedCart = saved?.find(el => String(el) === String(id))
-  const isInSaved = !!foundedCart;
+const MyCartItem = ({ itemQuantity = 1, data: { images, name, price = 0, id } }) => {
+  const dispatch = useDispatch();
+  const saved = useSelector(selectsaved) || [];
+  const isAuthenticated = useSelector(SelectIsAuthenticated);
+  const axiosPrivate = useAxiosPrivate();
+
+  const foundedSaved = saved.find((el) => String(el) === String(id));
+  const isInSaved = Boolean(foundedSaved);
+
+  const imageList = Array.isArray(images) ? images : [images];
+  const mainImg = imageList[0] || 'https://images.unsplash.com/photo-1594035910387-fea47794261f?w=400';
 
   const handleRemove = () => {
     if (isAuthenticated) {
-      dispatch(removeFromCart({ productId: id, axiosPrivate }))
+      dispatch(removeFromCart({ productId: id, axiosPrivate }));
     } else {
-      dispatch(removeFromCartLocal({ productId: id }))
+      dispatch(removeFromCartLocal({ productId: id }));
     }
-  }
+    toast('تمت إزالة المنتج من السلة', { icon: '🗑️' });
+  };
 
   const handleQuantity = (operator) => {
     if (isAuthenticated) {
-      dispatch(quantityCartItem({ productId: id, operator, axiosPrivate }))
+      dispatch(quantityCartItem({ productId: id, operator, axiosPrivate }));
     } else {
-      dispatch(quantityCartItemLocal({ productId: id, operator }))
+      dispatch(quantityCartItemLocal({ productId: id, operator }));
     }
-  }
+  };
 
   const handleToggleSaved = () => {
     if (isAuthenticated) {
       if (!isInSaved) {
-        dispatch(addToSaved({ productId: id, axiosPrivate }))
+        dispatch(addToSaved({ productId: id, axiosPrivate }));
+        toast.success('تمت إضافة المنتج إلى المفضلة ❤️');
       } else {
-        dispatch(removeFromSaved({ productId: id, axiosPrivate }))
+        dispatch(removeFromSaved({ productId: id, axiosPrivate }));
+        toast('تمت إزالة المنتج من المفضلة', { icon: '🤍' });
       }
     } else {
       if (!isInSaved) {
-        dispatch(addTosavedLocal({ productId: id }))
+        dispatch(addTosavedLocal({ productId: id }));
+        toast.success('تمت إضافة المنتج إلى المفضلة ❤️');
       } else {
-        dispatch(removeFromsavedLocal({ productId: id }))
+        dispatch(removeFromsavedLocal({ productId: id }));
+        toast('تمت إزالة المنتج من المفضلة', { icon: '🤍' });
       }
     }
-  }
+  };
 
   return (
-    <MyCartItemStyled {...{ isInSaved }}>
-      <div className='content'>
-        <div className="imgarea">
-          <ImagesSliderCard className="cart" images={images} />
-        </div>
-        <div className="text">
-          <p className='title'>{name}</p>
-          <p className='details'>{description?.slice(0, 120)}...<Link to={`/home/products/${id}`}>المزيد</Link></p>
-          <div className="buttons">
-            <WhitePrimaryButton onClick={handleRemove}>حذف</WhitePrimaryButton>
-            <WhitePrimaryButton className='saveForLater' onClick={handleToggleSaved}>
-              {isInSaved ? 'إزالة من المفضلة' : 'اضافة للمفضلة'}
-            </WhitePrimaryButton>
+    <MyCartItemStyled>
+      <div className="mainInfo">
+        <Link to={`/home/products/${id}`} className="imgBox">
+          <img src={mainImg} alt={name} loading="lazy" />
+        </Link>
+        <div className="textBox">
+          <Link to={`/home/products/${id}`} className="itemTitle">
+            {name}
+          </Link>
+          <span className="unitPrice">{price} ₪ للقطعة الواحدة</span>
+          <div className="actionButtons">
+            <button type="button" className="deleteBtn" onClick={handleRemove}>
+              <span>🗑️</span>
+              <span>حذف</span>
+            </button>
+            <button type="button" className="saveBtn" onClick={handleToggleSaved}>
+              <span>{isInSaved ? '❤️ في المفضلة' : '🤍 إضافة للمفضلة'}</span>
+            </button>
           </div>
         </div>
       </div>
-      <div className="quntity">
-        <p className='price'>{price}*{itemQuantity}={price * itemQuantity}₪</p>
-        <div className="itemQuantity">
-          <button className="increase" onClick={() => handleQuantity(OPERATOR.INCREASE)}>+</button>
-          <p className="quantity">{itemQuantity}</p>
-          <button className="decrease" onClick={() => handleQuantity(OPERATOR.DECREASE)}>-</button>
+
+      <div className="pricingAndQuantity">
+        <div className="qtyPill">
+          <button
+            type="button"
+            onClick={() => handleQuantity(OPERATOR.INCREASE)}
+            aria-label="زيادة الكمية"
+          >
+            +
+          </button>
+          <span className="quantityValue">{itemQuantity}</span>
+          <button
+            type="button"
+            onClick={() => handleQuantity(OPERATOR.DECREASE)}
+            aria-label="إنقاص الكمية"
+          >
+            -
+          </button>
+        </div>
+
+        <div className="subtotalBox">
+          <span className="subtotalPrice">{price * itemQuantity} ₪</span>
+          <span className="calcDetail">
+            ({itemQuantity} × {price} ₪)
+          </span>
         </div>
       </div>
     </MyCartItemStyled>
-  )
-}
+  );
+};
 
-export default MyCartItem
+export default MyCartItem;

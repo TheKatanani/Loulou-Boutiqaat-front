@@ -1,15 +1,29 @@
 import styled from "styled-components";
 
 export const StyledSaved = styled.div` 
-  svg{
-    ${props=>props.isInSaved&&`background-color:${props.theme.palette.ColorApp.primary}`};
-    padding:5px;
-    width:30px;
-    height:30px;
-    border: 1px solid ${(props) =>  props.theme.palette.ColorApp.gray_300};;
-    border-radius: 5px;
-    path{
-        ${props=>props.isInSaved&&`fill:${props.theme.palette.main}`};
-      }
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  svg {
+    padding: 6px;
+    width: 34px;
+    height: 34px;
+    border: 1.5px solid ${props => props.isInSaved ? props.theme.palette.ColorApp.primary : props.theme.palette.ColorApp.gray_300} !important;
+    border-radius: 8px;
+    background-color: ${props => props.isInSaved ? props.theme.palette.ColorApp.primary : props.theme.palette.main} !important;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    cursor: pointer;
+    box-shadow: ${props => props.isInSaved ? '0 4px 12px rgba(109, 40, 217, 0.35)' : '0 2px 6px rgba(0, 0, 0, 0.04)'};
+
+    path {
+      fill: ${props => props.isInSaved ? '#ffffff' : props.theme.palette.ColorApp.primary} !important;
+      transition: fill 0.2s ease;
+    }
+
+    &:hover {
+      transform: scale(1.08);
+      border-color: ${props => props.theme.palette.ColorApp.primary} !important;
+    }
   }
-`
+`;

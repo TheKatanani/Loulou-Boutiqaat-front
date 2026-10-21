@@ -11,9 +11,19 @@ const cartSlice = createSlice({
     cart: [],
     quantity: 0,
     error: [],
-    status: ''
+    status: '',
+    isDrawerOpen: false
   },
   reducers: {
+        openCartDrawer: (state) => {
+      state.isDrawerOpen = true;
+    },
+    closeCartDrawer: (state) => {
+      state.isDrawerOpen = false;
+    },
+    toggleCartDrawer: (state) => {
+      state.isDrawerOpen = !state.isDrawerOpen;
+    },
     getItemsQuantity: (state, action) => {
       state.quantity = action.payload
     },
@@ -41,6 +51,7 @@ const cartSlice = createSlice({
       state.cart = newCart
       localStorage.setItem('cart', JSON.stringify(newCart))
       state.quantity = state.cart.reduce((_quantity, item) => item.quantity + _quantity, 0)
+      state.isDrawerOpen = true
     },
     removeFromCartLocal: (state, action) => {
       const {
@@ -91,7 +102,8 @@ const cartSlice = createSlice({
       .addCase(addToCart.fulfilled, (state, action) => {
         state.status = STATUS.SUCCEEDED;
         state.cart = [...state.cart, action.payload];
-        state.quantity = state.cart?.reduce((_quantity, item) => item.quantity + _quantity, 0)
+        state.quantity = state.cart?.reduce((_quantity, item) => item.quantity + _quantity, 0);
+        state.isDrawerOpen = true;
       })
       .addCase(addToCart.rejected, (state, action) => {
         state.status = STATUS.FAILED;
@@ -225,6 +237,9 @@ export const removeFromCart = createAsyncThunk(
 )
 
 export const {
+  openCartDrawer,
+  closeCartDrawer,
+  toggleCartDrawer,
   getItemsQuantity,
   addToCartLocal,
   removeFromCartLocal,
@@ -234,4 +249,5 @@ export const {
 } = cartSlice.actions
 export const selectCart = state => state.cart.cart
 export const selectQuantity = state => state.cart.quantity
+export const selectIsDrawerOpen = state => state.cart.isDrawerOpen
 export default cartSlice.reducer;

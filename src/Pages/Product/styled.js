@@ -1,7 +1,8 @@
 import styled from "styled-components";
 
 export const StyledProductPage = styled.div`
-  margin: 130px 0 50px;
+  padding: 10px 0 60px;
+  margin: 0;
   direction: rtl;
 
   .breadcrumb {

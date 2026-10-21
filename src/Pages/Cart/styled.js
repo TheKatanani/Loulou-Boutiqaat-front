@@ -1,21 +1,32 @@
-import styled from 'styled-components'
+import styled from 'styled-components';
+
 export const PageStyled = styled.div`
-    margin: 60px auto;
-    direction: rtl;
-    .flex{
-      display: flex;
-      justify-content:space-between;
-      gap:20px;
-      flex-wrap: wrap;
-      @media (max-width: 576px) {
-          justify-content:center;
-      }
+  padding: 10px 0 60px;
+  direction: rtl;
+
+  .cartLayout {
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: 30px;
+    align-items: flex-start;
+
+    @media (max-width: 992px) {
+      grid-template-columns: 1fr;
+      gap: 24px;
     }
-    aside{
-      margin-top: 47px;
-      @media (max-width: 576px) {
-        margin-top: 20px;
-        width:100%;
-      }
+  }
+
+  .cartItemsSection {
+    width: 100%;
+  }
+
+  .cartSummarySection {
+    position: sticky;
+    top: 240px;
+    width: 100%;
+
+    @media (max-width: 992px) {
+      position: static;
     }
-`
+  }
+`;

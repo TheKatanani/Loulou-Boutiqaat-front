@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 import { MyCart, Order, Orders, Profile } from "../../Icons";
 import { SectionsStyle } from "./Styled";
-import { useSelector } from "react-redux";
-import { selectQuantity } from "../../redux/reducers/cart";
+import { useDispatch, useSelector } from "react-redux";
+import { openCartDrawer, selectQuantity } from "../../redux/reducers/cart";
 import { selectsaved } from "../../redux/reducers/saved";
 import { SelectIsAuthenticated } from "../../redux/reducers/auth";
 
@@ -11,10 +11,11 @@ import { ThemeContext } from "../../Context";
 import { darkTheme, lightTheme } from "../../Global/theme";
 
 const Sections = () => {
+  const dispatch = useDispatch();
   const [theme, setTheme] = useContext(ThemeContext);
-  const quantity = useSelector(selectQuantity)
-  const saved = useSelector(selectsaved)
-  const isAuthorized = useSelector(SelectIsAuthenticated)
+  const quantity = useSelector(selectQuantity);
+  const saved = useSelector(selectsaved);
+  const isAuthorized = useSelector(SelectIsAuthenticated);
 
   const toggleTheme = () => {
     const nextTheme = theme.theme === 'light' ? darkTheme : lightTheme;
@@ -49,10 +50,17 @@ const Sections = () => {
         <Orders />
         <p>المفضلة</p>
       </Link>
-      <Link to="/home/cart" className="icon cartLink">
+      <div
+        className="icon cartLink"
+        onClick={() => dispatch(openCartDrawer())}
+        role="button"
+        tabIndex={0}
+        title="فتح سلة المشتريات"
+        style={{ cursor: 'pointer' }}
+      >
         <MyCart />
         <p>السلة</p>
-      </Link>
+      </div>
     </SectionsStyle>
   );
 };
