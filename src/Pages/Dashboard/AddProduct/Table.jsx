@@ -24,11 +24,12 @@ const Table = ({ products }) => {
     )
     if (input === null || input.trim() === '') return
 
-    const parsed = parseInt(input.trim(), 10)
-    if (isNaN(parsed) || parsed < 0) {
-      toast.error('يرجى إدخال رقم صحيح أكبر من أو يساوي الصفر')
+    if (!/^\d+$/.test(input.trim())) {
+      toast.error('يرجى إدخال عدد صحيح أكبر من أو يساوي الصفر دون فواصل أو أحرف')
       return
     }
+
+    const parsed = Number(input.trim())
 
     try {
       await dispatch(
