@@ -1,38 +1,50 @@
-import React, { useMemo, useState } from 'react'
-import { useSelector } from 'react-redux'
-import { selectOrders } from '../../../redux/reducers/orders'
-import { selectUsers } from '../../../redux/reducers/users'
+import React, { useEffect, useState, useMemo } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { selectOrders, setOrders } from '../../../redux/reducers/orders'
+import useAxiosPrivate from '../../../Hook/useAxiosPrivet'
+import { selectUsers, setUsers } from '../../../redux/reducers/users'
 import Table from './Table'
-import { StyledOrders } from '../sytled'
-import Input from '../../../Components/common/Input'
-import PortalCard from '../../../Components/Portal'
-import Bill from '../../../Components/Bill'
-import UserCard from '../../../Components/UserCard'
+import Input from '../../../Components/Input'
+import { StyledOrders } from './styled'
 
 const Orders = () => {
+  const dispatch = useDispatch()
   const orders = useSelector(selectOrders)
   const users = useSelector(selectUsers)
   const [searchTerm, setSearchTerm] = useState('')
-  const [bill, setBill] = useState({ show: false, orders: [] })
-  const [userState, setUserState] = useState({ show: false, user: {} })
+  const axiosPrivate = useAxiosPrivate()
+
+  const [bill, setBill] = useState({
+    orders: [],
+    show: false
+  })
+  const [userState, setUserState] = useState({
+    userId: '',
+    show: false
+  })
 
   const handlePillShow = (orders) => {
     setBill({
-      show: true,
-      orders
+      orders: orders || [],
+      show: true
     })
   }
 
-  const handleUserShow = (user) => {
+  const handleUserShow = (userId) => {
     setUserState({
-      show: true,
-      user
+      userId,
+      show: true
     })
   }
 
   const handleSearchChanged = (e) => {
     setSearchTerm(e.target.value)
   }
+
+  useEffect(() => {
+    dispatch(setOrders({ axiosPrivate }))
+    dispatch(setUsers({ axiosPrivate }))
+  }, [dispatch, axiosPrivate])
 
   const ordersList = useMemo(() => (Array.isArray(orders) ? orders : []), [orders]);
   const usersList = useMemo(() => (Array.isArray(users) ? users : []), [users]);

@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { cancelOrder } from '../../redux/reducers/orders'
-import { StyledTable } from '../Dashboard/sytled'
-import PortalCard from '../../Components/Portal'
-import Bill from '../../Components/Bill'
-import dateFormater from '../../utils/dateFormater'
+import { StayledOrdersTable } from './styled'
+import PortalCard from '../../Components/UI/PortalCard'
+import Bill from '../../Components/common/Bill'
+import dateFormater from '../../utels/dateFormater'
 import useAxiosPrivate from '../../Hook/useAxiosPrivet'
 
 const renderOrderStatusBadge = (order) => {
@@ -38,7 +38,7 @@ const OrderList = ({ userOrders }) => {
   }
 
   return (
-    <StyledTable>
+    <StayledOrdersTable>
       <table>
         <thead>
           <tr>
@@ -108,7 +108,7 @@ const OrderList = ({ userOrders }) => {
           <Bill orders={bill?.orders} />
         </PortalCard>
       )}
-    </StyledTable>
+    </StayledOrdersTable>
   )
 }
 
