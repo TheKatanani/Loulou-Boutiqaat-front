@@ -28,6 +28,7 @@ const Table = ({ products }) => {
             <th className='images'>الصور</th>
             <th className='stars'>التقييم</th>
             <th className='category'>القسم</th>
+            <th className='stock'>المخزون</th>
             <th>حالة النشر</th>
             <th>تعديل</th>
             {user?.role === ROLES.ADMIN && <th>حذف</th>}
@@ -60,6 +61,15 @@ const Table = ({ products }) => {
                 </td>
                 <td className='stars'>⭐ {product.stars || 5}</td>
                 <td className='category'>{categories.find(el => el.id === Number(product.categoryId))?.name || 'غير محدد'}</td>
+                <td className='stock'>
+                  {Number(product?.stock) > 5 ? (
+                    <span style={{ color: '#059669', fontWeight: 700 }}>{product.stock} قطعة</span>
+                  ) : Number(product?.stock) > 0 ? (
+                    <span style={{ color: '#d97706', fontWeight: 700 }}>{product.stock} (محدود)</span>
+                  ) : (
+                    <span style={{ color: '#dc2626', fontWeight: 700 }}>نفذت الكمية</span>
+                  )}
+                </td>
                 <td className='visibility'>
                   <span className={`statusBadge ${isPublished ? 'published' : 'unpublished'}`}>
                     {isPublished ? '● منشور' : '○ مسودة'}

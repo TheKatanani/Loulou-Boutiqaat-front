@@ -1,50 +1,38 @@
-import React, { useEffect, useState, useMemo } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { selectOrders, setOrders } from '../../../redux/reducers/orders'
-import useAxiosPrivate from '../../../Hook/useAxiosPrivet'
-import { selectUsers, setUsers } from '../../../redux/reducers/users'
+import React, { useMemo, useState } from 'react'
+import { useSelector } from 'react-redux'
+import { selectOrders } from '../../../redux/reducers/orders'
+import { selectUsers } from '../../../redux/reducers/users'
 import Table from './Table'
-import Input from '../../../Components/Input'
-import { StyledOrders } from './styled'
+import { StyledOrders } from '../sytled'
+import Input from '../../../Components/common/Input'
+import PortalCard from '../../../Components/Portal'
+import Bill from '../../../Components/Bill'
+import UserCard from '../../../Components/UserCard'
 
 const Orders = () => {
-  const dispatch = useDispatch()
   const orders = useSelector(selectOrders)
   const users = useSelector(selectUsers)
   const [searchTerm, setSearchTerm] = useState('')
-  const axiosPrivate = useAxiosPrivate()
-
-  const [bill, setBill] = useState({
-    orders: [],
-    show: false
-  })
-  const [userState, setUserState] = useState({
-    userId: '',
-    show: false
-  })
+  const [bill, setBill] = useState({ show: false, orders: [] })
+  const [userState, setUserState] = useState({ show: false, user: {} })
 
   const handlePillShow = (orders) => {
     setBill({
-      orders: orders || [],
-      show: true
+      show: true,
+      orders
     })
   }
 
-  const handleUserShow = (userId) => {
+  const handleUserShow = (user) => {
     setUserState({
-      userId,
-      show: true
+      show: true,
+      user
     })
   }
 
   const handleSearchChanged = (e) => {
     setSearchTerm(e.target.value)
   }
-
-  useEffect(() => {
-    dispatch(setOrders({ axiosPrivate }))
-    dispatch(setUsers({ axiosPrivate }))
-  }, [dispatch, axiosPrivate])
 
   const ordersList = useMemo(() => (Array.isArray(orders) ? orders : []), [orders]);
   const usersList = useMemo(() => (Array.isArray(users) ? users : []), [users]);
@@ -57,13 +45,41 @@ const Orders = () => {
       return (
         user?.name?.toLowerCase().includes(term) || 
         user?.phone?.includes(term) ||
+        order?.customerName?.toLowerCase().includes(term) ||
+        order?.customerPhone?.includes(term) ||
+        order?.orderCode?.toLowerCase().includes(term) ||
         String(order?.id)?.includes(term)
       );
     });
   }, [searchTerm, ordersList, usersList]);
 
-  const pendingOrders = useMemo(() => visibleOrders.filter(order => !order?.status), [visibleOrders]);
-  const completedOrders = useMemo(() => visibleOrders.filter(order => Boolean(order?.status)), [visibleOrders]);
+  // Group by verified SSOT status
+  const activeOrders = useMemo(() => {
+    return visibleOrders.filter(order => {
+      const st = order?.orderStatus;
+      if (st) {
+        return st === 'pending_whatsapp' || st === 'confirmed';
+      }
+      return !order?.status;
+    });
+  }, [visibleOrders]);
+
+  const completedOrders = useMemo(() => {
+    return visibleOrders.filter(order => {
+      const st = order?.orderStatus;
+      if (st) {
+        return st === 'delivered';
+      }
+      return Boolean(order?.status);
+    });
+  }, [visibleOrders]);
+
+  const cancelledOrders = useMemo(() => {
+    return visibleOrders.filter(order => {
+      const st = order?.orderStatus;
+      return st === 'cancelled' || st === 'expired';
+    });
+  }, [visibleOrders]);
 
   return (
     <StyledOrders>
@@ -81,18 +97,28 @@ const Orders = () => {
       <div style={{ marginBottom: 35 }}>
         <h2 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#f59e0b', display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
           <span>⏳</span>
-          <span>الطلبات الجارية والمطلوبة ({pendingOrders.length})</span>
+          <span>الطلبات الجارية والمطلوبة ({activeOrders.length})</span>
         </h2>
-        <Table orders={pendingOrders} {...{ handlePillShow, handleUserShow, bill, setBill, userState, setUserState }} />
+        <Table orders={activeOrders} {...{ handlePillShow, handleUserShow, bill, setBill, userState, setUserState }} />
       </div>
 
-      <div>
+      <div style={{ marginBottom: 35 }}>
         <h2 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#10b981', display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
           <span>✅</span>
           <span>الطلبات المكتملة والمُسلَّمة ({completedOrders.length})</span>
         </h2>
         <Table orders={completedOrders} {...{ handlePillShow, handleUserShow, bill, setBill, userState, setUserState }} />
       </div>
+
+      {cancelledOrders.length > 0 && (
+        <div>
+          <h2 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#94a3b8', display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+            <span>✕</span>
+            <span>الطلبات الملغاة والمنتهية الصلاحية ({cancelledOrders.length})</span>
+          </h2>
+          <Table orders={cancelledOrders} {...{ handlePillShow, handleUserShow, bill, setBill, userState, setUserState }} />
+        </div>
+      )}
     </StyledOrders>
   )
 }

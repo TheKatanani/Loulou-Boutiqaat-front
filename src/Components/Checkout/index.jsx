@@ -62,11 +62,15 @@ const Checkout = ({ cancel }) => {
   const handleCancelActiveReservation = async () => {
     setIsSubmitting(true);
     const toastId = toast.loading('جارٍ إلغاء الحجز وإعادة الكميات للمخزون...');
-    await cancelActiveReservation();
-    setActiveReservation(null);
+    const res = await cancelActiveReservation();
     setIsSubmitting(false);
     toast.dismiss(toastId);
-    toast.success('تم إلغاء الحجز بنجاح وأعيدت الكميات للمخزون');
+    if (res && res.success) {
+      setActiveReservation(null);
+      toast.success('تم إلغاء الحجز بنجاح وأعيدت الكميات للمخزون');
+    } else {
+      toast.error(res?.error || 'تعذر إلغاء الحجز على الخادم، يرجى التحقق من اتصالك والمحاولة مجدداً');
+    }
   };
 
   // 1. WhatsApp Checkout Handler (Works for both Guests and Logged-In Users)
@@ -100,6 +104,8 @@ const Checkout = ({ cancel }) => {
     setIsSubmitting(true);
     const toastId = toast.loading('جارٍ حجز المنتجات في المخزون وتجهيز الفاتورة... ⏳');
 
+    const authToken = isAuthenticated ? (user?.token || user?.accessToken) : null;
+
     const result = await openWhatsAppOrder({
       cart,
       products,
@@ -108,19 +114,15 @@ const Checkout = ({ cancel }) => {
       phone,
       total,
       social,
-      userId: user?.id || null
+      userId: user?.id || null,
+      authToken,
     });
 
     toast.dismiss(toastId);
     setIsSubmitting(false);
 
     if (result && result.success) {
-      // Clear cart only on verified reservation
-      if (isAuthenticated) {
-        dispatch(clearCart({ axiosPrivate }));
-      } else {
-        localStorage.removeItem('cart');
-      }
+      // Keep cart intact so user can resume anytime or review their selections
       dispatch(resetState());
       dispatch(setStatusSucceeded());
 
@@ -142,6 +144,8 @@ const Checkout = ({ cancel }) => {
       return;
     }
 
+    const idempotencyKey = `web-${user?.id || 'auth'}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+
     const order = {
       userId: user?.id,
       orders: cart,
@@ -149,7 +153,8 @@ const Checkout = ({ cancel }) => {
       totalCost: total,
       paid: 0,
       customerName: user?.name || '',
-      customerPhone: userPhone || user?.phone || ''
+      customerPhone: userPhone || user?.phone || '',
+      idempotencyKey,
     };
 
     setIsSubmitting(true);

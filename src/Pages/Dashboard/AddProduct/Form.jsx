@@ -115,6 +115,20 @@ const Form = () => {
             value={formData.prevPrice || ''}
           />
         </div> 
+        <div>
+          {errors?.stock && <ErrorForm>{errors?.stock}</ErrorForm>}
+          <Input
+            id="stock"
+            type="number"
+            min="0"
+            step="1"
+            placeholder="0"
+            label='المخزون المتوفر (قطع)'
+            required
+            onChange={handleInputChange}
+            value={formData.stock !== undefined && formData.stock !== null ? formData.stock : ''}
+          />
+        </div>
       </div>
 
       <div className="d-flex">
