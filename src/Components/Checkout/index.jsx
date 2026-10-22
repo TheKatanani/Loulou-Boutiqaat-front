@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { StyledCheckOut } from './styled'
 import { useDispatch, useSelector } from 'react-redux'
 import { MainButton } from '../../Global/components'
-import { SelectIsAuthenticated, selectUser } from '../../redux/reducers/auth'
+import { SelectIsAuthenticated, selectUser, selectToken } from '../../redux/reducers/auth'
 import { clearCart, resetState, selectCart } from '../../redux/reducers/cart'
 import { selectProducts } from '../../redux/reducers/products'
 import { selectSocial } from '../../redux/reducers/social'
@@ -19,6 +19,7 @@ const Checkout = ({ cancel }) => {
   const navigate = useNavigate()
   const user = useSelector(selectUser)
   const isAuthenticated = useSelector(SelectIsAuthenticated)
+  const authToken = useSelector(selectToken)
   const cart = useSelector(selectCart)
   const products = useSelector(selectProducts)
   const social = useSelector(selectSocial)
@@ -104,8 +105,6 @@ const Checkout = ({ cancel }) => {
     setIsSubmitting(true);
     const toastId = toast.loading('جارٍ حجز المنتجات في المخزون وتجهيز الفاتورة... ⏳');
 
-    const authToken = isAuthenticated ? (user?.token || user?.accessToken) : null;
-
     const result = await openWhatsAppOrder({
       cart,
       products,
@@ -115,15 +114,14 @@ const Checkout = ({ cancel }) => {
       total,
       social,
       userId: user?.id || null,
-      authToken,
+      authToken: isAuthenticated ? authToken : null,
     });
 
     toast.dismiss(toastId);
     setIsSubmitting(false);
 
     if (result && result.success) {
-      // Keep cart intact so user can resume anytime or review their selections
-      dispatch(resetState());
+      // Keep cart intact in Redux & localStorage! Do NOT wipe cart on draft reservation.
       dispatch(setStatusSucceeded());
 
       if (result.popupBlocked && result.waUrl) {
@@ -144,7 +142,35 @@ const Checkout = ({ cancel }) => {
       return;
     }
 
-    const idempotencyKey = `web-${user?.id || 'auth'}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+    // Compute web order attempt signature to reuse idempotencyKey on retry
+    const sortedItems = [...cart]
+      .sort((a, b) => Number(a.productId || a.id) - Number(b.productId || b.id))
+      .map((i) => `${Number(i.productId || i.id)}:${Number(i.quantity || 1)}`)
+      .join('|');
+    const signature = `web::${user?.id || 'auth'}::${userLocation.trim()}::${sortedItems}`;
+
+    let idempotencyKey;
+    try {
+      const rawPending = sessionStorage.getItem('lb_pending_web_attempt');
+      if (rawPending) {
+        const pending = JSON.parse(rawPending);
+        if (pending.signature === signature && Date.now() - pending.timestamp < 15 * 60 * 1000) {
+          idempotencyKey = pending.key;
+        }
+      }
+    } catch (e) {}
+
+    if (!idempotencyKey) {
+      idempotencyKey = `web-${user?.id || 'auth'}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+      sessionStorage.setItem(
+        'lb_pending_web_attempt',
+        JSON.stringify({
+          key: idempotencyKey,
+          signature,
+          timestamp: Date.now(),
+        })
+      );
+    }
 
     const order = {
       userId: user?.id,
@@ -162,6 +188,7 @@ const Checkout = ({ cancel }) => {
 
     try {
       const res = await dispatch(addOrder({ order, axiosPrivate })).unwrap();
+      sessionStorage.removeItem('lb_pending_web_attempt');
       toast.dismiss(toastId);
       setIsSubmitting(false);
 

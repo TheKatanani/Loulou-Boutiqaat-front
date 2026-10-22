@@ -169,6 +169,9 @@ export const productsSlice = createSlice({
           state.error = action?.error;
         }
       })
+      .addCase(adjustProductStock.fulfilled, (state, action) => {
+        state.products = state.products.map(product => product.id === action.payload.id ? action.payload : product);
+      })
   }
 });
 export const setProducts = createAsyncThunk(
@@ -209,10 +212,29 @@ export const updateProduct = createAsyncThunk(
     product,
     axiosPrivate
   }) => {
-    const response = await axiosPrivate.put(`/product/${product.id}`, {
-      ...product
-    });
+    // Exclude stock from general product update to prevent stale inventory overwrite
+    const { stock, ...generalData } = product;
+    const response = await axiosPrivate.put(`/product/${product.id}`, generalData);
     return response.data
+  }
+)
+export const adjustProductStock = createAsyncThunk(
+  "products/adjustProductStock",
+  async ({
+    id,
+    stock,
+    expectedStock,
+    delta,
+    axiosPrivate
+  }) => {
+    const payload = {};
+    if (delta !== undefined) payload.delta = delta;
+    if (stock !== undefined) {
+      payload.stock = stock;
+      if (expectedStock !== undefined) payload.expectedStock = expectedStock;
+    }
+    const response = await axiosPrivate.patch(`/product/${id}/stock`, payload);
+    return response.data;
   }
 )
 export const deleteProduct = createAsyncThunk(
@@ -244,6 +266,5 @@ export const selectPublishedProducts = state => state.products.publishedProducts
 export const selectMood = state => state.products.mood;
 export const selectStatus = state => state.products.status;
 export const selectError = state => state.products.error;
-
 
 export default productsSlice.reducer;

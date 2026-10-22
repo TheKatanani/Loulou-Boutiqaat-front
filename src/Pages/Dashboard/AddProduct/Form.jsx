@@ -1,11 +1,11 @@
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { addNewProduct, cancelUpdate, handleInputChangeReducer, selectAddProductsState, selectError, selectMood, selectStatus, setStatusFailed, setStatusIdle, setStatusLoading, updateProduct } from '../../../redux/reducers/products.js'
+import { selectCategories, setCategories } from '../../../redux/reducers/categories.js'
 import Input from '../../../Components/Input/index.jsx'
 import { Input as InputStyle, Label } from '../../../Components/Input/style.js'
 import Select from '../../../Components/Select/index.jsx'
-import { useDispatch, useSelector } from 'react-redux'
-import { selectCategories, setCategories } from '../../../redux/reducers/categories.js'
 import FileHandler from '../../../Components/common/FileHandler/index.jsx'
-import { useEffect } from 'react'
-import { addNewProduct, cancelUpdate, handleInputChangeReducer, selectAddProductsState, selectError, selectMood, selectStatus, setStatusFailed, setStatusIdle, setStatusLoading, updateProduct } from '../../../redux/reducers/products.js'
 import { MOOD } from '../../../Actions/index.js'
 import { StyledForm } from '../sytled.js'
 import ButtonAnimation from '../../../Components/common/ButtonAnimation/index.jsx'
@@ -123,11 +123,17 @@ const Form = () => {
             min="0"
             step="1"
             placeholder="0"
-            label='المخزون المتوفر (قطع)'
-            required
+            label={mood === MOOD.UPDATE ? 'المخزون الحالي (محمي من التعديل العرضي)' : 'المخزون الافتتاحي (قطع)'}
+            disabled={mood === MOOD.UPDATE}
+            required={mood === MOOD.ADD}
             onChange={handleInputChange}
             value={formData.stock !== undefined && formData.stock !== null ? formData.stock : ''}
           />
+          {mood === MOOD.UPDATE && (
+            <p style={{ margin: '4px 0 0', fontSize: '0.74rem', color: '#6366f1' }}>
+              💡 لتعديل المخزون استخدم زر إدارة المخزون [🔢] في الجدول لمنع التعارض مع الحجوزات الحية
+            </p>
+          )}
         </div>
       </div>
 

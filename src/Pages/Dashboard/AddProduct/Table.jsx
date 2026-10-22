@@ -1,11 +1,12 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { deleteProduct, selectAddProductsState, selectMood, setUpdateProduct } from '../../../redux/reducers/products'
+import { adjustProductStock, deleteProduct, selectAddProductsState, selectMood, setUpdateProduct } from '../../../redux/reducers/products'
 import { selectCategories } from '../../../redux/reducers/categories'
 import { StyledTable } from '../sytled'
 import { MOOD, ROLES } from '../../../Actions'
 import useAxiosPrivate from '../../../Hook/useAxiosPrivet'
 import { selectUser } from '../../../redux/reducers/auth'
+import toast from 'react-hot-toast'
 
 const Table = ({ products }) => {
   const categories = useSelector(selectCategories)
@@ -14,6 +15,35 @@ const Table = ({ products }) => {
   const { id } = useSelector(selectAddProductsState)
   const mood = useSelector(selectMood)
   const user = useSelector(selectUser)
+
+  const handleAdjustStock = async (product) => {
+    const current = Number(product.stock ?? 0)
+    const input = window.prompt(
+      `تعديل مخزون "${product.name}":\nالكمية المسجلة حالياً: ${current} قطعة.\nأدخلي الكمية الجديدة المتوفرة:`,
+      current
+    )
+    if (input === null || input.trim() === '') return
+
+    const parsed = parseInt(input.trim(), 10)
+    if (isNaN(parsed) || parsed < 0) {
+      toast.error('يرجى إدخال رقم صحيح أكبر من أو يساوي الصفر')
+      return
+    }
+
+    try {
+      await dispatch(
+        adjustProductStock({
+          id: product.id,
+          stock: parsed,
+          expectedStock: current,
+          axiosPrivate,
+        })
+      ).unwrap()
+      toast.success(`تم تحديث مخزون "${product.name}" إلى ${parsed} قطعة بنجاح! 📦`)
+    } catch (err) {
+      toast.error(err?.message || 'تعذر تحديث المخزون، قد يكون تغير في هذه الأثناء')
+    }
+  }
 
   return (
     <StyledTable>
@@ -62,13 +92,30 @@ const Table = ({ products }) => {
                 <td className='stars'>⭐ {product.stars || 5}</td>
                 <td className='category'>{categories.find(el => el.id === Number(product.categoryId))?.name || 'غير محدد'}</td>
                 <td className='stock'>
-                  {Number(product?.stock) > 5 ? (
-                    <span style={{ color: '#059669', fontWeight: 700 }}>{product.stock} قطعة</span>
-                  ) : Number(product?.stock) > 0 ? (
-                    <span style={{ color: '#d97706', fontWeight: 700 }}>{product.stock} (محدود)</span>
-                  ) : (
-                    <span style={{ color: '#dc2626', fontWeight: 700 }}>نفذت الكمية</span>
-                  )}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, justifyContent: 'center' }}>
+                    {Number(product?.stock) > 5 ? (
+                      <span style={{ color: '#059669', fontWeight: 700 }}>{product.stock} قطعة</span>
+                    ) : Number(product?.stock) > 0 ? (
+                      <span style={{ color: '#d97706', fontWeight: 700 }}>{product.stock} (محدود)</span>
+                    ) : (
+                      <span style={{ color: '#dc2626', fontWeight: 700 }}>نفذت الكمية</span>
+                    )}
+                    <button
+                      type="button"
+                      title="تعديل المخزون المباشر بأمان"
+                      onClick={() => handleAdjustStock(product)}
+                      style={{
+                        background: '#f8fafc',
+                        border: '1px solid #cbd5e1',
+                        borderRadius: '4px',
+                        cursor: 'pointer',
+                        padding: '2px 6px',
+                        fontSize: '0.78rem',
+                      }}
+                    >
+                      🔢
+                    </button>
+                  </div>
                 </td>
                 <td className='visibility'>
                   <span className={`statusBadge ${isPublished ? 'published' : 'unpublished'}`}>
@@ -89,10 +136,9 @@ const Table = ({ products }) => {
                   <td>
                     <button 
                       type="button"
-                      className='delete' 
-                      disabled={mood === MOOD.UPDATE && product.id === id}
+                      className='delete'
                       onClick={() => {
-                        if (window.confirm(`هل أنت متأكد من حذف المنتج: "${product.name}"؟`)) {
+                        if (window.confirm('هل أنت متأكد من حذف هذا المنتج؟')) {
                           dispatch(deleteProduct({ id: product.id, axiosPrivate }))
                         }
                       }}
