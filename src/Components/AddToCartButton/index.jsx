@@ -5,18 +5,21 @@ import { selectUser } from '../../redux/reducers/auth';
 import { addToCart, addToCartLocal, removeFromCart, removeFromCartLocal, selectCart } from '../../redux/reducers/cart';
 import useAxiosPrivate from '../../Hook/useAxiosPrivet';
 import toast from 'react-hot-toast';
-const AddToCartButton = ({ id }) => {
+
+const AddToCartButton = ({ id, children, className = '', style }) => {
   const dispatch = useDispatch()
   const cart = useSelector(selectCart)
   const user = useSelector(selectUser)
   const axiosPrivate = useAxiosPrivate()
-  // let localStorageCart = localStorage.getItem('cart')||null
+
   let isInCart = false;
   if (cart) {
     const foundedCart = cart?.find(el => +el.productId === id)
     isInCart = !!foundedCart;  
   }
-  const handleAddToCart = () => {
+
+  const handleAddToCart = (e) => {
+    if (e) e.stopPropagation();
     if (user?.id) {
       if (!isInCart) {
         dispatch(addToCart({ productId: id, cart, axiosPrivate }))
@@ -35,9 +38,18 @@ const AddToCartButton = ({ id }) => {
       }
     }
   }
+
   return (
-    <StyledAddCart {...{ isInCart }} className='cart' onClick={handleAddToCart}>
+    <StyledAddCart
+      type="button"
+      {...{ isInCart }}
+      className={`cart ${className}`.trim()}
+      onClick={handleAddToCart}
+      style={style}
+      aria-label={isInCart ? 'إزالة من سلة المشتريات' : 'إضافة إلى سلة المشتريات'}
+    >
       <MoveToCart />
+      {children}
     </StyledAddCart>
   )
 }

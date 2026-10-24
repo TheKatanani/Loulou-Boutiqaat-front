@@ -155,7 +155,7 @@ export const StyledProductPage = styled.div`
       margin-bottom: 32px;
 
       .cartBtnWrapper {
-        display: flex;
+        display: inline-flex;
         align-items: center;
         gap: 10px;
         padding: 12px 24px;
@@ -163,6 +163,9 @@ export const StyledProductPage = styled.div`
         background: ${({ theme }) => theme.palette.ColorApp.primary_gradient};
         color: #ffffff;
         cursor: pointer;
+        border: none;
+        outline: none;
+        font-family: inherit;
         box-shadow: 0 8px 24px rgba(109, 40, 217, 0.3);
         transition: all 0.25s ease;
 
@@ -174,18 +177,18 @@ export const StyledProductPage = styled.div`
         .btnLabel {
           font-weight: 700;
           font-size: 1rem;
+          color: #ffffff;
         }
 
-        .cart {
-          border: none;
-          background: transparent;
-          svg {
-            border: none;
-            width: 24px;
-            height: 24px;
-            path {
-              fill: #ffffff;
-            }
+        svg {
+          border: none !important;
+          background: transparent !important;
+          box-shadow: none !important;
+          width: 24px;
+          height: 24px;
+          padding: 0 !important;
+          path {
+            fill: #ffffff !important;
           }
         }
       }

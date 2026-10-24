@@ -130,7 +130,14 @@ const ordersSlice = createSlice({
       })
       .addCase(cancelOrder.fulfilled, (state, action) => {
         state.status = STATUS.SUCCEEDED;
-        state.orders = state.orders.filter(order => String(order.id) !== String(action.payload));
+        const targetId = action.payload?.id;
+        if (targetId) {
+          state.orders = state.orders.map(order =>
+            String(order.id) === String(targetId) ? { ...order, ...action.payload } : order
+          );
+        } else {
+          state.orders = state.orders.filter(order => String(order.id) !== String(action.payload));
+        }
       })
       .addCase(cancelOrder.rejected, (state, action) => {
         state.status = STATUS.FAILED;

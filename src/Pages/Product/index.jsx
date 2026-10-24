@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import LogoLoading from '../../Components/common/LogoLoading'
 import { STATUS } from '../../Actions'
 import { selectPublishedProducts, selectStatus, setProducts } from '../../redux/reducers/products'
+import { selectCart } from '../../redux/reducers/cart'
 import { StyledProductPage } from './styled'
 
 const Product = () => {
@@ -17,6 +18,7 @@ const Product = () => {
   const dispatch = useDispatch()
   const products = useSelector(selectPublishedProducts)
   const status = useSelector(selectStatus)
+  const cart = useSelector(selectCart)
 
   useEffect(() => {
     if (!products.length) {
@@ -93,10 +95,11 @@ const Product = () => {
             </div>
 
             <div className="actionsRow">
-              <div className="cartBtnWrapper">
-                <AddToCartButton id={id} />
-                <span className="btnLabel">إضافة إلى سلة المشتريات</span>
-              </div>
+              <AddToCartButton id={id} className="cartBtnWrapper">
+                <span className="btnLabel">
+                  {cart?.some(el => +el.productId === +id) ? 'إزالة من سلة المشتريات' : 'إضافة إلى سلة المشتريات'}
+                </span>
+              </AddToCartButton>
               <div className="saveBtnWrapper">
                 <SavedButton id={id} />
               </div>

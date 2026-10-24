@@ -1,9 +1,14 @@
 import styled from "styled-components";
 
-export const StyledAddCart = styled.div` 
+export const StyledAddCart = styled.button` 
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  font-family: inherit;
 
   svg {
     padding: 6px;
