@@ -210,6 +210,15 @@ export const StyledProductPage = styled.div`
             border-color: ${({ theme }) => theme.palette.ColorApp.primary};
             transform: scale(1.08);
           }
+
+          svg {
+            border: none !important;
+            box-shadow: none !important;
+            background: transparent !important;
+            padding: 0 !important;
+            width: 22px !important;
+            height: 22px !important;
+          }
         }
       }
     }

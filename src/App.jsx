@@ -5,8 +5,8 @@ import { GlobalStyle } from './Global/style';
 import { ThemeContext } from './Context';
 import MyRoutes from './Routes'
 import { useDispatch, useSelector } from 'react-redux';
-import { setProducts, setPublishedProducts } from './redux/reducers/products';
-import { setCategories, setPublishedCategories } from './redux/reducers/categories';
+import { setPublishedProducts } from './redux/reducers/products';
+import { setPublishedCategories } from './redux/reducers/categories';
 import { SelectIsAuthenticated, handleRefresh } from './redux/reducers/auth';
 import { setCart, setCartLocal, uploadLocalCart } from './redux/reducers/cart';
 import { setSaved, setSavedLocal, uploadLocalSaved } from './redux/reducers/saved';
@@ -43,18 +43,18 @@ function App() {
       dispatch(setCartLocal())
       dispatch(setSavedLocal())
     }
-    dispatch(setProducts())
+    // Only fetch published products & categories on initial load for optimal speed
     dispatch(setPublishedProducts())
-    dispatch(setCategories())
     dispatch(setPublishedCategories())
     dispatch(setSocial())
     const savedTheme = localStorage.getItem('theme');
     setTheme(savedTheme === 'dark' ? darkTheme : lightTheme);
   }, [dispatch, isAuthenticated, axiosPrivate]);
+
   return (
     <ThemeProvider theme={theme} page="page4">
       <ThemeContext.Provider value={[theme, setTheme]}>
-        <GlobalStyle /> {/* replace it into a css index file */}
+        <GlobalStyle />
         <Toaster
           position="bottom-left"
           toastOptions={{
