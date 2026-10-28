@@ -13,10 +13,10 @@ const FloatingWhatsApp = () => {
   const social = useSelector(selectSocial);
 
   const rawPhone = Array.isArray(social) 
-    ? social.find(el => el?.name?.toLowerCase() === 'whatsapp')?.value || '972597229340'
-    : '972597229340';
+    ? social.find(el => el?.name?.toLowerCase() === 'whatsapp')?.value || '972592263808'
+    : '972592263808';
 
-  const cleanPhone = rawPhone.replace(/[^0-9]/g, '') || '972597229340';
+  const cleanPhone = rawPhone.replace(/[^0-9]/g, '') || '972592263808';
   const defaultMessage = encodeURIComponent("مرحباً لولو بوتيكات 🌸، أود الاستفسار عن المنتجات وتوفر التوصيل...");
   const waUrl = `https://wa.me/${cleanPhone}?text=${defaultMessage}`;
 
