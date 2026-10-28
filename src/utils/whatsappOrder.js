@@ -48,8 +48,8 @@ export const generateWhatsAppOrderMessage = ({
 export const getWhatsAppNumber = (social = []) => {
   const rawWa = Array.isArray(social)
     ? social.find((el) => el?.name?.toLowerCase() === 'whatsapp')?.value
-    : '972592263808';
-  return (rawWa || '972592263808').replace(/[^0-9]/g, '');
+    : '972567124698';
+  return (rawWa || '972567124698').replace(/[^0-9]/g, '');
 };
 
 /**
