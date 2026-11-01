@@ -17,6 +17,7 @@ const Contactus = lazy(() => import("./Pages/ForgotPassword/Contactus"));
 const CategoryProducts = lazy(() => import("./Pages/Dashboard/AddCategory/CategoryProducts"));
 // const UpdateUserInfo = lazy(() => import("./Pages/Profile/UpdateInfo"));
 const Orders = lazy(() => import("./Pages/Dashboard/Orders"));
+const WhatsAppInbox = lazy(() => import("./Pages/Dashboard/WhatsApp"));
 const UserOrders = lazy(() => import("./Pages/Orders"));
 const Categories = lazy(() => import("./Pages/Categories"));
 const Category = lazy(() => import("./Pages/Category"));
@@ -114,6 +115,7 @@ const MyRoutes = () => {
                 <Orders />
               </ErrorBoundary>
             } />
+          <Route path="whatsapp" element={<ErrorBoundary><WhatsAppInbox /></ErrorBoundary>} />
         </Route>
         <Route index element={<Navigate to='/home' />} />
         <Route path="home" element={

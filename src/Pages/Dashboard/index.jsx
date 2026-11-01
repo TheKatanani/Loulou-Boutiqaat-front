@@ -12,7 +12,8 @@ const sectionTitles = {
   '/dashboard/addcategory': 'إدارة أقسام المتجر',
   '/dashboard/addUser': 'إدارة المستخدمين والصلاحيات',
   '/dashboard/addSocial': 'إدارة وسائل التواصل والدعم',
-  '/dashboard/orders': 'إدارة طلبات ومبيعات العملاء'
+  '/dashboard/orders': 'إدارة طلبات ومبيعات العملاء',
+  '/dashboard/whatsapp': 'محادثات واتساب'
 };
 
 const Dashboard = () => {
@@ -88,6 +89,11 @@ const Dashboard = () => {
                   <span>الطلبات</span>
                 </NavLink>
               </li>
+            </ul>
+            <ul>
+              <li><NavLink to='/dashboard/whatsapp' className={({ isActive }) => isActive ? 'active' : ''} onClick={() => setOpen(false)}>
+                <span className="navIcon">💬</span><span>محادثات واتساب</span>
+              </NavLink></li>
             </ul>
           </div>
 
