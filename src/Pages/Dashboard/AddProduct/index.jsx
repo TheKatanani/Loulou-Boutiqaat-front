@@ -1,15 +1,23 @@
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { StyledAdd } from '../sytled.js'
 import Form from './Form.jsx'
 import Table from './Table.jsx'
-import { selectProducts } from '../../../redux/reducers/products.js'
+import { setProducts, selectProducts, selectPublishedProducts } from '../../../redux/reducers/products.js'
 import Input from '../../../Components/Input/index.jsx'
 import { useEffect, useState } from 'react'
 
 const AddProduct = () => {
+  const dispatch = useDispatch()
   const products = useSelector(selectProducts)
-  const [visibleProducts, setVisibleProducts] = useState(products)
+  const publishedProducts = useSelector(selectPublishedProducts)
   const [searchTerm, setSearchTerm] = useState('')
+
+  useEffect(() => {
+    dispatch(setProducts())
+  }, [dispatch])
+
+  const allProducts = (products && products.length > 0) ? products : (publishedProducts || [])
+  const [visibleProducts, setVisibleProducts] = useState(allProducts)
 
   const handleSearchChanged = (e) => {
     const value = e.target.value
@@ -17,15 +25,16 @@ const AddProduct = () => {
   }
 
   useEffect(() => {
+    const source = (products && products.length > 0) ? products : (publishedProducts || [])
     if (!searchTerm) {
-      setVisibleProducts(products)
+      setVisibleProducts(source)
     } else {
-      const visible = products.filter(product => 
+      const visible = source.filter(product => 
         product.name.toLowerCase().includes(searchTerm.toLowerCase())
       )
       setVisibleProducts(visible)
     }
-  }, [searchTerm, products])
+  }, [searchTerm, products, publishedProducts])
 
   return (
     <StyledAdd>
