@@ -12,7 +12,13 @@ export const validationSchema = object().shape({
     .positive('السعر يجب أن يكون قيمة موجبة')
     .required('يجب إضافة سعر'),
   prevPrice: number()
-    .min(0, 'السعر يجب أن يكون قيمة موجبة أو صفر'),
+    .min(0, 'السعر يجب أن يكون قيمة موجبة أو صفر')
+    .nullable()
+    .transform((value, originalValue) => (originalValue === '' ? null : value)),
+  unitCost: number()
+    .min(0, 'سعر التكلفة يجب أن يكون قيمة موجبة أو صفر')
+    .nullable()
+    .transform((value, originalValue) => (originalValue === '' ? null : value)),
   stock: number()
     .min(0, 'المخزون يجب أن يكون صفر أو أكثر')
     .integer('المخزون يجب أن يكون رقماً صحيحاً')

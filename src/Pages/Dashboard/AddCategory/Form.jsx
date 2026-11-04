@@ -11,7 +11,6 @@ import ButtonAnimation from '../../../Components/common/ButtonAnimation/index.js
 import ErrorForm from '../../../Components/ErrorForm/index.jsx'
 import { validationSchema } from './validation.js'
 import useAxiosPrivate from '../../../Hook/useAxiosPrivet.js'
-import { MainButton } from '../../../Global/components.js'
 
 const Form = () => {
   const dispatch = useDispatch()
@@ -121,9 +120,26 @@ const Form = () => {
         </ButtonAnimation>
 
         {mood === MOOD.UPDATE && (
-          <MainButton type="button" className="cansel" onClick={() => dispatch(cancelUpdate())}>
-            إلغاء التعديل
-          </MainButton>
+          <button
+            type="button"
+            className="cansel"
+            onClick={() => dispatch(cancelUpdate())}
+            style={{
+              background: '#f1f5f9',
+              color: '#1e293b',
+              border: '1.5px solid #cbd5e1',
+              borderRadius: '12px',
+              padding: '10px 22px',
+              fontSize: '0.92rem',
+              fontWeight: 700,
+              cursor: 'pointer',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+            }}
+          >
+            ❌ إلغاء التعديل
+          </button>
         )}
       </div>
 

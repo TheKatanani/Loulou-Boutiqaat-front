@@ -11,12 +11,13 @@ import axios from '../../api/axios';
 const initialAddProductState = {
   name: '',
   description: '',
-  price: 0,
-  prevPrice: 0,
+  price: '',
+  prevPrice: '',
+  unitCost: '',
   images: [],
-  stock: 0,
-  stars: 1,
-  published: false,
+  stock: '',
+  stars: 5,
+  published: true,
   categoryId: ''
 }
 export const productsSlice = createSlice({
@@ -197,12 +198,14 @@ export const addNewProduct = createAsyncThunk(
     getState
   }) => {
     const categories = getState().categories.categories
-    const response = await axiosPrivate.post(`/product`, {
+    const payload = {
       ...newProduct,
-      count: parseInt(newProduct?.count),
-      price: parseInt(newProduct?.price),
-      prevPrice: parseInt(newProduct?.prevPrice)
-    });
+      price: Number(newProduct?.price),
+      prevPrice: newProduct?.prevPrice !== '' && newProduct?.prevPrice != null ? Number(newProduct?.prevPrice) : null,
+      unitCost: newProduct?.unitCost !== '' && newProduct?.unitCost != null ? Number(newProduct?.unitCost) : null,
+      count: parseInt(newProduct?.count || newProduct?.stock || 0),
+    };
+    const response = await axiosPrivate.post(`/product`, payload);
     return {data:response.data,categories}
   }
 )

@@ -11,8 +11,7 @@ import { StyledForm } from '../sytled.js'
 import ButtonAnimation from '../../../Components/common/ButtonAnimation/index.jsx'
 import { validationSchema } from './validation.js'
 import ErrorForm from '../../../Components/ErrorForm/index.jsx'
-import useAxiosPrivate from '../../../Hook/useAxiosPrivet.js'
-import { MainButton } from '../../../Global/components.js' 
+import useAxiosPrivate from '../../../Hook/useAxiosPrivet.js' 
 
 const Form = () => {
   const dispatch = useDispatch()
@@ -114,7 +113,20 @@ const Form = () => {
             onChange={handleInputChange}
             value={formData.prevPrice || ''}
           />
-        </div> 
+        </div>
+        <div>
+          {errors?.unitCost && <ErrorForm>{errors?.unitCost}</ErrorForm>}
+          <Input
+            id="unitCost"
+            type="number"
+            step="0.01"
+            min="0"
+            placeholder="0.00"
+            label='سعر التكلفة للقطعة (₪)'
+            onChange={handleInputChange}
+            value={formData.unitCost !== undefined && formData.unitCost !== null ? formData.unitCost : ''}
+          />
+        </div>
         <div>
           {errors?.stock && <ErrorForm>{errors?.stock}</ErrorForm>}
           <Input
@@ -192,9 +204,26 @@ const Form = () => {
         </ButtonAnimation>
 
         {mood === MOOD.UPDATE && (
-          <MainButton type="button" className="cansel" onClick={() => dispatch(cancelUpdate())}>
-            إلغاء التعديل
-          </MainButton>
+          <button
+            type="button"
+            className="cansel"
+            onClick={() => dispatch(cancelUpdate())}
+            style={{
+              background: '#f1f5f9',
+              color: '#1e293b',
+              border: '1.5px solid #cbd5e1',
+              borderRadius: '12px',
+              padding: '10px 22px',
+              fontSize: '0.92rem',
+              fontWeight: 700,
+              cursor: 'pointer',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+            }}
+          >
+            ❌ إلغاء التعديل
+          </button>
         )}
       </div>
 

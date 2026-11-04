@@ -98,6 +98,7 @@ const Table = ({ products }) => {
             <th className='description'>الوصف</th>
             <th className='price'>السعر</th>
             <th className='previous'>السابق</th>
+            <th className='cost'>التكلفة</th>
             <th className='images'>الصور</th>
             <th className='stars'>التقييم</th>
             <th className='category'>القسم</th>
@@ -122,6 +123,7 @@ const Table = ({ products }) => {
                 </td>
                 <td className='price'><span style={{ color: '#059669', fontWeight: 700 }}>{product.price} ₪</span></td>
                 <td className='previous'><span style={{ textDecoration: 'line-through', color: '#94a3b8' }}>{product.prevPrice ? `${product.prevPrice} ₪` : '-'}</span></td>
+                <td className='cost'><span style={{ color: '#d97706', fontWeight: 700 }}>{product.unitCost ? `${product.unitCost} ₪` : '-'}</span></td>
                 <td className='images'>
                   {product?.images && typeof (product.images) === 'string' 
                     ? JSON.parse(product.images)?.slice(0, 2).map((img, i) => (
