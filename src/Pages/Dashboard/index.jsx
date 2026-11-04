@@ -8,7 +8,10 @@ import Copy from '../../Components/UI/Copy/index.jsx'
 import Toggle from '../../Components/Toggle/index.jsx'
 
 const sectionTitles = {
-  '/dashboard': 'إدارة المنتجات والمخزون',
+  '/dashboard': 'إدارة المنتجات',
+  '/dashboard/inventory': 'إدارة المستودع والمخزون والتوريدات',
+  '/dashboard/movements': 'سجل حركات المخزون والتدقيق',
+  '/dashboard/profitability': 'تقرير أرباح المبيعات الإجمالية',
   '/dashboard/addcategory': 'إدارة أقسام المتجر',
   '/dashboard/addUser': 'إدارة المستخدمين والصلاحيات',
   '/dashboard/addSocial': 'إدارة وسائل التواصل والدعم',
@@ -87,6 +90,36 @@ const Dashboard = () => {
                 >
                   <span className="navIcon">📦</span>
                   <span>الطلبات</span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink 
+                  to='/dashboard/inventory'
+                  className={({ isActive }) => isActive ? 'active' : ''}
+                  onClick={() => setOpen(false)}
+                >
+                  <span className="navIcon">🏢</span>
+                  <span>المستودع والمخزون</span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink 
+                  to='/dashboard/movements'
+                  className={({ isActive }) => isActive ? 'active' : ''}
+                  onClick={() => setOpen(false)}
+                >
+                  <span className="navIcon">📋</span>
+                  <span>حركات المخزون</span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink 
+                  to='/dashboard/profitability'
+                  className={({ isActive }) => isActive ? 'active' : ''}
+                  onClick={() => setOpen(false)}
+                >
+                  <span className="navIcon">📈</span>
+                  <span>تقرير الأرباح</span>
                 </NavLink>
               </li>
             </ul>

@@ -22,6 +22,19 @@ const Table = ({ orders, handlePillShow, handleUserShow, bill, setBill, userStat
     }
   }
 
+  const handleReturnOrder = async (orderId) => {
+    const reason = window.prompt('يرجى كتابة سبب إرجاع الطلب المسلّم:');
+    if (!reason || !reason.trim()) return;
+
+    try {
+      await axiosPrivate.post(`/order/admin/${orderId}/return`, { reason: reason.trim() });
+      toast.success('تم تسجيل إرجاع الطلب واستعادة كمياته للمستودع بنجاح');
+      dispatch(updateOrder({ orderId, data: { orderStatus: 'returned' }, axiosPrivate }));
+    } catch (err) {
+      toast.error(err.response?.data?.message || err.message || 'تعذر إرجاع الطلب');
+    }
+  };
+
   const renderStatusBadge = (order) => {
     const status = order.orderStatus || (order.status ? 'delivered' : 'confirmed')
     switch (status) {
@@ -31,6 +44,8 @@ const Table = ({ orders, handlePillShow, handleUserShow, bill, setBill, userStat
         return <span style={{ background: '#e0e7ff', color: '#4338ca', padding: '4px 10px', borderRadius: 20, fontSize: '0.78rem', fontWeight: 700 }}>📦 مؤكد قيد التجهيز</span>
       case 'delivered':
         return <span style={{ background: '#dcfce7', color: '#15803d', padding: '4px 10px', borderRadius: 20, fontSize: '0.78rem', fontWeight: 700 }}>✅ تم التسليم</span>
+      case 'returned':
+        return <span style={{ background: '#fee2e2', color: '#991b1b', padding: '4px 10px', borderRadius: 20, fontSize: '0.78rem', fontWeight: 700 }}>↩️ مرتجع</span>
       case 'cancelled':
         return <span style={{ background: '#fee2e2', color: '#b91c1c', padding: '4px 10px', borderRadius: 20, fontSize: '0.78rem', fontWeight: 700 }}>❌ ملغي</span>
       case 'expired':
@@ -143,7 +158,27 @@ const Table = ({ orders, handlePillShow, handleUserShow, bill, setBill, userStat
                         </>
                       )}
                       {currentStatus === 'delivered' && (
-                        <span style={{ fontSize: '0.78rem', color: '#15803d', fontWeight: 700 }}>مكتمل ومسلّم</span>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: 4, alignItems: 'center' }}>
+                          <span style={{ fontSize: '0.78rem', color: '#15803d', fontWeight: 700 }}>مكتمل ومسلّم</span>
+                          {order.totalPurchaseCost !== null && order.totalPurchaseCost !== undefined && (
+                            <span style={{ fontSize: '0.72rem', color: '#059669', background: '#ecfdf5', padding: '2px 6px', borderRadius: 6 }}>
+                              ربح: {(Number(order.totalCost) - Number(order.totalPurchaseCost)).toFixed(2)} ₪
+                            </span>
+                          )}
+                          <button
+                            type="button"
+                            onClick={() => handleReturnOrder(order.id)}
+                            style={{ background: '#f87171', color: '#fff', border: 'none', padding: '3px 8px', borderRadius: 6, fontSize: '0.72rem', fontWeight: 700, cursor: 'pointer', marginTop: 2 }}
+                            title="إرجاع طلب مسلّم واستعادة بضاعته للمستودع"
+                          >
+                            ↩️ إرجاع الطلب
+                          </button>
+                        </div>
+                      )}
+                      {currentStatus === 'returned' && (
+                        <span style={{ fontSize: '0.78rem', color: '#991b1b', fontWeight: 700 }}>
+                          مرتجع {order.returnReason ? `(${order.returnReason})` : ''}
+                        </span>
                       )}
                       {(currentStatus === 'cancelled' || currentStatus === 'expired') && (
                         <span style={{ fontSize: '0.78rem', color: '#94a3b8' }}>ملغي (أعيد المخزون)</span>
@@ -155,12 +190,12 @@ const Table = ({ orders, handlePillShow, handleUserShow, bill, setBill, userStat
                       type="button" 
                       className='delete'
                       onClick={() => {
-                        if (window.confirm(`هل أنت متأكد من حذف الطلب رقم #${order.id}؟`)) {
+                        if (window.confirm(`هل أنت متأكد من أرشفة الطلب رقم #${order.orderCode || order.id}؟`)) {
                           dispatch(removeOrder({ orderId: order.id, axiosPrivate }))
                         }
                       }}
                     >
-                      🗑️ حذف
+                      🗑️ أرشفة
                     </button>
                   </td>
                 </tr>

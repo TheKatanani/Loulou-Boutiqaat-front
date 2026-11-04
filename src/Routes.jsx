@@ -18,6 +18,9 @@ const CategoryProducts = lazy(() => import("./Pages/Dashboard/AddCategory/Catego
 // const UpdateUserInfo = lazy(() => import("./Pages/Profile/UpdateInfo"));
 const Orders = lazy(() => import("./Pages/Dashboard/Orders"));
 const WhatsAppInbox = lazy(() => import("./Pages/Dashboard/WhatsApp"));
+const Inventory = lazy(() => import("./Pages/Dashboard/Inventory"));
+const StockMovements = lazy(() => import("./Pages/Dashboard/StockMovements"));
+const Profitability = lazy(() => import("./Pages/Dashboard/Profitability"));
 const UserOrders = lazy(() => import("./Pages/Orders"));
 const Categories = lazy(() => import("./Pages/Categories"));
 const Category = lazy(() => import("./Pages/Category"));
@@ -116,6 +119,9 @@ const MyRoutes = () => {
               </ErrorBoundary>
             } />
           <Route path="whatsapp" element={<ErrorBoundary><WhatsAppInbox /></ErrorBoundary>} />
+          <Route path="inventory" element={<ErrorBoundary><Inventory /></ErrorBoundary>} />
+          <Route path="movements" element={<ErrorBoundary><StockMovements /></ErrorBoundary>} />
+          <Route path="profitability" element={<ErrorBoundary><Profitability /></ErrorBoundary>} />
         </Route>
         <Route index element={<Navigate to='/home' />} />
         <Route path="home" element={
